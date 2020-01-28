@@ -1,0 +1,58 @@
+:root{
+    --night:#020c27;
+    --enfasis:#009688;
+    --enfasish:#00776c;
+}
+body.night{
+    background-color: var(--night);
+    color:#FFF;
+}
+.night nav{
+    background-color: var(--enfasis);
+}
+.night nav a{
+    color:#FFF;
+}
+.night .card{
+    background-color: var(--night);
+}
+.night .btn-agenda{
+    background-color: var(--enfasis);
+    color:#FFF;
+}
+.night .btn-agenda:hover{
+    background-color: var(--enfasish);
+}
+.night .btn-outline-agenda{
+    border-color: var(--enfasis);
+    background-color: transparent;
+    color:var(--enfasis);
+}
+.night .btn-outline-agenda:hover{
+    color:#FFF;
+    border-color: var(--enfasish);
+    background-color: var(--enfasish);
+}
+.night .dropdown-menu a{
+    color:#000;
+}
+.night .modal-header{
+    background-color: var(--enfasis);
+}
+.night .nav-link{
+    color:#FFF;
+}
+.night .table{
+    color:#FFF !important;
+}
+.night .table-hover tbody tr:hover{
+    color: var(--enfasish) !important;
+}
+.night thead th{
+    background-color: var(--enfasish);
+    border-color: var(--enfasish);
+    color:#FFF;
+}
+.night .form-control-plaintext{
+    color:#FFF;
+}
