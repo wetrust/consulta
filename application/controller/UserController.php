@@ -154,4 +154,19 @@ class UserController extends Controller
         else
             Redirect::to('user/changePassword');
     }
+
+    public function changeColor(){
+        $color = 1;
+        if (Session::get('user_color') == 0){
+            $color = 1;
+        }else if (Session::get('user_color') == 1){
+            $color = 2;
+        }else{
+            $color = 0;
+        }
+        
+        Session::set('user_color', $color);
+        UserModel::saveColor(Session::get('user_id'), $color);
+        Redirect::home();
+    }
 }

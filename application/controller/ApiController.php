@@ -39,8 +39,8 @@ class ApiController extends Controller
         $this->View->renderJSON($response);
     }
 
-    public function reservas($fecha = NULL){
-        $this->View->renderJSON(ReservasModel::getAllReservas($fecha));
+    public function reservas($fecha = NULL,$ver = NULL){
+        $this->View->renderJSON(ReservasModel::getAllReservas($fecha,$ver));
     }
 
     public function newReserva(){
@@ -56,7 +56,7 @@ class ApiController extends Controller
         $response = new stdClass();
         $response->return = ReservasModel::createReserva($data);
         $response->modal = $data->modal;
-        $response->data = ReservasModel::getAllReservas($data->dia);
+        $response->data = ReservasModel::getAllReservas($data->dia,$ver = NULL);
         $this->View->renderJSON($response);
     }
 
@@ -68,7 +68,7 @@ class ApiController extends Controller
 
         $response = new stdClass();
         $response->return = ReservasModel::deleteReserva($data);
-        $response->data = ReservasModel::getAllReservas($data->fecha);
+        $response->data = ReservasModel::getAllReservas($data->fecha,$ver = NULL);
         $response->modal = $data->modal;
 
         $this->View->renderJSON($response);
@@ -87,7 +87,7 @@ class ApiController extends Controller
         $pre = PreModel::createPre($data);
         $response->return = $pre->data;
         $response->examen = $data->examen;
-        $response->data = ReservasModel::getAllReservas($data->fecha);
+        $response->data = ReservasModel::getAllReservas($data->fecha,$ver = NULL);
         $response->paciente = PacientesModel::getPaciente($pre->reserva_rut);
         $response->fecha = $data->fecha;
         $response->modal = $data->modal;

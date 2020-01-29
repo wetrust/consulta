@@ -300,7 +300,7 @@ class UserModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT user_id, user_name, user_email, user_password_hash, user_active,user_deleted, user_suspension_timestamp, user_account_type,
-                       user_failed_logins, user_last_failed_login
+                       user_failed_logins, user_last_failed_login, user_color
                   FROM users
                  WHERE (user_name = :user_name OR user_email = :user_name)
                        AND user_provider_type = :provider_type
@@ -329,7 +329,8 @@ class UserModel
 
         // get real token from database (and all other data)
         $query = $database->prepare("SELECT user_id, user_name, user_email, user_password_hash, user_active,
-                                          user_account_type,  user_has_avatar, user_failed_logins, user_last_failed_login
+                                          user_account_type,  user_has_avatar, user_failed_logins, user_last_failed_login,
+                                          user_color
                                      FROM users
                                      WHERE user_id = :user_id
                                        AND user_remember_me_token = :user_remember_me_token
@@ -339,5 +340,18 @@ class UserModel
 
         // return one row (we only have one result or nothing)
         return $query->fetch();
+    }
+
+    public static function saveColor($user_id, $user_color)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("UPDATE users SET user_color = :user_color WHERE user_id = :user_id LIMIT 1");
+        $query->execute(array(':user_color' => $user_color, ':user_id' => $user_id));
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
     }
 }

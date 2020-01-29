@@ -1,6 +1,6 @@
 <div class="container">
     <div class="d-flex p-2 justify-content-center">
-        <div class="card border border-success">
+        <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-sm-4">Bienvenido<br><small>Ingrese sus datos para acceder</small></h4>
                 <?php $this->renderFeedbackMessages(); ?>

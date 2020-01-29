@@ -2,15 +2,9 @@ import {data} from '../wetrust.js';
 import {config} from './config.js';
 
 export class cloud {
-    static async getReservas(){
+    static async getReservas(fecha, ver){
         try {
-            const from = await data.get(config.reservas);
-            return from;
-        } catch(e) {}
-    }
-    static async findReservas(fecha){
-        try {
-            const from = await data.get(config.findReservas + fecha);
+            const from = await data.get(config.reservas + fecha + "/" + ver);
             return from;
         } catch(e) {}
     }

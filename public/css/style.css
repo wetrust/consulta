@@ -3,41 +3,61 @@
     --enfasis:#009688;
     --enfasish:#00776c;
 }
-body.night{
-    background-color: var(--night);
-    color:#FFF;
-}
-.night nav{
+nav{
     background-color: var(--enfasis);
 }
-.night nav a{
+nav a{
     color:#FFF;
 }
-.night .card{
-    background-color: var(--night);
-}
-.night .btn-agenda{
+.modal-header{
     background-color: var(--enfasis);
     color:#FFF;
 }
-.night .btn-agenda:hover{
+.btn-agenda{
+    background-color: var(--enfasis);
+    color:#FFF;
+}
+.btn-agenda:hover{
     background-color: var(--enfasish);
 }
-.night .btn-outline-agenda{
+.btn-outline-agenda{
     border-color: var(--enfasis);
     background-color: transparent;
     color:var(--enfasis);
 }
-.night .btn-outline-agenda:hover{
+.btn-outline-agenda:hover{
     color:#FFF;
     border-color: var(--enfasish);
     background-color: var(--enfasish);
 }
+
+.table-hover tbody tr:hover{
+    color: var(--enfasish) !important;
+}
+thead th{
+    background-color: var(--enfasis);
+    border-color: var(--enfasis);
+    color:#FFF;
+}
+.table thead th{
+    border-color:var(--enfasis);
+    border-bottom-color: #FFF; 
+}
+
+body.night{
+    background-color: var(--night);
+    color:#FFF;
+}
+.night .modal-content{
+    background-color: var(--night); 
+}
+.night .card{
+    background-color: var(--night);
+    border-color: var(--success);
+}
+
 .night .dropdown-menu a{
     color:#000;
-}
-.night .modal-header{
-    background-color: var(--enfasis);
 }
 .night .nav-link{
     color:#FFF;
@@ -45,14 +65,13 @@ body.night{
 .night .table{
     color:#FFF !important;
 }
-.night .table-hover tbody tr:hover{
-    color: var(--enfasish) !important;
-}
-.night thead th{
-    background-color: var(--enfasish);
-    border-color: var(--enfasish);
-    color:#FFF;
-}
 .night .form-control-plaintext{
     color:#FFF;
+}
+
+body.light{
+    background-image: url(../cream_pixels.png);
+}
+.light .modal-content{
+    background-color: var(--light); 
 }

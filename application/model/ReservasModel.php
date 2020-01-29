@@ -2,17 +2,33 @@
 
 class ReservasModel
 {
-    public static function getAllReservas($fecha)
+    public static function getAllReservas($fecha, $ver)
     {
 
         $database = DatabaseFactory::getFactory()->getConnection();
-        $sql = "SELECT user_id, reserva_id, reserva_nombre, reserva_apellido, reserva_rut, reserva_dia, reserva_hora, reserva_minutos FROM reservas WHERE user_id = :user_id AND reserva_dia = :reserva_dia AND reserva_visible = 1";        
+        $sql = "SELECT user_id, reserva_id, reserva_nombre, reserva_apellido, reserva_rut, reserva_dia, reserva_hora, reserva_minutos, reserva_visible FROM reservas WHERE user_id = :user_id AND reserva_dia = :reserva_dia AND reserva_visible = :reserva_visible ORDER BY reserva_hora, reserva_minutos";        
         $query = $database->prepare($sql);
 
         if ($fecha == NULL){
             $fecha = date("Y-m-d");
         }
-        $query->execute(array(':user_id' => Session::get('user_id'), ':reserva_dia' => $fecha));
+
+        if ($ver == NULL || $ver == "1"){
+            $ver = 1;
+        }
+        else if ($ver == "2"){
+            $ver = 2;
+        }else{
+            $ver = 0;  
+        }
+
+        if ($ver == 2){
+            $sql = "SELECT user_id, reserva_id, reserva_nombre, reserva_apellido, reserva_rut, reserva_dia, reserva_hora, reserva_minutos, reserva_visible FROM reservas WHERE user_id = :user_id AND reserva_dia = :reserva_dia AND reserva_visible IN (0,1) ORDER BY reserva_hora, reserva_minutos";        
+            $query = $database->prepare($sql);
+            $query->execute(array(':user_id' => Session::get('user_id'), ':reserva_dia' => $fecha));
+        }else{
+            $query->execute(array(':user_id' => Session::get('user_id'), ':reserva_dia' => $fecha, ':reserva_visible' => $ver));
+        }
 
         return $query->fetchAll();
     }

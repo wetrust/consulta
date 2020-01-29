@@ -11,15 +11,15 @@ export class view {
         the(config.reservasInterfaceSearch).value = inputDate();
         view.tableReservas(data);
         view.buscarReservas();
+        view.viewReservas();
     }
 
     static newReserva(){
         let modal = make.modal("Reservar hora");
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
         the(modal.titulo).innerHTML = config.newReservaTitulo;
-        the(modal.titulo).classList.add("mx-auto","text-white");
+        the(modal.titulo).classList.add("mx-auto");
         the(modal.contenido).innerHTML = config.newReservaHTML;
-        the(modal.contenido).classList.add("bg-light");
 
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
 
@@ -39,7 +39,7 @@ export class view {
             if(reserva.rut.length < 8){ make.alert('RUT no corresponde a Chile'); return 0; }
 
             cloud.newReserva(reserva).then(function(data){
-                if (data.return == true){ $("#"+data.modal).modal("hide"); view.tableReservas(data.data); }
+                if (data.return == true){ the(config.reservasInterfaceVer).value = 1; $("#"+data.modal).modal("hide"); view.tableReservas(data.data); }
             });
         });
 
@@ -53,10 +53,9 @@ export class view {
     static newPaciente(_rut){
         let modal = make.modal("Crear");
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
-        the(modal.titulo).classList.add("mx-auto","text-white");
+        the(modal.titulo).classList.add("mx-auto");
         the(modal.titulo).innerHTML = config.newPacientesTitulo;
         the(modal.contenido).innerHTML = config.newPacientesHTML;
-        the(modal.contenido).classList.add("bg-light");
 
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
 
@@ -175,10 +174,9 @@ export class view {
         let modal = make.modal("Eliminar");
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
         the(modal.titulo).innerHTML = config.deleteReservaTitulo;
-        the(modal.titulo).classList.add("mx-auto","text-white");
+        the(modal.titulo).classList.add("mx-auto");
         the(modal.titulo).parentElement.classList.add("bg-danger");
         the(modal.contenido).innerHTML = config.deleteReservaHTML;
-        the(modal.contenido).classList.add("bg-light");
 
         the(modal.button).dataset.id = this.dataset.id;
 
@@ -192,6 +190,7 @@ export class view {
             }
             cloud.deleteReserva(reserva).then(function(data){
                 if (data.return == true){
+                    the(config.reservasInterfaceVer).value = 1;
                     $("#"+data.modal).modal("hide");
                     view.tableReservas(data.data);
                 }else{
@@ -207,9 +206,8 @@ export class view {
 
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
         the(modal.titulo).innerHTML = config.verPrepararTitulo;
-        the(modal.titulo).classList.add("mx-auto","text-white");
+        the(modal.titulo).classList.add("mx-auto");
         the(modal.contenido).innerHTML = config.verPrepararHTML;
-        the(modal.contenido).classList.add("bg-light");
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
 
         the(modal.button).dataset.reserva = reserva_id;
@@ -253,7 +251,13 @@ export class view {
 
         table += '<tbody>';
         data.forEach(function(element) {
-            table += '<tr><th scope="row">'+element.reserva_id+'</td><td>'+humanDate(new Date(element.reserva_dia))+'</td><td>'+element.reserva_hora+'</td><td>'+element.reserva_minutos+'</td><td>'+element.reserva_rut+'</td><td>'+element.reserva_nombre+'</td><td>'+element.reserva_apellido+'</td><td class="tabla-reservas"><div class="btn-group"><button class="btn btn-outline-agenda examen-reserva" data-id="'+element.reserva_id+'">Examen</button><button class="btn btn-outline-agenda modificar" data-id="'+element.reserva_id+'"><i class="fa fa-pencil" aria-hidden="true"></i></button><button class="btn btn-outline-danger eliminar-reserva" data-id="'+element.reserva_id+'"><i class="fa fa-trash" aria-hidden="true"></i></button></div></td></tr>';
+            let visible = (element.reserva_visible == "1") ? "Pendiente" : "Cerrado";
+            table += '<tr><td>'+humanDate(new Date(element.reserva_dia))+'</td><td>'+element.reserva_hora+'</td><td>'+element.reserva_minutos+'</td><td>'+element.reserva_rut+'</td><td>'+element.reserva_nombre+'</td><td>'+element.reserva_apellido+'</td><td>'+visible+'</td>';
+            if (element.reserva_visible == "0"){
+                table += '<td class="tabla-reservas"><div class="btn-group"><button class="btn btn-outline-agenda informe-reserva" data-id="'+element.reserva_id+'">Informe</button><button class="btn btn-outline-danger eliminar-reserva" data-id="'+element.reserva_id+'"><i class="fa fa-trash" aria-hidden="true"></i></button></div></td></tr>';
+            }else{
+                table += '<td class="tabla-reservas"><div class="btn-group"><button class="btn btn-outline-agenda examen-reserva" data-id="'+element.reserva_id+'">Examen</button><button class="btn btn-outline-agenda modificar" data-id="'+element.reserva_id+'"><i class="fa fa-pencil" aria-hidden="true"></i></button><button class="btn btn-outline-danger eliminar-reserva" data-id="'+element.reserva_id+'"><i class="fa fa-trash" aria-hidden="true"></i></button></div></td></tr>';
+            }
         });
 
         table += '</tbody>';
@@ -381,10 +385,18 @@ export class view {
 
     static buscarReservas(){
         $("#reservas\\.buscar").on("change", function(){
-            cloud.findReservas(this.value).then(function(data){
+            cloud.getReservas(this.value, the(config.reservasInterfaceVer).value).then(function(data){
                 view.tableReservas(data);
             });
         });
+    }
+
+    static viewReservas(){
+        $("#reservas\\.ver").on("change", function(){
+            cloud.getReservas(the(config.reservasInterfaceSearch).value, this.value).then(function(data){
+                view.tableReservas(data);
+            });
+        }); 
     }
 
     static cargarConfiguracion(){

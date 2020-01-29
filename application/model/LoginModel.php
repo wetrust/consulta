@@ -61,7 +61,7 @@ class LoginModel
 
         // successfully logged in, so we write all necessary data into the session and set "user_logged_in" to true
         self::setSuccessfulLoginIntoSession(
-            $result->user_id, $result->user_name, $result->user_email, $result->user_account_type
+            $result->user_id, $result->user_name, $result->user_email, $result->user_account_type, $result->user_color
         );
 
         // return true to make clear the login was successful
@@ -189,7 +189,7 @@ class LoginModel
         if ($result) {
 
             // successfully logged in, so we write all necessary data into the session and set "user_logged_in" to true
-            self::setSuccessfulLoginIntoSession($result->user_id, $result->user_name, $result->user_email, $result->user_account_type);
+            self::setSuccessfulLoginIntoSession($result->user_id, $result->user_name, $result->user_email, $result->user_account_type, $result->user_color);
 
             // save timestamp of this login in the database line of that user
             self::saveTimestampOfLoginOfUser($result->user_name);
@@ -228,7 +228,7 @@ class LoginModel
      * @param $user_email
      * @param $user_account_type
      */
-    public static function setSuccessfulLoginIntoSession($user_id, $user_name, $user_email, $user_account_type)
+    public static function setSuccessfulLoginIntoSession($user_id, $user_name, $user_email, $user_account_type, $user_color)
     {
         Session::init();
 
@@ -243,6 +243,7 @@ class LoginModel
         Session::set('user_name', $user_name);
         Session::set('user_email', $user_email);
         Session::set('user_account_type', $user_account_type);
+        Session::set('user_color', $user_color);
         Session::set('user_provider_type', 'DEFAULT');
 
         // get and set avatars
