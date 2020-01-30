@@ -95,19 +95,19 @@ export class dopcre {
             let resultado = "";
 
             if (bvm.pct <= 10){
-                resultado = 'disminuido';
+                resultado = 'Disminuido';
             }else if (bvm.pct <= 90){
-                resultado = 'normal';
+                resultado = 'Normal';
             }else{
-                resultado = 'aumentado';
+                resultado = 'Aumentado';
             }
 
             document.getElementsByName("respuesta_liquido_clon")[0].value = resultado;
             document.getElementsByName("respuesta_liquido")[0].value = resultado;
 
         }else{
-            document.getElementsByName("respuesta_liquido_clon")[0].value = 'no evaluado';
-            document.getElementsByName("respuesta_liquido")[0].value = 'no evaluado';
+            document.getElementsByName("respuesta_liquido_clon")[0].value = 'No evaluado';
+            document.getElementsByName("respuesta_liquido")[0].value = 'No evaluado';
         }
     }
 
@@ -293,7 +293,7 @@ export class dopcre {
             }
         }
         else{
-            document.getElementsByName("respuesta_doppler_materno")[0].value = 'no evaluado';
+            document.getElementsByName("respuesta_doppler_materno")[0].value = 'No evaluado';
         }
     }
     //
