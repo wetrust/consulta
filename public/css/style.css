@@ -19,6 +19,7 @@ nav a{
 }
 .btn-agenda:hover{
     background-color: var(--enfasish);
+    color:#FFF;
 }
 .btn-outline-agenda{
     border-color: var(--enfasis);
