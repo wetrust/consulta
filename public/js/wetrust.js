@@ -66,7 +66,7 @@ export function humanDate(date) {
     if (typeof date === typeof undefined){
         date = new Date();
     }
-    var dd = date.getDate();
+    var dd = date.getUTCDate();
     var mm = date.getMonth()+1; //January is 0!
     var yyyy = date.getFullYear();
   
