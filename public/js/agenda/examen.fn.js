@@ -39,6 +39,25 @@ export class fn {
         return Math.round((parseInt(dof) + parseInt(dbp)) * delta);
     }
     //
+    static bvm(data){
+        'use strict';
+        let a = [], b = [];
+        a[16]=23; a[17]=25; a[18]=27; a[19]=28; a[20]=29; a[21]=29; a[22]=30; a[23]=30; a[24]=30; a[25]=30; a[26]=30; a[27]=30; a[28]=30; a[29]=29; a[30]=29; a[31]=29; a[32]=29; a[33]=29; a[34]=28; a[35]=28; a[36]=27; a[37]=26; a[38]=24; a[39]=23; a[40]=21;
+        b[16]=59; b[17]=62; b[18]=64; b[19]=66; b[20]=67; b[21]=68; b[22]=68; b[23]=68; b[24]=68; b[25]=68; b[26]=68; b[27]=69; b[28]=69; b[29]=69; b[30]=69; b[31]=70; b[32]=71; b[33]=72; b[34]=72; b[35]=72; b[36]=71; b[37]=70; b[38]=68; b[39]=66; b[40]=62;
+
+        if (data.dataset.eg < 16 || data.dataset.eg > 40) {
+            return {pct:0,text:""};
+        }else {
+            let uno = b[data.dataset.eg] - a[data.dataset.eg];
+            let dos = data.value - a[data.dataset.eg];
+            let resultado = parseInt(90 / (uno) * (dos) + 5);
+            let texto = Math.trunc(resultado);
+            if (texto > 99) {texto = '> 99';} 
+            else if (texto < 1) {texto = '< 1';}
+
+            return {pct:resultado,text:texto};
+        }
+    }
     static cc(data){
         'use strict';
         let a = [], b = [];

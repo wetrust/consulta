@@ -24,6 +24,8 @@ export class dopcre {
         let EG = fn.EG(data);
         document.getElementsByName("eg")[0].value = EG.text;
 
+        document.getElementsByName("respuesta_bvm")[0].oninput = dopcre.valBVM;
+        document.getElementsByName("respuesta_bvm")[0].dataset.eg = EG.semanas;
         document.getElementsByName("respuesta_dbp")[0].oninput = dopcre.valCC;
         document.getElementsByName("respuesta_dof")[0].oninput = dopcre.valCC;
         document.getElementsByName("respuesta_cc")[0].dataset.eg = EG.semanas;
@@ -78,6 +80,37 @@ export class dopcre {
         opt.value = 181; 
         semanas.appendChild(opt);
     }
+
+    static valBVM(){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let bvm = fn.bvm(this);
+            let resultado = "";
+
+            if (bvm.pct <= 10){
+                resultado = 'disminuido';
+            }else if (bvm.pct <= 90){
+                resultado = 'normal';
+            }else{
+                resultado = 'aumentado';
+            }
+
+            document.getElementsByName("respuesta_liquido_clon")[0].value = resultado;
+            document.getElementsByName("respuesta_liquido")[0].value = resultado;
+
+        }else{
+            document.getElementsByName("respuesta_liquido_clon")[0].value = 'no evaluado';
+            document.getElementsByName("respuesta_liquido")[0].value = 'no evaluado';
+        }
+    }
+
     //mejorar
     static valCC(){
         this.value = fn.number(this.value);
@@ -181,8 +214,28 @@ export class dopcre {
         if (String(cc).length > 0 && String(ca).length > 0 && String(lf).length > 0 ){
             let pfex = fn.pfe(lf, cc, ca,eg);
             document.getElementsByName("respuesta_pfe")[0].value = pfex.text;
+
+            let estado = "";
+
+            if(pfex.pct < 4){
+                estado = ("Disminuido < p3");
+            }else if(pfex.pct < 11){
+                estado = ("Disminuido < p10");
+            }else if(pfex.pct < 26){
+                estado = ("Normal p10 - p 25");
+            }else if(pfex.pct < 76){
+                estado = ("Normal p26 - p 75");
+            }else if(pfex.pct < 91){
+                estado = ("Normal p76 - p90");
+            }else if(pfex.pct > 90){
+                estado = ("Grande > p90");
+            }
+
+            document.getElementsByName("respuesta_hipotesis")[0].value = estado;
+
         }else{
-            document.getElementsByName("respuesta_pfe")[0].value = ''; 
+            document.getElementsByName("respuesta_pfe")[0].value = '';
+            document.getElementsByName("respuesta_hipotesis")[0].value = 'no evaluado';
         }
     }
     //
@@ -232,9 +285,15 @@ export class dopcre {
             let promedio =  (parseFloat(utd) + parseFloat(uti) ) / 2;
             let prut = fn.promut(promedio, eg);
             document.getElementsByName("respuesta_uterinas")[0].value = promedio + ", percentil " + prut.text;
+        
+            if(prut.pct < 95){
+                document.getElementsByName("respuesta_doppler_materno")[0].value = 'Normal (< p95)';
+            }else if(prut.pct > 95){
+                document.getElementsByName("respuesta_doppler_materno")[0].value = 'Alterado (> p95)';
+            }
         }
         else{
-            document.getElementsByName("respuesta_uterinas")[0].value = ''; 
+            document.getElementsByName("respuesta_doppler_materno")[0].value = 'no evaluado';
         }
     }
     //
