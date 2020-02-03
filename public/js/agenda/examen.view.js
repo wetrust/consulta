@@ -15,6 +15,8 @@ export class dopcre {
         the(modal.id).children[0].classList.remove("modal-lg");
 
         document.getElementsByName("fecha")[0].value = data.fecha;
+        document.getElementsByName("fecha")[0].dataset.examen = data.examen;
+        document.getElementsByName("fecha")[0].dataset.pre = data.return;
         document.getElementsByName("fum")[0].value = data.paciente.fum;
         document.getElementsByName("comentarios")[0].value = config.dopcreComentarios;
 
@@ -47,8 +49,56 @@ export class dopcre {
     }
 
     static save(){
-        let modal = this.dataset.modal;
-        $("#"+modal).modal("hide");
+        var save = {
+            pre_id: document.getElementsByName("fecha")[0].dataset.pre,
+            examen: document.getElementsByName("fecha")[0].dataset.examen,
+            fecha: document.getElementsByName("fecha")[0].value,
+            eg: document.getElementsByName("respuesta_bvm")[0].dataset.eg,
+            presentacion: document.getElementsByName("respuesta_presentacion")[0].value,
+            dorso: document.getElementsByName("respuesta_dorso")[0].value,
+            sexo_fetal: document.getElementsByName("respuesta_sexo_fetal")[0].value,
+            placenta_insercion: document.getElementsByName("respuesta_placenta_insercion")[0].value,
+            placenta: document.getElementsByName("respuesta_placenta")[0].value,
+            liquido: document.getElementsByName("respuesta_liquido")[0].innerHTML,
+            bvm: document.getElementsByName("respuesta_bvm")[0].value,
+            fcf: document.getElementsByName("respuesta_fcf")[0].value,
+            anatomia:  document.getElementsByName("respuesta_anatomia")[0].value,
+            anatomia_extra: document.getElementsByName("respuesta_anatomia_extra")[0].value,
+            dbp: document.getElementsByName("respuesta_dbp")[0].value,
+            dof: document.getElementsByName("respuesta_dof")[0].value,
+            cc: document.getElementsByName("respuesta_cc")[0].value,
+            cc_pct: the("respuesta_cc_pct").innerHTML,
+            ca: document.getElementsByName("respuesta_ca")[0].value,
+            ca_pct: the("respuesta_ca_pct").innerHTML,
+            lf: document.getElementsByName("respuesta_lf")[0].value,
+            lf_pct: the("respuesta_lf_pct").innerHTML,
+            ccca: document.getElementsByName("respuesta_ccca")[0].innerHTML,
+            pfe: document.getElementsByName("respuesta_pfe")[0].innerHTML,
+            uterina_derecha: document.getElementsByName("respuesta_uterina_derecha")[0].value,
+            uterina_derecha_pct: the("respuesta_uterina_derecha_percentil").innerHTML,
+            uterina_izquierda: document.getElementsByName("respuesta_uterina_izquierda")[0].value,
+            uterina_izquierda_pct: the("respuesta_uterina_izquierda_percentil").innerHTML,
+            uterinas: document.getElementsByName("respuesta_uterinas")[0].value,
+            umbilical: document.getElementsByName("respuesta_umbilical")[0].value,
+            umbilical_pct: the("respuesta_umbilical_percentil").innerHTML,
+            cm: document.getElementsByName("respuesta_cm")[0].value,
+            cm_pct: the("respuesta_cm_percentil").innerHTML,
+            cmau: document.getElementsByName("respuesta_cmau")[0].value,
+            hipotesis: document.getElementsByName("respuesta_hipotesis")[0].value,
+            doppler_materno: document.getElementsByName("respuesta_doppler_materno")[0].value,
+            doppler_fetal: document.getElementsByName("respuesta_doppler_fetal")[0].value,
+            comentariosexamen: document.getElementsByName("comentarios")[0].value,
+            modal: this.dataset.modal
+        }
+
+        cloud.createExamen(save).then(function(data){
+            if (data.return == false){
+                make.alert('Hubo un error al crear el exámen, intente otra vez');
+            }else{
+                $("#"+data.modal).modal("hide");
+                informe.interface(data);
+            }
+        });
     }
 
     static selectFCF(){
@@ -126,7 +176,8 @@ export class dopcre {
             let dbp = document.getElementsByName("respuesta_dbp")[0].value;
 
             if (String(dof).length > 0 && String(dbp).length > 0){
-                document.getElementsByName("respuesta_cc")[0].value = fn.valCC(dof,dbp);
+                let valCC = fn.valCC(dof,dbp);
+                document.getElementsByName("respuesta_cc")[0].value = valCC.cc;
             }
         }
     }
@@ -147,8 +198,7 @@ export class dopcre {
             dopcre.ccca();
             dopcre.pfe();
             //
-        }
-        else{
+        }else{
             the("respuesta_cc_pct").innerHTML = ''; 
         }
     }
@@ -168,8 +218,7 @@ export class dopcre {
             dopcre.ccca();
             dopcre.pfe();
             //
-        }
-        else{
+        }else{
             the("respuesta_ca_pct").innerHTML = ''; 
         }
     }
@@ -181,8 +230,7 @@ export class dopcre {
         if (String(cc).length > 0 && String(ca).length > 0){
             let ccca = fn.ccca(cc,ca,eg);
             document.getElementsByName("respuesta_ccca")[0].value = ccca.text;
-        }
-        else{
+        }else{
             document.getElementsByName("respuesta_ccca")[0].value = ''; 
         }
     }
@@ -199,8 +247,7 @@ export class dopcre {
             let lf = fn.lf(this);
             dopcre.pfe();
             the("respuesta_lf_pct").innerHTML = lf.text;
-        }
-        else{
+        }else{
             the("respuesta_lf_pct").innerHTML = ''; 
         }
     }
@@ -208,7 +255,7 @@ export class dopcre {
     static pfe(){
         let cc = document.getElementsByName("respuesta_cc")[0].value;
         let ca = document.getElementsByName("respuesta_ca")[0].value;
-        let lf = document.getElementsByName("respuesta_cc")[0].dataset.eg;
+        let lf = document.getElementsByName("respuesta_lf")[0].value;
         let eg = document.getElementsByName("respuesta_cc")[0].dataset.eg;
 
         if (String(cc).length > 0 && String(ca).length > 0 && String(lf).length > 0 ){
@@ -252,8 +299,7 @@ export class dopcre {
             let ut = fn.ut(this);
             the("respuesta_uterina_derecha_percentil").innerHTML = ut.text;
             dopcre.promut();
-        }
-        else{
+        }else{
             the("respuesta_uterina_derecha_percentil").innerHTML = ''; 
         }
     }
@@ -270,8 +316,7 @@ export class dopcre {
             let ut = fn.ut(this);
             the("respuesta_uterina_izquierda_percentil").innerHTML = ut.text;
             dopcre.promut();
-        }
-        else{
+        }else{
             the("respuesta_uterina_izquierda_percentil").innerHTML = ''; 
         }
     }
@@ -291,8 +336,7 @@ export class dopcre {
             }else if(prut.pct > 95){
                 document.getElementsByName("respuesta_doppler_materno")[0].value = 'Alterado (> p95)';
             }
-        }
-        else{
+        }else{
             document.getElementsByName("respuesta_doppler_materno")[0].value = 'No evaluado';
         }
     }
@@ -359,18 +403,230 @@ export class segundo {
         the(modal.id).children[0].classList.add("h-100","modal-xl");
         the(modal.id).children[0].classList.remove("modal-lg");
 
-        document.getElementsByName("fecha")[0].value = inputDate();
+        document.getElementsByName("fecha")[0].value = data.fecha;
+        document.getElementsByName("fecha")[0].dataset.examen = data.examen;
+        document.getElementsByName("fecha")[0].dataset.pre = data.return;
+        document.getElementsByName("fum")[0].value = data.paciente.fum;
         document.getElementsByName("comentarios")[0].value = config.segundoComentarios;
 
         the(modal.button).onclick = segundo.save();
         segundo.selectBVM();
         segundo.selectFCF();
 
+        let EG = fn.EG(data);
+        document.getElementsByName("eg")[0].value = EG.text;
+        document.getElementsByName("respuesta_dbp")[0].oninput = segundo.valCC;
+        document.getElementsByName("respuesta_dof")[0].oninput = segundo.valCC;
+        document.getElementsByName("respuesta_cc")[0].dataset.eg = EG.semanas;
+        document.getElementsByName("respuesta_cc")[0].oninput = segundo.cc;
+        document.getElementsByName("respuesta_ca")[0].dataset.eg = EG.semanas;
+        document.getElementsByName("respuesta_ca")[0].oninput = segundo.ca;
+        document.getElementsByName("respuesta_lf")[0].dataset.eg = EG.semanas;
+        document.getElementsByName("respuesta_lf")[0].oninput = segundo.lf;
+        document.getElementsByName("respuesta_lh")[0].dataset.eg = EG.semanas;
+        document.getElementsByName("respuesta_lh")[0].oninput = segundo.lh;
+        document.getElementsByName("respuesta_cerebelo")[0].dataset.eg = EG.semanas;
+        document.getElementsByName("respuesta_cerebelo")[0].oninput = segundo.cb;
+        document.getElementsByName("respuesta_uterina_derecha")[0].dataset.eg = EG.semanas;
+        document.getElementsByName("respuesta_uterina_derecha")[0].oninput = segundo.utd;
+        document.getElementsByName("respuesta_uterina_izquierda")[0].dataset.eg = EG.semanas;
+        document.getElementsByName("respuesta_uterina_izquierda")[0].oninput = segundo.uti;
+
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
     }
 
     static save(){
         
+    }
+
+    //mejorar
+    static valCC(){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let dof = document.getElementsByName("respuesta_dof")[0].value;
+            let dbp = document.getElementsByName("respuesta_dbp")[0].value;
+
+            if (String(dof).length > 0 && String(dbp).length > 0){
+                let valCC = fn.valCC(dof,dbp);
+                document.getElementsByName("respuesta_ic")[0].value = valCC.ic;
+                document.getElementsByName("respuesta_cc")[0].value = valCC.cc;
+                document.getElementsByName("respuesta_cc")[0].oninput();
+            }else{
+                document.getElementsByName("respuesta_ic")[0].value = '';
+            }
+        }
+    }
+    //
+    static cc(){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let cc = fn.cc(this);
+            the("respuesta_cc_pct").innerHTML = cc.text;
+            //mejorar
+            segundo.ccca();
+            segundo.pfe();
+            //
+        }else{
+            the("respuesta_cc_pct").innerHTML = ''; 
+        }
+    }
+    static ca(e){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let ca = fn.ca(this);
+            the("respuesta_ca_pct").innerHTML = ca.text;
+            //mejorar
+            segundo.ccca();
+            segundo.pfe();
+            //
+        }else{
+            the("respuesta_ca_pct").innerHTML = ''; 
+        }
+    }
+    static ccca(){
+        let cc = document.getElementsByName("respuesta_cc")[0].value;
+        let ca = document.getElementsByName("respuesta_ca")[0].value;
+        let eg = document.getElementsByName("respuesta_cc")[0].dataset.eg;
+
+        if (String(cc).length > 0 && String(ca).length > 0){
+            let ccca = fn.ccca(cc,ca,eg);
+            document.getElementsByName("respuesta_ccca")[0].value = ccca.text;
+        }else{
+            document.getElementsByName("respuesta_ccca")[0].value = '';
+        }
+    }
+    static lf(e){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let lf = fn.lf(this);
+            segundo.pfe();
+            the("respuesta_lf_pct").innerHTML = lf.text;
+        }else{
+            the("respuesta_lf_pct").innerHTML = ''; 
+        }
+    }
+    static lh(e){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let lh = fn.lh(this);
+            the("respuesta_lh_pct").innerHTML = lh.text;
+        }else{
+            the("respuesta_lh_pct").innerHTML = ''; 
+        }
+    }
+    static cb(e){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let cb = fn.cb(this);
+            the("respuesta_cerebelo_pct").innerHTML = cb.text;
+        }else{
+            the("respuesta_cerebelo_pct").innerHTML = ''; 
+        }
+    }
+    static pfe(){
+        let cc = document.getElementsByName("respuesta_cc")[0].value;
+        let ca = document.getElementsByName("respuesta_ca")[0].value;
+        let lf = document.getElementsByName("respuesta_lf")[0].value;
+        let eg = document.getElementsByName("respuesta_cc")[0].dataset.eg;
+
+        if (String(cc).length > 0 && String(ca).length > 0 && String(lf).length > 0 ){
+            let pfex = fn.pfe(lf, cc, ca,eg);
+            document.getElementsByName("respuesta_pfe")[0].value = pfex.text;
+
+        }else{
+            document.getElementsByName("respuesta_pfe")[0].value = '';
+        }
+    }
+    static utd(e){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let ut = fn.ut(this);
+            the("respuesta_uterina_derecha_percentil").innerHTML = ut.text;
+            segundo.promut();
+        }else{
+            the("respuesta_uterina_derecha_percentil").innerHTML = ''; 
+        }
+    }
+    static uti(e){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let ut = fn.ut(this);
+            the("respuesta_uterina_izquierda_percentil").innerHTML = ut.text;
+            segundo.promut();
+        }else{
+            the("respuesta_uterina_izquierda_percentil").innerHTML = ''; 
+        }
+    }
+    //promedio uterinas
+    static promut(){
+        let utd = document.getElementsByName("respuesta_uterina_derecha")[0].value;
+        let uti = document.getElementsByName("respuesta_uterina_izquierda")[0].value;
+        let eg = document.getElementsByName("respuesta_uterina_izquierda")[0].dataset.eg;
+
+        if (String(utd).length > 0 && String(uti).length > 0){
+            let promedio =  (parseFloat(utd) + parseFloat(uti) ) / 2;
+            let prut = fn.promut(promedio, eg);
+            document.getElementsByName("respuesta_uterinas")[0].value = promedio + ", percentil " + prut.text;
+        
+        }else{
+            document.getElementsByName("respuesta_uterinas")[0].value = '';
+        }
     }
 
     static selectBVM(){
@@ -613,5 +869,19 @@ export class parto {
             opt.value = i; 
             semanas.appendChild(opt);
         }
+    }
+}
+
+export class informe {
+    static interface(data){
+        let modal = make.modal();
+        document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
+        the(modal.titulo).innerHTML = "Informe";
+        the(modal.titulo).classList.add("mx-auto");
+        the(modal.contenido).innerHTML = '<iframe class="embed-responsive-item w-100 h-100" src="informe/get/'+data.return+'"></iframe>';
+        the(modal.id).children[0].classList.add("h-100","modal-xl");
+        the(modal.id).children[0].classList.remove("modal-lg");
+
+        $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
     }
 }

@@ -36,7 +36,12 @@ export class fn {
     //arreglar
     static valCC(dof,dbp){
         var delta = parseFloat(1.60);
-        return Math.round((parseInt(dof) + parseInt(dbp)) * delta);
+        let cc =  Math.round((parseInt(dof) + parseInt(dbp)) * delta);
+
+        let ic = ((dbp / dof) * 100);
+        ic =  Math.trunc(ic) + "%";
+
+        return {ic:ic,cc:cc};
     }
     //
     static bvm(data){
@@ -119,9 +124,7 @@ export class fn {
             if (texto > 99) {texto = '> 99';} 
             else if (texto < 1) {texto = '< 1';}
 
-
-
-            return {pct:resultado,text: ccca + ", percentil " + texto};
+            return { pct:resultado,text: ccca + ", percentil " + texto};
         }
     }
     //
@@ -144,6 +147,44 @@ export class fn {
             return {pct:resultado,text:texto};
         }
     }
+    static lh(data) {
+        'use strict';
+        let a = [], b = [];
+        a[12] = 4.8; a[13] = 7.6; a[14] = 10.3; a[15] = 13.1; a[16] = 15.8;  a[17] = 18.5; a[18] = 21.2; a[19] = 23.8; a[20] = 26.3;  a[21] = 28.8; a[22] = 31.2; a[23] = 33.5; a[24] = 35.7;  a[25] = 37.9; a[26] = 39.9; a[27] = 41.9; a[28] = 43.7;  a[29] = 45.5; a[30] = 47.2; a[31] = 48.9; a[32] = 50.4;  a[33] = 52.1; a[34] = 53.4; a[35] = 54.8; a[36] = 56.2;  a[37] = 57.6; a[38] = 59.8; a[39] = 60.4; a[40] = 61.9;
+        b[12] = 12.3; b[13] = 15.1; b[14] = 17.9; b[15] = 20.7; b[16] = 23.5; b[17] = 26.3; b[18] = 29.1; b[19] = 31.6; b[20] = 34.2; b[21] = 36.7; b[22] = 39.2; b[23] = 41.6; b[24] = 43.9; b[25] = 46.1; b[26] = 48.1; b[27] = 50.1; b[28] = 52.1; b[29] = 53.9; b[30] = 55.6; b[31] = 57.3; b[32] = 58.9; b[33] = 60.5; b[34] = 62.1; b[35] = 63.5; b[36] = 64.9; b[37] = 66.4; b[38] = 67.8; b[39] = 69.3; b[40] = 70.8;
+        
+        if (data.dataset.eg < 12 || data.dataset.eg > 40) {
+            return {pct:0,text:""};
+        }else {
+            let uno = b[data.dataset.eg] - a[data.dataset.eg];
+            let dos = data.value - a[data.dataset.eg];
+            let resultado = parseInt(95 / (uno) * (dos) + 5);
+            let texto = Math.trunc(resultado);
+            if (texto > 99) {texto = '> 99';} 
+            else if (texto < 1) {texto = '< 1';}
+
+            return {pct:resultado,text:texto};
+        }
+    }
+    static cb(data) {
+        'use strict';
+        let a = [], b = [];
+        a[15] = 12;a[16] = 14;a[17] = 15;a[18] = 16;a[19] = 17;a[20] = 18; a[21] = 19;a[22] = 20;a[23] = 21;a[24] = 22;a[25] = 24; a[26] = 26;a[27] = 27;a[28] = 29;a[29] = 30;a[30] = 31; a[31] = 33;a[32] = 36;a[33] = 37;a[34] = 38;a[35] = 40; a[36] = 40;a[37] = 40;a[38] = 41;a[39] = 42;a[40] = 44;
+        b[15] = 18;b[16] = 18;b[17] = 19;b[18] = 20;b[19] = 22; b[20] = 23;b[21] = 25;b[22] = 26;b[23] = 27;b[24] = 30; b[25] = 32;b[26] = 34;b[27] = 34;b[28] = 37;b[29] = 38; b[30] = 41;b[31] = 43;b[32] = 46;b[33] = 48;b[34] = 53; b[35] = 56;b[36] = 58;b[37] = 60;b[38] = 62;b[39] = 62; b[40] = 62;
+    
+        if (data.dataset.eg < 15 || data.dataset.eg > 40) {
+            return {pct:0,text:""};
+        }else {
+            let uno = b[data.dataset.eg] - a[data.dataset.eg];
+            let dos = data.value - a[data.dataset.eg];
+            let resultado = parseInt(95 / (uno) * (dos) + 5);
+            let texto = Math.trunc(resultado);
+            if (texto > 99) {texto = '> 99';} 
+            else if (texto < 1) {texto = '< 1';}
+
+            return {pct:resultado,text:texto};
+        }
+    };
     static ut(data){
         'use strict';
         var a = [], b = [];

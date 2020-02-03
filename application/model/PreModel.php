@@ -17,9 +17,9 @@ class PreModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT user_id, pre_id, paciente_id, pre_fecha, pre_examen, pre_motivo FROM pre_examen WHERE user_id = :user_id AND pre_id = :pre_id LIMIT 1";
+        $sql = "SELECT user_id, pre_id, paciente_rut, pre_fecha, pre_examen, pre_motivo FROM pre_examen WHERE user_id = :user_id AND pre_id = :pre_id LIMIT 1";
         $query = $database->prepare($sql);
-        $query->execute(array(':user_id' => Session::get('user_id'), ':pre_id' => $data->id));
+        $query->execute(array(':user_id' => Session::get('user_id'), ':pre_id' => $data->pre_id));
 
         return $query->fetch();
     }
