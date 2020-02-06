@@ -33,6 +33,12 @@ export class fn {
             return null;
         }
     }
+    static volumenCirculo(uno,dos,tres){
+        let volumen = ((parseInt(uno) * parseInt(dos) * parseInt(tres) *0.525) / 1000);
+        volumen = volumen.toFixed(2);
+
+        return {valor:volumen,text:volumen + " cm3"};
+    }
     //arreglar
     static valCC(dof,dbp){
         var delta = parseFloat(1.60);

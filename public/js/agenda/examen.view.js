@@ -855,6 +855,11 @@ export class ginec {
         document.getElementsByName("fecha")[0].dataset.pre = data.return;
         document.getElementsByName("fum")[0].value = data.paciente.fum;
 
+        document.getElementsByName("utero_uno")[0].oninput = ginec.number;
+        document.getElementsByName("utero_dos")[0].oninput = ginec.number;
+        document.getElementsByName("utero_tres")[0].oninput = ginec.number;
+        document.getElementsByName("endometrio_uno")[0].oninput = ginec.number;
+
         document.getElementsByName("oi_uno")[0].oninput = ginec.oi;
         document.getElementsByName("oi_dos")[0].oninput = ginec.oi;
         document.getElementsByName("oi_tres")[0].oninput = ginec.oi;
@@ -912,6 +917,18 @@ export class ginec {
         });
     }
 
+    static number(){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+        }
+    }
+
     static oi(e){
         this.value = fn.number(this.value);
         let value = String(this.value);
@@ -921,13 +938,14 @@ export class ginec {
             cut.digit = 3;
             cut.value = value;
             this.value = fn.cut(cut);
-            
+
             let oi_uno = document.getElementsByName("oi_uno")[0].value;
             let oi_dos = document.getElementsByName("oi_dos")[0].value;
             let oi_tres = document.getElementsByName("oi_tres")[0].value;
 
             if (String(oi_uno).length > 0 && String(oi_dos).length > 0 && String(oi_tres).length > 0){
-                document.getElementsByName("oi_cuatro")[0].value = parseInt(oi_uno) * parseInt(oi_dos) * parseInt(oi_tres);
+                let volumen = fn.volumenCirculo(oi_uno,oi_dos,oi_tres);
+                document.getElementsByName("oi_cuatro")[0].value = volumen.text;
             }
         }else{
             document.getElementsByName("oi_cuatro")[0].value = ''; 
@@ -949,7 +967,8 @@ export class ginec {
             let od_tres = document.getElementsByName("od_tres")[0].value;
 
             if (String(od_uno).length > 0 && String(od_dos).length > 0 && String(od_tres).length > 0){
-                document.getElementsByName("od_cuatro")[0].value = parseInt(od_uno) * parseInt(od_dos) * parseInt(od_tres);
+                let volumen = fn.volumenCirculo(od_uno,od_dos,od_tres);
+                document.getElementsByName("od_cuatro")[0].value = volumen.text;
             }
         }else{
             document.getElementsByName("od_cuatro")[0].value = ''; 
