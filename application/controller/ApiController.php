@@ -253,4 +253,57 @@ class ApiController extends Controller
         $response->modal = $data->modal;
         $this->View->renderJSON($response);
     }
+
+    public function newDosTres(){
+        $data = new stdClass();
+
+        $data->pre_id = Request::post('pre_id');
+        $data->examen = Request::post('examen');
+        $data->fecha = Request::post('fecha');
+        $data->eg = Request::post('eg');
+        $data->presentacion = Request::post('presentacion');
+        $data->dorso = Request::post('dorso');
+        $data->sexo_fetal = Request::post('sexo_fetal');
+        $data->placenta_insercion = Request::post('placenta_insercion');
+        $data->placenta = Request::post('placenta');
+        $data->liquido = Request::post('liquido');
+        $data->bvm = Request::post('bvm');
+        $data->fcf = Request::post('fcf');
+        $data->anatomia = Request::post('anatomia');
+        $data->anatomia_extra = Request::post('anatomia_extra');
+        $data->atrio_posterior = Request::post('atrio_posterior');
+        $data->atrio_posterior_mm = Request::post('atrio_posterior_mm');
+        $data->cerebelo_text = Request::post('cerebelo_text');
+        $data->cerebelo_mm = Request::post('cerebelo_mm');
+        $data->cisterna_m = Request::post('cisterna_m');
+        $data->cisterna_m_mm = Request::post('cisterna_m_mm');
+        $data->dbp = Request::post('dbp');
+        $data->dof = Request::post('dof');
+        $data->ic = Request::post('ic');
+        $data->cc = Request::post('cc');
+        $data->cc_pct = Request::post('cc_pct');
+        $data->ca = Request::post('ca');
+        $data->ca_pct = Request::post('ca_pct');
+        $data->lf = Request::post('lf');
+        $data->lf_pct = Request::post('lf_pct');
+        $data->lh = Request::post('lh');
+        $data->lh_pct = Request::post('lh_pct');
+        $data->cerebelo = Request::post('cerebelo');
+        $data->cerebelo_pct = Request::post('cerebelo_pct');
+        $data->ccca = Request::post('ccca');
+        $data->pfe = Request::post('pfe');
+        $data->uterina_derecha = Request::post('uterina_derecha');
+        $data->uterina_derecha_pct = Request::post('uterina_derecha_pct');
+        $data->uterina_izquierda = Request::post('uterina_izquierda');
+        $data->uterina_izquierda_pct = Request::post('uterina_izquierda_pct');
+        $data->uterinas = Request::post('uterinas');
+        $data->comentariosexamen = Request::post('comentariosexamen');
+        $data->modal = Request::post('modal');
+
+        $response = new stdClass();
+        $response->return = ExamenModel::createExamen($data);
+        //$response->data = ConfiguracionModel::getAllPatologias();
+        $response->modal = $data->modal;
+        $this->View->renderJSON($response);
+    }
 }

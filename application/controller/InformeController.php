@@ -29,7 +29,7 @@ class InformeController extends Controller
                 return false;
             }else{
                 header("Access-Control-Allow-Origin: *");
-                header("Content-Type: application/pdf");
+                //header("Content-Type: application/pdf");
 
                 $paciente = PacientesModel::getPaciente($examen->paciente_rut);
                 $pre = PreModel::getPre($examen);
@@ -38,7 +38,7 @@ class InformeController extends Controller
                 if ($examen->examen_tipo == "0"){
                     $informe = 'pdf/dopplercrecimiento';
                 }else if ($examen->examen_tipo == "1"){
-                    $informe = "";
+                    $informe = 'pdf/dostres';
                 }else if ($examen->examen_tipo == "2"){
                     $informe = "";
                 }else if ($examen->examen_tipo == "3"){
@@ -56,5 +56,29 @@ class InformeController extends Controller
                 ));
             }
         }
+    }
+
+    public function pdf($reserva_id = NULL)
+    {
+        $response = new stdClass();
+
+        if ($reserva_id == NULL){
+            $response->return = false;
+        }else if (is_numeric($reserva_id)){
+
+            $response->reserva_id = $reserva_id;
+            $pre = PreModel::getPreReserva($response);
+
+            if (empty($pre)){
+                $response->return = false;
+            }else{
+                $response->pre_id = $pre->pre_id;
+                $informe = ExamenModel::getExamenPre($response);
+                $response->return = $informe->examen_id;
+            }
+
+        }
+
+        $this->View->renderJSON($response);
     }
 }

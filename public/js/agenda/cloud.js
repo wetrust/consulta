@@ -78,47 +78,92 @@ export class cloud {
     static async createExamen(save){
         try {
             const to = new FormData();
+            let server = "";
+
             to.append('pre_id', save.pre_id);
             to.append('examen', save.examen);
             to.append('fecha', save.fecha);
             to.append('eg', save.eg);
-            to.append('presentacion', save.presentacion);
-            to.append('dorso', save.dorso);
-            to.append('sexo_fetal', save.sexo_fetal);
-            to.append('placenta_insercion', save.placenta_insercion);
-            to.append('placenta', save.placenta);
-            to.append('liquido', save.liquido);
-            to.append('bvm', save.bvm);
-            to.append('fcf', save.fcf);
-            to.append('anatomia', save.anatomia);
-            to.append('anatomia_extra', save.anatomia_extra);
-            to.append('dbp', save.dbp);
-            to.append('dof', save.dof);
-            to.append('cc', save.cc);
-            to.append('cc_pct', save.cc_pct);
-            to.append('ca', save.ca);
-            to.append('ca_pct', save.ca_pct);
-            to.append('lf', save.lf);
-            to.append('lf_pct', save.lf_pct);
-            to.append('ccca', save.ccca);
-            to.append('pfe', save.pfe);
-            to.append('uterina_derecha', save.uterina_derecha);
-            to.append('uterina_derecha_pct', save.uterina_derecha_pct);
-            to.append('uterina_izquierda', save.uterina_izquierda);
-            to.append('uterina_izquierda_pct', save.uterina_izquierda_pct);
-            to.append('uterinas', save.uterinas);
-            to.append('umbilical', save.umbilical);
-            to.append('umbilical_pct', save.umbilical_pct);
-            to.append('cm', save.cm);
-            to.append('cm_pct', save.cm_pct);
-            to.append('cmau', save.cmau);
-            to.append('hipotesis', save.hipotesis);
-            to.append('doppler_materno', save.doppler_materno);
-            to.append('doppler_fetal', save.doppler_fetal);
+
+            if (save.examen == 0){
+                server = config.newDopcre;
+                to.append('presentacion', save.presentacion);
+                to.append('dorso', save.dorso);
+                to.append('sexo_fetal', save.sexo_fetal);
+                to.append('placenta_insercion', save.placenta_insercion);
+                to.append('placenta', save.placenta);
+                to.append('liquido', save.liquido);
+                to.append('bvm', save.bvm);
+                to.append('fcf', save.fcf);
+                to.append('anatomia', save.anatomia);
+                to.append('anatomia_extra', save.anatomia_extra);
+                to.append('dbp', save.dbp);
+                to.append('dof', save.dof);
+                to.append('cc', save.cc);
+                to.append('cc_pct', save.cc_pct);
+                to.append('ca', save.ca);
+                to.append('ca_pct', save.ca_pct);
+                to.append('lf', save.lf);
+                to.append('lf_pct', save.lf_pct);
+                to.append('ccca', save.ccca);
+                to.append('pfe', save.pfe);
+                to.append('uterina_derecha', save.uterina_derecha);
+                to.append('uterina_derecha_pct', save.uterina_derecha_pct);
+                to.append('uterina_izquierda', save.uterina_izquierda);
+                to.append('uterina_izquierda_pct', save.uterina_izquierda_pct);
+                to.append('uterinas', save.uterinas);
+                to.append('umbilical', save.umbilical);
+                to.append('umbilical_pct', save.umbilical_pct);
+                to.append('cm', save.cm);
+                to.append('cm_pct', save.cm_pct);
+                to.append('cmau', save.cmau);
+                to.append('hipotesis', save.hipotesis);
+                to.append('doppler_materno', save.doppler_materno);
+                to.append('doppler_fetal', save.doppler_fetal);
+            }else if (save.examen == 1){
+                server = config.newDosTres;
+                to.append('presentacion', save.presentacion);
+                to.append('dorso', save.dorso);
+                to.append('sexo_fetal', save.sexo_fetal);
+                to.append('placenta_insercion', save.placenta_insercion);
+                to.append('placenta', save.placenta);
+                to.append('liquido', save.liquido);
+                to.append('bvm', save.bvm);
+                to.append('fcf', save.fcf);
+                to.append('anatomia', save.anatomia);
+                to.append('anatomia_extra', save.anatomia_extra);
+                to.append('atrio_posterior', save.atrio_posterior);
+                to.append('atrio_posterior_mm', save.atrio_posterior_mm);
+                to.append('cerebelo_text', save.cerebelo_text);
+                to.append('cerebelo_mm', save.cerebelo_mm);
+                to.append('cisterna_m', save.cisterna_m);
+                to.append('cisterna_m_mm', save.cisterna_m_mm);
+                to.append('dbp', save.dbp);
+                to.append('dof', save.dof);
+                to.append('ic', save.ic);
+                to.append('cc', save.cc);
+                to.append('cc_pct', save.cc_pct);
+                to.append('ca', save.ca);
+                to.append('ca_pct', save.ca_pct);
+                to.append('lf', save.lf);
+                to.append('lf_pct', save.lf_pct);
+                to.append('lh', save.lf);
+                to.append('lh_pct', save.lf_pct);
+                to.append('cerebelo', save.lf);
+                to.append('cerebelo_pct', save.lf_pct);
+                to.append('pfe', save.pfe);
+                to.append('ccca', save.ccca);
+                to.append('uterina_derecha', save.uterina_derecha);
+                to.append('uterina_derecha_pct', save.uterina_derecha_pct);
+                to.append('uterina_izquierda', save.uterina_izquierda);
+                to.append('uterina_izquierda_pct', save.uterina_izquierda_pct);
+                to.append('uterinas', save.uterinas);
+            }
+
             to.append('comentariosexamen', save.comentariosexamen);
             to.append('modal', save.modal);
 
-            const from = await data.post(config.newDopcre, to);
+            const from = await data.post(server, to);
             return from;
         } catch(e){}
     }
@@ -129,4 +174,10 @@ export class cloud {
             return from;
         } catch(e) {}
     }
+    static async getInforme(id){
+        try {
+            const from = await data.get(config.getInforme + id);
+            return from;
+        } catch(e) {}
+    }  
 }

@@ -1,7 +1,7 @@
 import {cloud} from './cloud.js';
 import {config} from './config.js';
 import {make, the, humanDate, inputDate} from '../wetrust.js';
-import {dopcre, segundo, once, preco, ginec, parto} from './examen.view.js';
+import {dopcre, segundo, once, preco, ginec, parto, informe} from './examen.view.js';
 
 export class view {
     static reservasInterface(container, data){
@@ -269,8 +269,8 @@ export class view {
         let examenBtns = document.getElementsByClassName("examen-reserva");
         for (var i=0; i < examenBtns.length; i++) { examenBtns[i].onclick = this.verPreparar; }
 
-        //let modificarBtns = document.getElementsByClassName("modificar");
-        //for (var i=0; i < modificarBtns.length; i++) { modificarBtns[i].onclick = this.editPaciente; }
+        let informeBtns = document.getElementsByClassName("informe-reserva");
+        for (var i=0; i < informeBtns.length; i++) { informeBtns[i].onclick = this.informeExamen; }
 
         let eliminarBtns = document.getElementsByClassName("eliminar-reserva");
         for (var i=0; i < eliminarBtns.length; i++) { eliminarBtns[i].onclick = this.eliminarReserva; }
@@ -439,6 +439,18 @@ export class view {
                 });
             }else{
                 make.alert("Hubo un problema al obtener la configuración, vuelva a cargar la página");
+            }
+        });
+    }
+
+    static informeExamen(){
+        let id = this.dataset.id;
+
+        cloud.getInforme(id).then(function(data){
+            if (data.return == false){
+                make.alert('Hubo un error al obtener el informe, intente otra vez');
+            }else{
+                informe.interface(data);
             }
         });
     }

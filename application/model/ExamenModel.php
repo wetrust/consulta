@@ -15,13 +15,25 @@ class ExamenModel
         return $query->fetchAll();
     }
 
-    public static function getExamen($note_id)
+    public static function getExamenPre($data)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT user_id, examen_id, pre_id, paciente_rut, examen_tipo, examen_fecha, examen_eg, examen_data FROM examen WHERE user_id = :user_id AND pre_id = :pre_id LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_id' => Session::get('user_id'), ':pre_id' => $data->pre_id));
+
+
+        return $query->fetch();
+    }
+
+    public static function getExamen($examen_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT user_id, examen_id, pre_id, paciente_rut, examen_tipo, examen_fecha, examen_eg, examen_data FROM examen WHERE user_id = :user_id AND examen_id = :examen_id LIMIT 1";
         $query = $database->prepare($sql);
-        $query->execute(array(':user_id' => Session::get('user_id'), ':examen_id' => $note_id));
+        $query->execute(array(':user_id' => Session::get('user_id'), ':examen_id' => $examen_id));
 
 
         return $query->fetch();
@@ -72,8 +84,46 @@ class ExamenModel
             $_examen->doppler_materno = $data->doppler_materno;
             $_examen->doppler_fetal = $data->doppler_fetal;
             $_examen->comentariosexamen = $data->comentariosexamen;
-        }else{
 
+        }else if ($data->examen == 1){
+
+            $_examen->presentacion = $data->presentacion;
+            $_examen->dorso = $data->dorso;
+            $_examen->sexo_fetal = $data->sexo_fetal;
+            $_examen->placenta_insercion = $data->placenta_insercion;
+            $_examen->placenta = $data->placenta;
+            $_examen->liquido = $data->liquido;
+            $_examen->bvm = $data->bvm;
+            $_examen->fcf = $data->fcf;
+            $_examen->anatomia = $data->anatomia;
+            $_examen->anatomia_extra = $data->anatomia_extra;
+            $_examen->atrio_posterior = $data->atrio_posterior;
+            $_examen->atrio_posterior_mm = $data->atrio_posterior_mm;
+            $_examen->cerebelo_text = $data->cerebelo_text;
+            $_examen->cerebelo_mm = $data->cerebelo_mm;
+            $_examen->cisterna_m = $data->cisterna_m;
+            $_examen->cisterna_m_mm = $data->cisterna_m_mm;
+            $_examen->dbp = $data->dbp;
+            $_examen->dof = $data->dof;
+            $_examen->ic= $data->ic;
+            $_examen->cc = $data->cc;
+            $_examen->cc_pct = $data->cc_pct;
+            $_examen->ca = $data->ca;
+            $_examen->ca_pct = $data->ca_pct;
+            $_examen->lf = $data->lf;
+            $_examen->lf_pct = $data->lf_pct;
+            $_examen->lh = $data->lh;
+            $_examen->lh_pct = $data->lh_pct;
+            $_examen->cerebelo = $data->cerebelo;
+            $_examen->cerebelo_pct = $data->cerebelo_pct;
+            $_examen->ccca = $data->ccca;
+            $_examen->pfe = $data->pfe;
+            $_examen->uterina_derecha = $data->uterina_derecha;
+            $_examen->uterina_derecha_pct = $data->uterina_derecha_pct;
+            $_examen->uterina_izquierda = $data->uterina_izquierda;
+            $_examen->uterina_izquierda_pct = $data->uterina_izquierda_pct;
+            $_examen->uterinas = $data->uterinas;
+            $_examen->comentariosexamen = $data->comentariosexamen;
         }
 
         $_examen = json_encode($_examen);

@@ -178,6 +178,7 @@ export class dopcre {
             if (String(dof).length > 0 && String(dbp).length > 0){
                 let valCC = fn.valCC(dof,dbp);
                 document.getElementsByName("respuesta_cc")[0].value = valCC.cc;
+                document.getElementsByName("respuesta_cc")[0].oninput();
             }
         }
     }
@@ -409,7 +410,7 @@ export class segundo {
         document.getElementsByName("fum")[0].value = data.paciente.fum;
         document.getElementsByName("comentarios")[0].value = config.segundoComentarios;
 
-        the(modal.button).onclick = segundo.save();
+        the(modal.button).onclick = segundo.save;
         segundo.selectBVM();
         segundo.selectFCF();
 
@@ -436,7 +437,59 @@ export class segundo {
     }
 
     static save(){
-        
+        var save = {
+            pre_id: document.getElementsByName("fecha")[0].dataset.pre,
+            examen: document.getElementsByName("fecha")[0].dataset.examen,
+            fecha: document.getElementsByName("fecha")[0].value,
+            eg: document.getElementsByName("respuesta_cc")[0].dataset.eg,
+            presentacion: document.getElementsByName("respuesta_presentacion")[0].value,
+            dorso: document.getElementsByName("respuesta_dorso")[0].value,
+            sexo_fetal: document.getElementsByName("respuesta_sexo_fetal")[0].value,
+            placenta_insercion: document.getElementsByName("respuesta_placenta_insercion")[0].value,
+            placenta: document.getElementsByName("respuesta_placenta")[0].value,
+            liquido: document.getElementsByName("respuesta_liquido")[0].innerHTML,
+            bvm: document.getElementsByName("respuesta_bvm")[0].value,
+            fcf: document.getElementsByName("respuesta_fcf")[0].value,
+            anatomia:  document.getElementsByName("respuesta_anatomia")[0].value,
+            anatomia_extra: document.getElementsByName("respuesta_anatomia_extra")[0].value,
+            atrio_posterior: document.getElementsByName("respuesta_atrio_posterior")[0].value,
+            atrio_posterior_mm: document.getElementsByName("respuesta_atrio_posterior_mm")[0].value,
+            cerebelo_text: document.getElementsByName("respuesta_cerebelo_text")[0].value,
+            cerebelo_mm: document.getElementsByName("respuesta_cerebelo_mm")[0].value,
+            cisterna_m: document.getElementsByName("respuesta_cisterna_m")[0].value,
+            cisterna_m_mm: document.getElementsByName("respuesta_cisterna_m_mm")[0].value,
+            dbp: document.getElementsByName("respuesta_dbp")[0].value,
+            dof: document.getElementsByName("respuesta_dof")[0].value,
+            ic: document.getElementsByName("respuesta_ic")[0].value,
+            cc: document.getElementsByName("respuesta_cc")[0].value,
+            cc_pct: the("respuesta_cc_pct").innerHTML,
+            ca: document.getElementsByName("respuesta_ca")[0].value,
+            ca_pct: the("respuesta_ca_pct").innerHTML,
+            lf: document.getElementsByName("respuesta_lf")[0].value,
+            lf_pct: the("respuesta_lf_pct").innerHTML,
+            lh: document.getElementsByName("respuesta_lh")[0].value,
+            lh_pct: the("respuesta_lh_pct").innerHTML,
+            cerebelo: document.getElementsByName("respuesta_cerebelo")[0].value,
+            cerebelo_pct: the("respuesta_cerebelo_pct").innerHTML,
+            pfe: document.getElementsByName("respuesta_pfe")[0].innerHTML,
+            ccca: document.getElementsByName("respuesta_ccca")[0].innerHTML,
+            uterina_derecha: document.getElementsByName("respuesta_uterina_derecha")[0].value,
+            uterina_derecha_pct: the("respuesta_uterina_derecha_percentil").innerHTML,
+            uterina_izquierda: document.getElementsByName("respuesta_uterina_izquierda")[0].value,
+            uterina_izquierda_pct: the("respuesta_uterina_izquierda_percentil").innerHTML,
+            uterinas: document.getElementsByName("respuesta_uterinas")[0].value,
+            comentariosexamen: document.getElementsByName("comentarios")[0].value,
+            modal: this.dataset.modal
+        }
+
+        cloud.createExamen(save).then(function(data){
+            if (data.return == false){
+                make.alert('Hubo un error al crear el exámen, intente otra vez');
+            }else{
+                $("#"+data.modal).modal("hide");
+                informe.interface(data);
+            }
+        }); 
     }
 
     //mejorar
@@ -693,7 +746,7 @@ export class once {
         document.getElementsByName("fecha")[0].value = inputDate();
         document.getElementsByName("comentarios")[0].value = config.onceComentarios;
 
-        the(modal.button).onclick = once.save();
+        the(modal.button).onclick = once.save;
         segundo.selectFCF();
 
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
@@ -747,7 +800,7 @@ export class preco {
         document.getElementsByName("fecha")[0].value = inputDate();
         document.getElementsByName("comentarios")[0].value = config.precoComentarios;
 
-        the(modal.button).onclick = preco.save();
+        the(modal.button).onclick = preco.save;
         segundo.selectFCF();
 
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
@@ -800,7 +853,7 @@ export class ginec {
         document.getElementsByName("fecha")[0].value = inputDate();
         document.getElementsByName("comentarios")[0].value = config.ginecComentarios;
 
-        the(modal.button).onclick = ginec.save();
+        the(modal.button).onclick = ginec.save;
 
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
     }
@@ -823,7 +876,7 @@ export class parto {
         document.getElementsByName("fecha")[0].value = inputDate();
         document.getElementsByName("comentarios")[0].value = config.partoComentarios;
 
-        the(modal.button).onclick = parto.save();
+        the(modal.button).onclick = parto.save;
         parto.selectEdad();
         parto.selectPeso();
         parto.selectTalla();
