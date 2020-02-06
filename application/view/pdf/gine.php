@@ -84,10 +84,12 @@
     $this->pdf->Ln(4);
     $html = '<table><tbody><tr><td style="background-color:#f7fafb;width:170px;"><strong>Útero:</strong></td><td style="background-color:#f7fafb;width:450px;">'. $data->utero_cuatro.'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
-    $html = '<table><tbody><tr><td style="background-color:#f7fafb;width:170px;"></td><td style="background-color:#f7fafb;width:450px;">'. $data->utero_uno.' x '. $data->utero_dos.' x '. $data->utero_tres.'</td></tr></tbody></table>';
+    $html = '<table><tbody><tr><td style="background-color:#f7fafb;width:170px;"></td><td style="background-color:#f7fafb;width:450px;">'. $data->utero_uno.'mm x '. $data->utero_dos.'mm x '. $data->utero_tres.'mm</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
     $this->pdf->Ln(1);
     $html = '<table><tbody><tr><td style="width:170px"><strong>Endometrio:</strong></td><td style="width:450px">'. $data->endometrio_dos.'</td></tr></tbody></table>';
+    $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
+    $html = '<table><tbody><tr><td style="width:170px"></td><td style="width:450px">'. $data->endometrio_uno.'mm</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
     $this->pdf->Ln(4);
     $html = '<table><tbody><tr><td style="background-color:#f7fafb;width:170px;"><strong>Anexial</strong></td><td style="background-color:#f7fafb;width:450px;">'. $data->anexial.'</td></tr></tbody></table>';
@@ -95,12 +97,12 @@
     $this->pdf->Ln(1);
     $html = '<table><tbody><tr><td style="width:170px"><strong>Ovario Izquierdo:</strong></td><td style="width:450px">'. $data->oi_cinco.'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
-    $html = '<table><tbody><tr><td style="background-color:#f7fafb;width:170px;"></td><td style="background-color:#f7fafb;width:450px;">'. $data->oi_uno.' x '. $data->oi_dos.' x '. $data->oi_tres.', Volumen: '. $data->oi_cuatro.'</td></tr></tbody></table>';
+    $html = '<table><tbody><tr><td style="background-color:#f7fafb;width:170px;"></td><td style="background-color:#f7fafb;width:450px;">'. $data->oi_uno.'mm x '. $data->oi_dos.'mm x '. $data->oi_tres.'mm, Volumen: '. $data->oi_cuatro.'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
     $this->pdf->Ln(4);
     $html = '<table><tbody><tr><td style="width:170px"><strong>Ovario Derecho:</strong></td><td style="width:450px">'. $data->od_cinco.'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
-    $html = '<table><tbody><tr><td style="background-color:#f7fafb;width:170px;"></td><td style="background-color:#f7fafb;width:450px;">'. $data->od_uno.' x '. $data->od_dos.' x '. $data->od_tres.', Volumen: '. $data->od_cuatro.'</td></tr></tbody></table>';
+    $html = '<table><tbody><tr><td style="background-color:#f7fafb;width:170px;"></td><td style="background-color:#f7fafb;width:450px;">'. $data->od_uno.'mm x '. $data->od_dos.'mm x '. $data->od_tres.'mm, Volumen: '. $data->od_cuatro.'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
     $this->pdf->Ln(4);
     $html = '<table><tbody><tr><td style="width:170px"><strong>Douglas:</strong></td><td style="width:450px">'. $data->douglas.'</td></tr></tbody></table>';
