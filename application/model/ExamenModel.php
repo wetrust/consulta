@@ -124,6 +124,26 @@ class ExamenModel
             $_examen->uterina_izquierda_pct = $data->uterina_izquierda_pct;
             $_examen->uterinas = $data->uterinas;
             $_examen->comentariosexamen = $data->comentariosexamen;
+        }else if ($data->examen == 4){
+            $_examen->utero_uno = $data->utero_uno;
+            $_examen->utero_dos = $data->utero_dos;
+            $_examen->utero_tres = $data->utero_tres;
+            $_examen->utero_cuatro = $data->utero_cuatro;
+            $_examen->endometrio_uno = $data->endometrio_uno;
+            $_examen->endometrio_dos = $data->endometrio_dos;
+            $_examen->anexial = $data->anexial;
+            $_examen->oi_uno = $data->oi_uno;
+            $_examen->oi_dos = $data->oi_dos;
+            $_examen->oi_tres = $data->oi_tres;
+            $_examen->oi_cuatro = $data->oi_cuatro;
+            $_examen->oi_cinco = $data->oi_cinco;
+            $_examen->od_uno = $data->od_uno;
+            $_examen->od_dos = $data->od_dos;
+            $_examen->od_tres = $data->od_tres;
+            $_examen->od_cuatro = $data->od_cuatro;
+            $_examen->od_cinco = $data->od_cinco;
+            $_examen->douglas = $data->douglas;
+            $_examen->comentariosexamen = $data->comentariosexamen;
         }
 
         $_examen = json_encode($_examen);

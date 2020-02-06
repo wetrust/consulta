@@ -44,7 +44,7 @@ class InformeController extends Controller
                 }else if ($examen->examen_tipo == "3"){
                     $informe = "";
                 }else if ($examen->examen_tipo == "4"){
-                    $informe = "";
+                    $informe = 'pdf/gine';
                 }
 
                 $this->View->renderWithoutHeaderAndFooter($informe, 

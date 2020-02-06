@@ -158,6 +158,26 @@ export class cloud {
                 to.append('uterina_izquierda', save.uterina_izquierda);
                 to.append('uterina_izquierda_pct', save.uterina_izquierda_pct);
                 to.append('uterinas', save.uterinas);
+            }else if (save.examen == 4){
+                server = config.newGine;
+                to.append('utero_uno', save.utero_uno);
+                to.append('utero_dos', save.utero_dos);
+                to.append('utero_tres', save.utero_tres);
+                to.append('utero_cuatro', save.utero_cuatro);
+                to.append('endometrio_uno', save.endometrio_uno);
+                to.append('endometrio_dos', save.endometrio_dos);
+                to.append('anexial', save.anexial);
+                to.append('oi_uno', save.oi_uno);
+                to.append('oi_dos', save.oi_dos);
+                to.append('oi_tres', save.oi_tres);
+                to.append('oi_cuatro', save.oi_cuatro);
+                to.append('oi_cinco', save.oi_cinco);
+                to.append('od_uno', save.od_uno);
+                to.append('od_dos', save.od_dos);
+                to.append('od_tres', save.od_tres);
+                to.append('od_cuatro', save.od_cuatro);
+                to.append('od_cinco', save.od_cinco);
+                to.append('douglas', save.douglas);
             }
 
             to.append('comentariosexamen', save.comentariosexamen);

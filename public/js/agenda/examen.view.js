@@ -850,8 +850,24 @@ export class ginec {
         the(modal.contenido).innerHTML = config.ginecHTML;
         the(modal.id).children[0].classList.add("h-100","modal-xl");
 
-        document.getElementsByName("fecha")[0].value = inputDate();
-        document.getElementsByName("comentarios")[0].value = config.ginecComentarios;
+        document.getElementsByName("fecha")[0].value = data.fecha;
+        document.getElementsByName("fecha")[0].dataset.examen = data.examen;
+        document.getElementsByName("fecha")[0].dataset.pre = data.return;
+        document.getElementsByName("fum")[0].value = data.paciente.fum;
+
+        document.getElementsByName("oi_uno")[0].oninput = ginec.oi;
+        document.getElementsByName("oi_dos")[0].oninput = ginec.oi;
+        document.getElementsByName("oi_tres")[0].oninput = ginec.oi;
+
+        document.getElementsByName("od_uno")[0].oninput = ginec.od;
+        document.getElementsByName("od_dos")[0].oninput = ginec.od;
+        document.getElementsByName("od_tres")[0].oninput = ginec.od;
+
+        let EG = fn.EG(data);
+        let diaCiclo = (EG.semanas *7)+ EG.dias;
+
+        document.getElementsByName("eg")[0].value = diaCiclo;
+        document.getElementsByName("comentariosexamen")[0].value = config.ginecComentarios;
 
         the(modal.button).onclick = ginec.save;
 
@@ -859,7 +875,85 @@ export class ginec {
     }
 
     static save(){
-        
+        var save = {
+            pre_id: document.getElementsByName("fecha")[0].dataset.pre,
+            examen: document.getElementsByName("fecha")[0].dataset.examen,
+            fecha: document.getElementsByName("fecha")[0].value,
+            eg: document.getElementsByName("eg")[0].value,
+            utero_uno: document.getElementsByName("utero_uno")[0].value,
+            utero_dos: document.getElementsByName("utero_dos")[0].value,
+            utero_tres: document.getElementsByName("utero_tres")[0].value,
+            utero_cuatro: document.getElementsByName("utero_cuatro")[0].value,
+            endometrio_uno: document.getElementsByName("endometrio_uno")[0].value,
+            endometrio_dos: document.getElementsByName("endometrio_dos")[0].innerHTML,
+            anexial: document.getElementsByName("anexial")[0].value,
+            oi_uno: document.getElementsByName("oi_uno")[0].value,
+            oi_dos:  document.getElementsByName("oi_dos")[0].value,
+            oi_tres: document.getElementsByName("oi_tres")[0].value,
+            oi_cuatro: document.getElementsByName("oi_cuatro")[0].value,
+            oi_cinco: document.getElementsByName("oi_cinco")[0].value,
+            od_uno: document.getElementsByName("od_uno")[0].value,
+            od_dos:  document.getElementsByName("od_dos")[0].value,
+            od_tres: document.getElementsByName("od_tres")[0].value,
+            od_cuatro: document.getElementsByName("od_cuatro")[0].value,
+            od_cinco: document.getElementsByName("od_cinco")[0].value,
+            douglas: document.getElementsByName("douglas")[0].value,
+            comentariosexamen: document.getElementsByName("comentariosexamen")[0].value,
+            modal: this.dataset.modal
+        }
+
+        cloud.createExamen(save).then(function(data){
+            if (data.return == false){
+                make.alert('Hubo un error al crear el exámen, intente otra vez');
+            }else{
+                $("#"+data.modal).modal("hide");
+                informe.interface(data);
+            }
+        });
+    }
+
+    static oi(e){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+            
+            let oi_uno = document.getElementsByName("oi_uno")[0].value;
+            let oi_dos = document.getElementsByName("oi_dos")[0].value;
+            let oi_tres = document.getElementsByName("oi_tres")[0].value;
+
+            if (String(oi_uno).length > 0 && String(oi_dos).length > 0 && String(oi_tres).length > 0){
+                document.getElementsByName("oi_cuatro")[0].value = parseInt(oi_uno) * parseInt(oi_dos) * parseInt(oi_tres);
+            }
+        }else{
+            document.getElementsByName("oi_cuatro")[0].value = ''; 
+        }
+    }
+
+    static od(e){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let od_uno = document.getElementsByName("od_uno")[0].value;
+            let od_dos = document.getElementsByName("od_dos")[0].value;
+            let od_tres = document.getElementsByName("od_tres")[0].value;
+
+            if (String(od_uno).length > 0 && String(od_dos).length > 0 && String(od_tres).length > 0){
+                document.getElementsByName("od_cuatro")[0].value = parseInt(od_uno) * parseInt(od_dos) * parseInt(od_tres);
+            }
+        }else{
+            document.getElementsByName("od_cuatro")[0].value = ''; 
+        }
     }
 }
 

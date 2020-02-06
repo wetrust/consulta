@@ -306,4 +306,39 @@ class ApiController extends Controller
         $response->modal = $data->modal;
         $this->View->renderJSON($response);
     }
+
+    public function newGine(){
+        $data = new stdClass();
+
+        $data->pre_id = Request::post('pre_id');
+        $data->examen = Request::post('examen');
+        $data->fecha = Request::post('fecha');
+        $data->eg = Request::post('eg');
+        $data->utero_uno = Request::post('utero_uno');
+        $data->utero_dos = Request::post('utero_dos');
+        $data->utero_tres = Request::post('utero_tres');
+        $data->utero_cuatro = Request::post('utero_cuatro');
+        $data->endometrio_uno = Request::post('endometrio_uno');
+        $data->endometrio_dos = Request::post('endometrio_dos');
+        $data->anexial = Request::post('anexial');
+        $data->oi_uno = Request::post('oi_uno');
+        $data->oi_dos = Request::post('oi_dos');
+        $data->oi_tres = Request::post('oi_tres');
+        $data->oi_cuatro = Request::post('oi_cuatro');
+        $data->oi_cinco = Request::post('oi_cinco');
+        $data->od_uno = Request::post('od_uno');
+        $data->od_dos = Request::post('od_dos');
+        $data->od_tres = Request::post('od_tres');
+        $data->od_cuatro = Request::post('od_cuatro');
+        $data->od_cinco = Request::post('od_cinco');
+        $data->douglas = Request::post('douglas');
+        $data->comentariosexamen = Request::post('comentariosexamen');
+        $data->modal = Request::post('modal');
+
+        $response = new stdClass();
+        $response->return = ExamenModel::createExamen($data);
+        //$response->data = ConfiguracionModel::getAllPatologias();
+        $response->modal = $data->modal;
+        $this->View->renderJSON($response);
+    }
 }
