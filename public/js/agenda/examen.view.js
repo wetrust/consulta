@@ -885,7 +885,7 @@ export class ginec {
             utero_tres: document.getElementsByName("utero_tres")[0].value,
             utero_cuatro: document.getElementsByName("utero_cuatro")[0].value,
             endometrio_uno: document.getElementsByName("endometrio_uno")[0].value,
-            endometrio_dos: document.getElementsByName("endometrio_dos")[0].innerHTML,
+            endometrio_dos: document.getElementsByName("endometrio_dos")[0].value,
             anexial: document.getElementsByName("anexial")[0].value,
             oi_uno: document.getElementsByName("oi_uno")[0].value,
             oi_dos:  document.getElementsByName("oi_dos")[0].value,
