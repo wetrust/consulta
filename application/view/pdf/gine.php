@@ -76,7 +76,7 @@
     $html = '<table><tbody><tr><td style="width:170px"><em>'.$txt.':</em></td><td style="width:450px">'.htmlentities($eg).' dias</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, 'J', true);
     $this->pdf->Ln(4);
-    $html = '<table><tbody><tr><td style="width:170px;"><em>Útero:</em></td><td style="width:450px;">'. $data->utero_cuatro.'</td></tr></tbody></table>';
+    $html = '<table><tbody><tr><td style="width:170px;"><em>Útero:</em></td><td style="width:450px;">longitudinal anteroposterior transverso '. $data->utero_cuatro.'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
     $html = '<table><tbody><tr><td style="width:170px;"></td><td style="width:450px;"><em>'. $data->utero_uno.' mm x '. $data->utero_dos.' mm x '. $data->utero_tres.' mm</em></td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
