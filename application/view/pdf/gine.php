@@ -39,7 +39,7 @@
 
     $data = json_decode($this->examen->examen_data);
 
-    $html = '<h3>RESUMEN PROTOCOLO DE REFERENCIA Y CONTRARREFERENCIA PARA ECOGRAFÍA GINECOLÓGICA</h3>';
+    $html = '<h4 class="border-bottom:1px solid #000">RESUMEN PROTOCOLO DE REFERENCIA Y CONTRARREFERENCIA PARA ECOGRAFÍA GINECOLÓGICA</h4>';
     $this->pdf->writeHTMLCell('', '', '10', '', $html, 0, 1, 0, true, 'C', true);
     $this->pdf->Ln(4);
 
