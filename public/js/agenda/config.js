@@ -19,7 +19,7 @@ export const config = {
     new: 'api/newPacientes',
     verPrepararTitulo: 'Preparar exámen',
     preparar: 'api/createPre',
-    verPrepararHTML: '<div class="card shadow"> <div class="card-body"> <div class="form-group"> <label>Seleccione examen</label> <select class="form-control" id="examen"> <option value="0">1.- Doppler + Eco. crecimiento</option> <option value="1">2.- Ecografía 2° / 3° trimestre</option> <option value="2">3.- Ecografía 11 / 14 semanas</option> <option value="3">4.- Ecografía precoz de urgencia</option> <option value="4">5.- Ecografía Ginecológica</option> <option value="5">6.- Datos del parto y recién nacido</option> </select> </div><div class="form-group"> <label>Motivo de exámen</label> <textarea class="form-control" id="motivo" rows="3"></textarea> </div></div></div>',
+    verPrepararHTML: '<div class="card shadow"> <div class="card-body"> <div class="row"> <div class="col-6 form-group"> <label>Seleccione examen</label> <select class="form-control" id="examen" size="6"> <option value="0">1.- Doppler + Eco. crecimiento</option> <option value="1">2.- Ecografía 2° / 3° trimestre</option> <option value="2">3.- Ecografía 11 / 14 semanas</option> <option value="3">4.- Ecografía precoz de urgencia</option> <option value="4">5.- Ecografía Ginecológica</option> <option value="5">6.- Datos del parto y recién nacido</option> </select> </div><div class="col-6 form-group"> <label>Motivo de exámen</label> <textarea class="form-control" id="motivo" rows="4"></textarea> </div></div></div></div>',
     verPrepararExamenButton: 'examen',
     verPrepararMotivo: 'motivo',
     dopcreTitulo: 'DOPPLER + ECO. CRECIMIENTO',
