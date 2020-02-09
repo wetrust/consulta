@@ -39,7 +39,7 @@
 
     $data = json_decode($this->examen->examen_data);
 
-    $html = '<h4 class="border-bottom:1px solid #000">RESUMEN PROTOCOLO DE REFERENCIA Y CONTRARREFERENCIA PARA ECOGRAFÍA GINECOLÓGICA</h4>';
+    $html = '<h4 style="border-bottom:1px solid #000;text-align: center;">ECOTOMOGRAFÍA GINECOLÓGICA</h4>';
     $this->pdf->writeHTMLCell('', '', '10', '', $html, 0, 1, 0, true, 'C', true);
     $this->pdf->Ln(4);
 
@@ -78,7 +78,7 @@
     $this->pdf->Ln(4);
     $html = '<table><tbody><tr><td style="width:170px;"><em>Útero:</em></td><td style="width:450px;"> '. $data->utero_cuatro.'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
-    $html = '<table><tbody><tr><td style="width:170px;"></td><td style="width:450px;"><em>Longitudinal: '. $data->utero_uno.' mm x Anteroposterior: '. $data->utero_dos.' mm x Transverso: '. $data->utero_tres.' mm</em></td></tr></tbody></table>';
+    $html = '<table><tbody><tr><td style="width:170px;"></td><td style="width:450px;"><em>- Longitudinal: '. $data->utero_uno.' mm<br>- Anteroposterior: '. $data->utero_dos.' mm<br>- Transverso: '. $data->utero_tres.' mm</em></td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
     $this->pdf->Ln(4);
     $html = '<table><tbody><tr><td style="width:170px"><em>Endometrio:</em></td><td style="width:450px">'. $data->endometrio_dos.'</td></tr></tbody></table>';
@@ -99,7 +99,7 @@
     $html = '<table><tbody><tr><td style="width:170px;"></td><td style="width:450px;"><em>'. $data->od_uno.' mm x '. $data->od_dos.' mm x '. $data->od_tres.' mm, Volumen: '. $data->od_cuatro.'</em></td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
     $this->pdf->Ln(4);
-    $html = '<table><tbody><tr><td style="width:170px"><em>Douglas:</em></td><td style="width:450px">'. $data->douglas.'</td></tr></tbody></table>';
+    $html = '<table><tbody><tr><td style="width:170px"><em>Douglas:</em></td><td style="width:450px">'. $data->douglas. ' '. $data->douglas_com.'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, '', true);
     $this->pdf->Ln(4);
 

@@ -178,6 +178,7 @@ export class cloud {
                 to.append('od_cuatro', save.od_cuatro);
                 to.append('od_cinco', save.od_cinco);
                 to.append('douglas', save.douglas);
+                to.append('douglas_com', save.douglas_com);
             }
 
             to.append('comentariosexamen', save.comentariosexamen);

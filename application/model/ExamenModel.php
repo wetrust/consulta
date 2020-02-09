@@ -15,6 +15,24 @@ class ExamenModel
         return $query->fetchAll();
     }
 
+    public static function getAllExamenPaciente($id)
+    {
+        if ($id == NULL){
+            $data = new stdClass();
+            return $data;
+        }else if (is_numeric($id) == true && $id > 0){
+            $paciente = PacientesModel::getPacienteID($id);
+
+            $database = DatabaseFactory::getFactory()->getConnection();
+    
+            $sql = "SELECT user_id, examen_id, pre_id, paciente_rut, examen_tipo, examen_fecha, examen_eg, examen_data FROM examen WHERE user_id = :user_id AND paciente_rut = :paciente_rut";
+            $query = $database->prepare($sql);
+            $query->execute(array(':user_id' => Session::get('user_id'), ':paciente_rut' => $paciente->rut));
+    
+            return $query->fetchAll();
+        }
+    }
+
     public static function getExamenPre($data)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -143,6 +161,7 @@ class ExamenModel
             $_examen->od_cuatro = $data->od_cuatro;
             $_examen->od_cinco = $data->od_cinco;
             $_examen->douglas = $data->douglas;
+            $_examen->douglas_com = $data->douglas_com;
             $_examen->comentariosexamen = $data->comentariosexamen;
         }
 
@@ -193,9 +212,9 @@ class ExamenModel
      * @param int $note_id id of the note
      * @return bool feedback (was the note deleted properly ?)
      */
-    public static function deleteNote($note_id)
+    public static function deleteExamen($data)
     {
-        if (!$note_id) {
+        if (!$data) {
             return false;
         }
 
@@ -210,7 +229,6 @@ class ExamenModel
         }
 
         // default return
-        Session::add('feedback_negative', Text::get('FEEDBACK_NOTE_DELETION_FAILED'));
         return false;
     }
 }

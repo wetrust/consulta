@@ -30,7 +30,7 @@
                             <a class="nav-link" href="<?php echo Config::get('URL'); ?>">Agenda</a>
                         </li>
                         <li class="nav-item <?php if (View::checkForActiveController($filename, "pacientes")) { echo 'active'; } ?>">
-                            <a class="nav-link" href="<?php echo Config::get('URL'); ?>">Pacientes</a>
+                            <a class="nav-link" href="<?php echo Config::get('URL'); ?>pacientes">Pacientes</a>
                         </li>
                         <li class="nav-item <?php if (View::checkForActiveController($filename, "configuracion")) { echo 'active'; } ?>">
                             <a class="nav-link" href="<?php echo Config::get('URL'); ?>configuracion">Configuracion</a>

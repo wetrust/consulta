@@ -19,6 +19,12 @@ class ApiController extends Controller
         $this->View->renderJSON(PacientesModel::findPacienteID($paciente));
     }
 
+    public function pacientes(){
+        $response = new stdClass();
+        $response->return = PacientesModel::getAllPacientes();
+        $this->View->renderJSON($response);
+    }
+
     public function newPacientes(){
         $data = new stdClass();
         $data->nombre = Request::post('nombre');
@@ -205,6 +211,23 @@ class ApiController extends Controller
         $this->View->renderJSON($response);
     }
 
+    public function examenes($paciente_id = NULL){
+        $this->View->renderJSON(ExamenModel::getAllExamenPaciente($paciente_id));
+    }
+
+    public function deleteExamen(){
+        $data = new stdClass();
+        $data->id = Request::post('id');
+        $data->modal = Request::post('modal');
+
+        $response = new stdClass();
+        $response->return = ExamenModel::deleteExamen($data);
+        $response->data = ExamenModel::getAllLugares();
+        $response->modal = $data->modal;
+
+        $this->View->renderJSON($response);
+    }
+
     public function newDopcre(){
         $data = new stdClass();
         $data->pre_id = Request::post('pre_id');
@@ -332,6 +355,7 @@ class ApiController extends Controller
         $data->od_cuatro = Request::post('od_cuatro');
         $data->od_cinco = Request::post('od_cinco');
         $data->douglas = Request::post('douglas');
+        $data->douglas_com = Request::post('douglas_com');
         $data->comentariosexamen = Request::post('comentariosexamen');
         $data->modal = Request::post('modal');
 

@@ -850,6 +850,7 @@ export class ginec {
         the(modal.contenido).innerHTML = config.ginecHTML;
         the(modal.id).children[0].classList.add("h-100","modal-xl");
 
+
         document.getElementsByName("fecha")[0].value = data.fecha;
         document.getElementsByName("fecha")[0].dataset.examen = data.examen;
         document.getElementsByName("fecha")[0].dataset.pre = data.return;
@@ -868,10 +869,23 @@ export class ginec {
         document.getElementsByName("od_dos")[0].oninput = ginec.od;
         document.getElementsByName("od_tres")[0].oninput = ginec.od;
 
+        document.getElementsByName("douglas")[0].onchange = ginec.douglas;
+
         let EG = fn.EG(data);
         let diaCiclo = (EG.semanas *7)+ EG.dias;
 
         document.getElementsByName("eg")[0].value = diaCiclo;
+        let txt = "";
+
+        if (diaCiclo < 36){
+            txt = "Días del ciclo mestrual";
+        }else if (diaCiclo < 86){
+            txt = "Días de atraso mestrual";
+        }else{
+            txt = "Días de amenorrea";
+        }
+        document.getElementsByName("eg")[0].parentElement.children[0].children[0].innerHTML = txt;
+
         document.getElementsByName("comentariosexamen")[0].value = config.ginecComentarios;
 
         the(modal.button).onclick = ginec.save;
@@ -903,6 +917,7 @@ export class ginec {
             od_cuatro: document.getElementsByName("od_cuatro")[0].value,
             od_cinco: document.getElementsByName("od_cinco")[0].value,
             douglas: document.getElementsByName("douglas")[0].value,
+            douglas_com: the("douglas_com").value,
             comentariosexamen: document.getElementsByName("comentariosexamen")[0].value,
             modal: this.dataset.modal
         }
@@ -972,6 +987,15 @@ export class ginec {
             }
         }else{
             document.getElementsByName("od_cuatro")[0].value = ''; 
+        }
+    }
+
+    static douglas(e){
+        if (this.value == "Ocupado"){
+            the("douglas_com").parentElement.classList.remove("d-none");
+        }
+        else{
+            the("douglas_com").parentElement.classList.add("d-none");
         }
     }
 }
