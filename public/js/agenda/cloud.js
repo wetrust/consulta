@@ -75,7 +75,7 @@ export class cloud {
         } catch(e){}
     }
 
-    static async createExamen(save){
+    static async examen(save){
         try {
             const to = new FormData();
             let server = "";
@@ -85,8 +85,17 @@ export class cloud {
             to.append('fecha', save.fecha);
             to.append('eg', save.eg);
 
+            if ('id' in save == true){
+                to.append('id', save.id);
+            }
+
             if (save.examen == 0){
-                server = config.newDopcre;
+                if ('id' in save == true){
+                    server = config.updateDopcre;
+                }else{
+                    server = config.newDopcre;
+                }
+
                 to.append('presentacion', save.presentacion);
                 to.append('dorso', save.dorso);
                 to.append('sexo_fetal', save.sexo_fetal);
@@ -121,7 +130,12 @@ export class cloud {
                 to.append('doppler_materno', save.doppler_materno);
                 to.append('doppler_fetal', save.doppler_fetal);
             }else if (save.examen == 1){
-                server = config.newDosTres;
+                if ('id' in save == true){
+                    server = config.updateDosTres;
+                }else{
+                    server = config.newDosTres;
+                }
+
                 to.append('presentacion', save.presentacion);
                 to.append('dorso', save.dorso);
                 to.append('sexo_fetal', save.sexo_fetal);
@@ -159,7 +173,12 @@ export class cloud {
                 to.append('uterina_izquierda_pct', save.uterina_izquierda_pct);
                 to.append('uterinas', save.uterinas);
             }else if (save.examen == 4){
-                server = config.newGine;
+                if ('id' in save == true){
+                    server = config.updateGine;
+                }else{
+                    server = config.newGine;
+                }
+                
                 to.append('utero_uno', save.utero_uno);
                 to.append('utero_dos', save.utero_dos);
                 to.append('utero_tres', save.utero_tres);

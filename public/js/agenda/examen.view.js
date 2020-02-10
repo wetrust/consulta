@@ -4,6 +4,9 @@ import {config} from './config.js';
 import {fn} from './examen.fn.js';
 
 export class dopcre {
+    modificar = false;
+    examen_id = 0;
+
     static interface(data){
         let modal = make.modal("Guardar");
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
@@ -46,6 +49,8 @@ export class dopcre {
         document.getElementsByName("respuesta_cm")[0].oninput = dopcre.cm;
         
         if (data.modificar == true){
+            dopcre.modificar = true;
+            dopcre.examen_id = data.data.examen_id;
             data.data.examen_data = JSON.parse(data.data.examen_data);
             document.getElementsByName("respuesta_presentacion")[0].value = data.data.examen_data.presentacion;
             document.getElementsByName("respuesta_dorso")[0].value = data.data.examen_data.dorso;
@@ -125,7 +130,11 @@ export class dopcre {
             modal: this.dataset.modal
         }
 
-        cloud.createExamen(save).then(function(data){
+        if (dopcre.modificar == true){
+            save.id = dopcre.examen_id;
+        }
+
+        cloud.examen(save).then(function(data){
             if (data.return == false){
                 make.alert('Hubo un error al crear el exámen, intente otra vez');
             }else{
@@ -429,6 +438,9 @@ export class dopcre {
 }
 
 export class segundo {
+    modificar = false;
+    examen_id = 0;
+
     static interface(data){
         let modal = make.modal("Guardar");
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
@@ -468,6 +480,8 @@ export class segundo {
         document.getElementsByName("respuesta_uterina_izquierda")[0].oninput = segundo.uti;
 
         if (data.modificar == true){
+            segundo.modificar = true;
+            segundo.examen_id = data.data.examen_id;
             data.data.examen_data = JSON.parse(data.data.examen_data);
             document.getElementsByName("respuesta_presentacion")[0].value = data.data.examen_data.presentacion;
             document.getElementsByName("respuesta_dorso")[0].value = data.data.examen_data.dorso;
@@ -553,7 +567,11 @@ export class segundo {
             modal: this.dataset.modal
         }
 
-        cloud.createExamen(save).then(function(data){
+        if (segundo.modificar == true){
+            save.id = segundo.examen_id;
+        }
+
+        cloud.examen(save).then(function(data){
             if (data.return == false){
                 make.alert('Hubo un error al crear el exámen, intente otra vez');
             }else{
@@ -913,6 +931,9 @@ export class preco {
 }
 
 export class ginec {
+    modificar = false;
+    examen_id = 0;
+
     static interface(data){
         let modal = make.modal("Guardar");
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
@@ -962,6 +983,8 @@ export class ginec {
         the(modal.button).onclick = ginec.save;
 
         if (data.modificar == true){
+            ginec.modificar = true;
+            ginec.examen_id = data.data.examen_id;
             data.data.examen_data = JSON.parse(data.data.examen_data);
             document.getElementsByName("utero_uno")[0].value = data.data.examen_data.utero_uno;
             document.getElementsByName("utero_dos")[0].value = data.data.examen_data.utero_dos;
@@ -1017,7 +1040,10 @@ export class ginec {
             modal: this.dataset.modal
         }
 
-        cloud.createExamen(save).then(function(data){
+        if (ginec.modificar == true){
+            save.id = ginec.examen_id;
+        }
+        cloud.examen(save).then(function(data){
             if (data.return == false){
                 make.alert('Hubo un error al crear el exámen, intente otra vez');
             }else{
