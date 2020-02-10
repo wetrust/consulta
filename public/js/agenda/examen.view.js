@@ -134,7 +134,7 @@ export class dopcre {
             save.id = dopcre.examen_id;
         }
 
-        cloud.examen(save).then(function(data){
+        cloud.examenUp(save).then(function(data){
             if (data.return == false){
                 make.alert('Hubo un error al crear el exámen, intente otra vez');
             }else{
@@ -571,7 +571,7 @@ export class segundo {
             save.id = segundo.examen_id;
         }
 
-        cloud.examen(save).then(function(data){
+        cloud.examenUp(save).then(function(data){
             if (data.return == false){
                 make.alert('Hubo un error al crear el exámen, intente otra vez');
             }else{
@@ -1043,7 +1043,7 @@ export class ginec {
         if (ginec.modificar == true){
             save.id = ginec.examen_id;
         }
-        cloud.examen(save).then(function(data){
+        cloud.examenUp(save).then(function(data){
             if (data.return == false){
                 make.alert('Hubo un error al crear el exámen, intente otra vez');
             }else{

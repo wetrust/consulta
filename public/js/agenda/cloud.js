@@ -75,7 +75,7 @@ export class cloud {
         } catch(e){}
     }
 
-    static async examen(save){
+    static async examenUp(save){
         try {
             const to = new FormData();
             let server = "";
