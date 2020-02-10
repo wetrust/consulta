@@ -14,4 +14,15 @@ export class cloud {
             return from;
         } catch(e) {}
     }
+    static async deleteExamen(examen){
+        try {
+            const to = new FormData();
+            to.append('id', examen.id);
+            to.append('modal', examen.modal);
+
+            const from = await data.post(config.deleteExamen, to);
+            return from;
+
+        } catch(e){}
+    }
 }

@@ -219,10 +219,11 @@ class ApiController extends Controller
         $data = new stdClass();
         $data->id = Request::post('id');
         $data->modal = Request::post('modal');
+        $data->examen = ExamenModel::getExamen($data->id);
 
         $response = new stdClass();
         $response->return = ExamenModel::deleteExamen($data);
-        $response->data = ExamenModel::getAllLugares();
+        $response->data = ExamenModel::getAllExamenRUT($data->examen->paciente_rut);
         $response->modal = $data->modal;
 
         $this->View->renderJSON($response);

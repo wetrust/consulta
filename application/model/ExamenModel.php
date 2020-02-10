@@ -22,15 +22,20 @@ class ExamenModel
             return $data;
         }else if (is_numeric($id) == true && $id > 0){
             $paciente = PacientesModel::getPacienteID($id);
-
-            $database = DatabaseFactory::getFactory()->getConnection();
     
-            $sql = "SELECT user_id, examen_id, pre_id, paciente_rut, examen_tipo, examen_fecha, examen_eg, examen_data FROM examen WHERE user_id = :user_id AND paciente_rut = :paciente_rut";
-            $query = $database->prepare($sql);
-            $query->execute(array(':user_id' => Session::get('user_id'), ':paciente_rut' => $paciente->rut));
-    
-            return $query->fetchAll();
+            return self::getAllExamenRUT($paciente->rut);
         }
+    }
+
+    public static function getAllExamenRUT($rut)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT user_id, examen_id, pre_id, paciente_rut, examen_tipo, examen_fecha, examen_eg, examen_data FROM examen WHERE user_id = :user_id AND paciente_rut = :paciente_rut";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_id' => Session::get('user_id'), ':paciente_rut' => $rut));
+
+        return $query->fetchAll();
     }
 
     public static function getExamenPre($data)
@@ -220,9 +225,9 @@ class ExamenModel
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "DELETE FROM notes WHERE note_id = :note_id AND user_id = :user_id LIMIT 1";
+        $sql = "DELETE FROM examen WHERE examen_id = :examen_id AND user_id = :user_id LIMIT 1";
         $query = $database->prepare($sql);
-        $query->execute(array(':note_id' => $note_id, ':user_id' => Session::get('user_id')));
+        $query->execute(array(':examen_id' => $data->id, ':user_id' => Session::get('user_id')));
 
         if ($query->rowCount() == 1) {
             return true;

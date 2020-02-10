@@ -47,7 +47,10 @@ export class view {
         let examenes = ['1.- Doppler + Eco. crecimiento','2.- Ecografía 2° / 3° trimestre','3.- Ecografía 11 / 14 semanas','4.- Ecografía precoz de urgencia','5.- Ecografía Ginecológica','6.- Datos del parto y recién nacido'];
         table += '<tbody>';
         data.forEach(function(element) {
-            table += '<tr><th>'+element.examen_fecha+'</td><td>'+element.examen_eg+'</td><td>'+examenes[element.examen_tipo]+'</td><td><div class="btn-group"><button class="btn btn-outline-primary informe" data-id="'+element.examen_id+'">Informe</button><button class="btn btn-outline-secondary ver" data-id="'+element.examen_id+'"><i class="fa fa-pencil" aria-hidden="true"></i></button><button class="btn btn-outline-danger eliminar" data-id="'+element.examen_id+'"><i class="fa fa-trash" aria-hidden="true"></i></button></div></td></tr>';
+            let _examen_fecha = new Date();
+            _examen_fecha.setTime(Date.parse(element.examen_fecha));
+
+            table += '<tr><th>'+humanDate(_examen_fecha)+'</td><td>'+element.examen_eg+'</td><td>'+examenes[element.examen_tipo]+'</td><td><div class="btn-group"><button class="btn btn-outline-primary informe" data-id="'+element.examen_id+'">Informe</button><button class="btn btn-outline-secondary ver" data-id="'+element.examen_id+'"><i class="fa fa-pencil" aria-hidden="true"></i></button><button class="btn btn-outline-danger eliminar" data-id="'+element.examen_id+'"><i class="fa fa-trash" aria-hidden="true"></i></button></div></td></tr>';
         });
 
         table += '</tbody>';
@@ -56,8 +59,11 @@ export class view {
         let informeBtns = document.getElementsByClassName("informe");
         for (var i=0; i < informeBtns.length; i++) { informeBtns[i].onclick = this.informeExamen; }
 
-        //let verBtns = document.getElementsByClassName("ver");
-        //for (var i=0; i < verBtns.length; i++) { verBtns[i].onclick = this.verExamenes; }
+        let eliminarBtns = document.getElementsByClassName("eliminar");
+        for (var i=0; i < eliminarBtns.length; i++) { eliminarBtns[i].onclick = this.eliminarExamenes; }
+
+        let verBtns = document.getElementsByClassName("ver");
+        for (var i=0; i < verBtns.length; i++) { verBtns[i].onclick = this.verExamenes; }
     }
 
     static informeExamen(){
@@ -66,6 +72,34 @@ export class view {
         }
 
         informe.interface(data);
+    }
+
+    static eliminarExamenes(){
+        let modal = make.modal("Eliminar");
+        document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
+        the(modal.titulo).innerHTML = config.deleteExamenTitulo;
+        the(modal.titulo).classList.add("mx-auto");
+        the(modal.titulo).parentElement.classList.add("bg-danger");
+        the(modal.contenido).innerHTML = config.deleteExamenHTML;
+
+        the(modal.button).dataset.id = this.dataset.id;
+
+        $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
+
+        $("#"+modal.button).on("click", function(){
+            let examen = {
+                id: this.dataset.id,
+                modal: this.dataset.modal
+            }
+            cloud.deleteExamen(examen).then(function(data){
+                if (data.return == true){
+                    $("#"+data.modal).modal("hide");
+                    view.examenesInterface(data.data);
+                }else{
+                    make.alert('Hubo un error al eliminar');
+                }
+            });
+        });
     }
 
 }
