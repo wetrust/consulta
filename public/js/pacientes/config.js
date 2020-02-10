@@ -1,6 +1,7 @@
 export const config = {
     pacientes: 'api/pacientes',
     examenes: 'api/examenes/',
+    examen: 'api/getExamen/',
     interface: 'pacientes',
     deleteExamen: 'api/deleteExamen',
     pacientesInterface: '<div class="d-flex justify-content-between mb-3"> <button type="button" class="btn btn-primary" id="pacientes.nuevo">Nueva reserva</button></div><div class="table-responsive mt-2"> <table class="table table-striped table-bordered table-hover table-sm" id="pacientes.table"> <caption>Lista de pacientes</caption> </table></div>',

@@ -1,7 +1,7 @@
 import {cloud} from './cloud.js';
 import {config} from './config.js';
 import {make, the, humanDate, inputDate} from '../wetrust.js';
-import {informe} from '../agenda/examen.view.js'
+import {dopcre, segundo, once, preco, ginec, parto, informe} from '../agenda/examen.view.js'
 
 export class view {
     static pacientesInterface(data){
@@ -50,7 +50,7 @@ export class view {
             let _examen_fecha = new Date();
             _examen_fecha.setTime(Date.parse(element.examen_fecha));
 
-            table += '<tr><th>'+humanDate(_examen_fecha)+'</td><td>'+element.examen_eg+'</td><td>'+examenes[element.examen_tipo]+'</td><td><div class="btn-group"><button class="btn btn-outline-primary informe" data-id="'+element.examen_id+'">Informe</button><button class="btn btn-outline-secondary ver" data-id="'+element.examen_id+'"><i class="fa fa-pencil" aria-hidden="true"></i></button><button class="btn btn-outline-danger eliminar" data-id="'+element.examen_id+'"><i class="fa fa-trash" aria-hidden="true"></i></button></div></td></tr>';
+            table += '<tr><th>'+humanDate(_examen_fecha)+'</td><td>'+element.examen_eg+'</td><td>'+examenes[element.examen_tipo]+'</td><td><div class="btn-group"><button class="btn btn-outline-primary informe" data-id="'+element.examen_id+'">Informe</button><button class="btn btn-outline-secondary modificar" data-id="'+element.examen_id+'"><i class="fa fa-pencil" aria-hidden="true"></i></button><button class="btn btn-outline-danger eliminar" data-id="'+element.examen_id+'"><i class="fa fa-trash" aria-hidden="true"></i></button></div></td></tr>';
         });
 
         table += '</tbody>';
@@ -62,8 +62,8 @@ export class view {
         let eliminarBtns = document.getElementsByClassName("eliminar");
         for (var i=0; i < eliminarBtns.length; i++) { eliminarBtns[i].onclick = this.eliminarExamenes; }
 
-        let verBtns = document.getElementsByClassName("ver");
-        for (var i=0; i < verBtns.length; i++) { verBtns[i].onclick = this.verExamenes; }
+        let verBtns = document.getElementsByClassName("modificar");
+        for (var i=0; i < verBtns.length; i++) { verBtns[i].onclick = this.modificarExamenes; }
     }
 
     static informeExamen(){
@@ -72,6 +72,26 @@ export class view {
         }
 
         informe.interface(data);
+    }
+
+    static modificarExamenes(){
+        let id = this.dataset.id;
+
+        cloud.getExamen(id).then(function(data){
+            if (data.data.examen_tipo == "0"){
+                dopcre.interface(data);
+            }else if (data.data.examen_tipo == "1"){
+                segundo.interface(data);
+            }else if (data.data.examen_tipo == "2"){
+                once.interface(data);
+            }else if (data.data.examen_tipo == "3"){
+                preco.interface(data);
+            }else if (data.data.examen_tipo == "4"){
+                ginec.interface(data);
+            }else if (data.data.examen_tipo == "5"){
+                parto.interface(data);
+            }
+        });
     }
 
     static eliminarExamenes(){

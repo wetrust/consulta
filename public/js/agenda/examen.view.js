@@ -45,6 +45,40 @@ export class dopcre {
         document.getElementsByName("respuesta_cm")[0].dataset.eg = EG.semanas;
         document.getElementsByName("respuesta_cm")[0].oninput = dopcre.cm;
         
+        if (data.modificar == true){
+            data.data.examen_data = JSON.parse(data.data.examen_data);
+            document.getElementsByName("respuesta_presentacion")[0].value = data.data.examen_data.presentacion;
+            document.getElementsByName("respuesta_dorso")[0].value = data.data.examen_data.dorso;
+            document.getElementsByName("respuesta_sexo_fetal")[0].value = data.data.examen_data.sexo_fetal;
+            document.getElementsByName("respuesta_placenta_insercion")[0].value = data.data.examen_data.placenta_insercion;
+            document.getElementsByName("respuesta_placenta")[0].value = data.data.examen_data.placenta;
+            document.getElementsByName("respuesta_bvm")[0].value = data.data.examen_data.bvm;
+            document.getElementsByName("respuesta_bvm")[0].oninput();
+            document.getElementsByName("respuesta_fcf")[0].value = data.data.examen_data.fcf;
+            document.getElementsByName("respuesta_anatomia")[0].value = data.data.examen_data.anatomia;
+            document.getElementsByName("respuesta_anatomia_extra")[0].value = data.data.examen_data.anatomia_extra;
+            document.getElementsByName("respuesta_dbp")[0].value = data.data.examen_data.dbp;
+            document.getElementsByName("respuesta_dof")[0].value = data.data.examen_data.dof;
+            document.getElementsByName("respuesta_cc")[0].value = data.data.examen_data.cc;
+            document.getElementsByName("respuesta_cc")[0].oninput();
+            document.getElementsByName("respuesta_ca")[0].value = data.data.examen_data.ca;
+            document.getElementsByName("respuesta_ca")[0].oninput();
+            document.getElementsByName("respuesta_lf")[0].value = data.data.examen_data.lf;
+            document.getElementsByName("respuesta_lf")[0].oninput();
+            document.getElementsByName("respuesta_uterina_derecha")[0].value = data.data.examen_data.uterina_derecha;
+            document.getElementsByName("respuesta_uterina_derecha")[0].oninput();
+            document.getElementsByName("respuesta_uterina_izquierda")[0].value = data.data.examen_data.uterina_izquierda;
+            document.getElementsByName("respuesta_uterina_izquierda")[0].oninput();
+            document.getElementsByName("respuesta_umbilical")[0].value = data.data.examen_data.umbilical;
+            document.getElementsByName("respuesta_umbilical")[0].oninput();
+            document.getElementsByName("respuesta_cm")[0].value = data.data.examen_data.cm;
+            document.getElementsByName("respuesta_cm")[0].oninput();
+            document.getElementsByName("respuesta_hipotesis")[0].value = data.data.examen_data.hipotesis;
+            document.getElementsByName("respuesta_doppler_materno")[0].value = data.data.examen_data.doppler_materno;
+            document.getElementsByName("respuesta_doppler_fetal")[0].value = data.data.examen_data.doppler_fetal;
+            document.getElementsByName("comentarios")[0].value = data.data.examen_data.comentariosexamen;
+        }
+
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
     }
 
@@ -432,6 +466,43 @@ export class segundo {
         document.getElementsByName("respuesta_uterina_derecha")[0].oninput = segundo.utd;
         document.getElementsByName("respuesta_uterina_izquierda")[0].dataset.eg = EG.semanas;
         document.getElementsByName("respuesta_uterina_izquierda")[0].oninput = segundo.uti;
+
+        if (data.modificar == true){
+            data.data.examen_data = JSON.parse(data.data.examen_data);
+            document.getElementsByName("respuesta_presentacion")[0].value = data.data.examen_data.presentacion;
+            document.getElementsByName("respuesta_dorso")[0].value = data.data.examen_data.dorso;
+            document.getElementsByName("respuesta_sexo_fetal")[0].value = data.data.examen_data.sexo_fetal;
+            document.getElementsByName("respuesta_placenta_insercion")[0].value = data.data.examen_data.placenta_insercion;
+            document.getElementsByName("respuesta_placenta")[0].value = data.data.examen_data.placenta;
+            document.getElementsByName("respuesta_bvm")[0].value = data.data.examen_data.bvm;
+            document.getElementsByName("respuesta_fcf")[0].value = data.data.examen_data.fcf;
+            document.getElementsByName("respuesta_anatomia")[0].value = data.data.examen_data.anatomia;
+            document.getElementsByName("respuesta_anatomia_extra")[0].value = data.data.examen_data.anatomia_extra;
+            document.getElementsByName("respuesta_atrio_posterior")[0].value = data.data.examen_data.atrio_posterior;
+            document.getElementsByName("respuesta_atrio_posterior_mm")[0].value = data.data.examen_data.atrio_posterior_mm;
+            document.getElementsByName("respuesta_cerebelo_text")[0].value = data.data.examen_data.cerebelo_text;
+            document.getElementsByName("respuesta_cerebelo_mm")[0].value = data.data.examen_data.cerebelo_mm;
+            document.getElementsByName("respuesta_cisterna_m")[0].value = data.data.examen_data.cisterna_m;
+            document.getElementsByName("respuesta_cisterna_m_mm")[0].value = data.data.examen_data.cisterna_m_mm;
+            document.getElementsByName("respuesta_dbp")[0].value = data.data.examen_data.dbp;
+            document.getElementsByName("respuesta_dof")[0].value = data.data.examen_data.dof;
+            document.getElementsByName("respuesta_ic")[0].value = data.data.examen_data.ic;
+            document.getElementsByName("respuesta_cc")[0].value = data.data.examen_data.cc;
+            document.getElementsByName("respuesta_cc")[0].oninput();
+            document.getElementsByName("respuesta_ca")[0].value = data.data.examen_data.ca;
+            document.getElementsByName("respuesta_ca")[0].oninput();
+            document.getElementsByName("respuesta_lf")[0].value = data.data.examen_data.lf;
+            document.getElementsByName("respuesta_lf")[0].oninput();
+            document.getElementsByName("respuesta_lh")[0].value = data.data.examen_data.lh;
+            document.getElementsByName("respuesta_lh")[0].oninput();
+            document.getElementsByName("respuesta_cerebelo")[0].value = data.data.examen_data.cerebelo;
+            document.getElementsByName("respuesta_cerebelo")[0].oninput();
+            document.getElementsByName("respuesta_uterina_derecha")[0].value = data.data.examen_data.uterina_derecha;
+            document.getElementsByName("respuesta_uterina_derecha")[0].oninput();
+            document.getElementsByName("respuesta_uterina_izquierda")[0].value = data.data.examen_data.uterina_izquierda;
+            document.getElementsByName("respuesta_uterina_izquierda")[0].oninput();
+            document.getElementsByName("comentarios")[0].value = data.data.examen_data.comentariosexamen;
+        }
 
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
     }
@@ -889,6 +960,30 @@ export class ginec {
         document.getElementsByName("comentariosexamen")[0].value = config.ginecComentarios;
 
         the(modal.button).onclick = ginec.save;
+
+        if (data.modificar == true){
+            data.data.examen_data = JSON.parse(data.data.examen_data);
+            document.getElementsByName("utero_uno")[0].value = data.data.examen_data.utero_uno;
+            document.getElementsByName("utero_dos")[0].value = data.data.examen_data.utero_dos;
+            document.getElementsByName("utero_tres")[0].value = data.data.examen_data.utero_tres;
+            document.getElementsByName("utero_cuatro")[0].value = data.data.examen_data.utero_cuatro;
+            document.getElementsByName("endometrio_uno")[0].value = data.data.examen_data.endometrio_uno;
+            document.getElementsByName("endometrio_dos")[0].value = data.data.examen_data.endometrio_dos;
+            document.getElementsByName("anexial")[0].value = data.data.examen_data.anexial;
+            document.getElementsByName("oi_uno")[0].value = data.data.examen_data.oi_uno;
+            document.getElementsByName("oi_dos")[0].value = data.data.examen_data.oi_dos;
+            document.getElementsByName("oi_tres")[0].value = data.data.examen_data.oi_tres;
+            document.getElementsByName("oi_cuatro")[0].value = data.data.examen_data.oi_cuatro;
+            document.getElementsByName("oi_cinco")[0].value = data.data.examen_data.oi_cinco;
+            document.getElementsByName("od_uno")[0].value = data.data.examen_data.od_uno;
+            document.getElementsByName("od_dos")[0].value = data.data.examen_data.od_dos;
+            document.getElementsByName("od_tres")[0].value = data.data.examen_data.od_tres;
+            document.getElementsByName("od_cuatro")[0].value = data.data.examen_data.od_cuatro;
+            document.getElementsByName("od_cinco")[0].value = data.data.examen_data.od_cinco;
+            document.getElementsByName("douglas")[0].value = data.data.examen_data.douglas;
+            the("douglas_com").value = data.data.examen_data.douglas_com;
+            document.getElementsByName("comentariosexamen")[0].value = data.data.examen_data.comentariosexamen;
+        }
 
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
     }

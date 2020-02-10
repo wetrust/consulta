@@ -14,6 +14,12 @@ export class cloud {
             return from;
         } catch(e) {}
     }
+    static async getExamen(id){
+        try {
+            const from = await data.get(config.examen + id);
+            return from;
+        } catch(e) {}
+    }
     static async deleteExamen(examen){
         try {
             const to = new FormData();

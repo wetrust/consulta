@@ -3,8 +3,7 @@
 class ApiController extends Controller
 {
 
-    function __construct()
-    {
+    function __construct(){
         parent::__construct();
         Auth::checkAuthentication();
     }
@@ -96,6 +95,7 @@ class ApiController extends Controller
         $response->data = ReservasModel::getAllReservas($data->fecha,$ver = NULL);
         $response->paciente = PacientesModel::getPaciente($pre->reserva_rut);
         $response->fecha = $data->fecha;
+        $response->modificar = false;
         $response->modal = $data->modal;
 
         $this->View->renderJSON($response);
@@ -207,6 +207,21 @@ class ApiController extends Controller
         $response->return = ConfiguracionModel::deletePatologia($data);
         $response->data = ConfiguracionModel::getAllPatologias();
         $response->modal = $data->modal;
+
+        $this->View->renderJSON($response);
+    }
+
+    public function getExamen($id = NULL){
+        $response = new stdClass();
+        
+        $examen = ExamenModel::getExamen($id);
+
+        $response->fecha = $examen->examen_fecha;
+        $response->examen = $examen->examen_id;
+        $response->return = $examen->pre_id;
+        $response->data = $examen;
+        $response->paciente = PacientesModel::getPaciente($examen->paciente_rut);
+        $response->modificar = true;
 
         $this->View->renderJSON($response);
     }
