@@ -217,7 +217,7 @@ class ApiController extends Controller
         $examen = ExamenModel::getExamen($id);
 
         $response->fecha = $examen->examen_fecha;
-        $response->examen = $examen->examen_id;
+        $response->examen = $examen->examen_tipo;
         $response->return = $examen->pre_id;
         $response->data = $examen;
         $response->paciente = PacientesModel::getPaciente($examen->paciente_rut);
