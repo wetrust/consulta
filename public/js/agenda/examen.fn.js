@@ -379,15 +379,15 @@ export class fn {
             let _fecha = new Date();
             _fecha.setTime(Date.parse(data.dataset.fecha));
 
-            eglcn = eglcn.toString().split('.');
+            let _eglcn = eglcn.toString().split('.');
 
-            if (eglcn.length == 1){
-                eglcn = parseInt(eglcn[0]) * 7;
-            }else if (eglcn.length == 2){
-                eglcn = (parseInt(eglcn[0]) * 7) + parseInt(eglcn[1]);
+            if (_eglcn.length == 1){
+                _eglcn = parseInt(_eglcn[0]) * 7;
+            }else if (_eglcn.length == 2){
+                _eglcn = (parseInt(_eglcn[0]) * 7) + parseInt(_eglcn[1]);
             }
             
-            _fecha.setDate(_fecha.getUTCDate() - eglcn);
+            _fecha.setDate(_fecha.getUTCDate() - _eglcn);
             let fur = inputDate(_fecha);
 
             _fecha.setDate(_fecha.getUTCDate() + 240);
