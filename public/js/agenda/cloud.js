@@ -172,6 +172,28 @@ export class cloud {
                 to.append('uterina_izquierda', save.uterina_izquierda);
                 to.append('uterina_izquierda_pct', save.uterina_izquierda_pct);
                 to.append('uterinas', save.uterinas);
+            }else if (save.examen == 3){
+                if ('id' in save == true){
+                    server = config.updatePreco;
+                }else{
+                    server = config.newPreco;
+                }
+
+                to.append('utero_primertrimestre', save.utero_primertrimestre);
+                to.append('saco_gestacional', save.saco_gestacional);
+                to.append('saco', save.saco);
+                to.append('saco_eg', save.saco_eg);
+                to.append('saco_vitelino', save.saco_vitelino);
+                to.append('saco_vitelino_mm', save.saco_vitelino_mm);
+                to.append('embrion', save.embrion);
+                to.append('lcn', save.lcn);
+                to.append('lcn_eg', save.lcn_eg);
+                to.append('fcf', save.fcf);
+                to.append('furop', save.furop);
+                to.append('fppactualizada', save.fppactualizada);
+                to.append('anexo_izquierdo_primertrimestre', save.anexo_izquierdo_primertrimestre);
+                to.append('anexo_derecho_primertrimestre', save.anexo_derecho_primertrimestre);
+                to.append('douglas_primertrimestre', save.douglas_primertrimestre);
             }else if (save.examen == 4){
                 if ('id' in save == true){
                     server = config.updateGine;

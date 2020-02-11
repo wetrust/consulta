@@ -147,6 +147,23 @@ class ExamenModel
             $_examen->uterina_izquierda_pct = $data->uterina_izquierda_pct;
             $_examen->uterinas = $data->uterinas;
             $_examen->comentariosexamen = $data->comentariosexamen;
+        }else if ($data->examen == 3){
+            $_examen->utero_primertrimestre = $data->utero_primertrimestre;
+            $_examen->saco_gestacional = $data->saco_gestacional;
+            $_examen->saco = $data->saco;
+            $_examen->saco_eg = $data->saco_eg;
+            $_examen->saco_vitelino = $data->saco_vitelino;
+            $_examen->saco_vitelino_mm = $data->saco_vitelino_mm;
+            $_examen->embrion = $data->embrion;
+            $_examen->lcn = $data->lcn;
+            $_examen->lcn_eg = $data->lcn_eg;
+            $_examen->fcf = $data->fcf;
+            $_examen->furop = $data->furop;
+            $_examen->fppactualizada = $data->fppactualizada;
+            $_examen->anexo_izquierdo_primertrimestre = $data->anexo_izquierdo_primertrimestre;
+            $_examen->anexo_derecho_primertrimestre = $data->anexo_derecho_primertrimestre;
+            $_examen->douglas_primertrimestre = $data->douglas_primertrimestre;
+            $_examen->comentariosexamen = $data->comentariosexamen;
         }else if ($data->examen == 4){
             $_examen->utero_uno = $data->utero_uno;
             $_examen->utero_dos = $data->utero_dos;
@@ -186,8 +203,7 @@ class ExamenModel
         return false;
     }
 
-    public static function updateExamen($data)
-    {
+    public static function updateExamen($data){
         if (!$data) {
             return false;
         }
@@ -231,9 +247,7 @@ class ExamenModel
             $_examen->doppler_materno = $data->doppler_materno;
             $_examen->doppler_fetal = $data->doppler_fetal;
             $_examen->comentariosexamen = $data->comentariosexamen;
-
         }else if ($data->examen == 1){
-
             $_examen->presentacion = $data->presentacion;
             $_examen->dorso = $data->dorso;
             $_examen->sexo_fetal = $data->sexo_fetal;
@@ -271,6 +285,23 @@ class ExamenModel
             $_examen->uterina_izquierda_pct = $data->uterina_izquierda_pct;
             $_examen->uterinas = $data->uterinas;
             $_examen->comentariosexamen = $data->comentariosexamen;
+        }else if ($data->examen == 3){
+            $_examen->utero_primertrimestre = $data->utero_primertrimestre;
+            $_examen->saco_gestacional = $data->saco_gestacional;
+            $_examen->saco = $data->saco;
+            $_examen->saco_eg = $data->saco_eg;
+            $_examen->saco_vitelino = $data->saco_vitelino;
+            $_examen->saco_vitelino_mm = $data->saco_vitelino_mm;
+            $_examen->embrion = $data->embrion;
+            $_examen->lcn = $data->lcn;
+            $_examen->lcn_eg = $data->lcn_eg;
+            $_examen->fcf = $data->fcf;
+            $_examen->furop = $data->furop;
+            $_examen->fppactualizada = $data->fppactualizada;
+            $_examen->anexo_izquierdo_primertrimestre = $data->anexo_izquierdo_primertrimestre;
+            $_examen->anexo_derecho_primertrimestre = $data->anexo_derecho_primertrimestre;
+            $_examen->douglas_primertrimestre = $data->douglas_primertrimestre;
+            $_examen->comentariosexamen = $data->comentariosexamen;
         }else if ($data->examen == 4){
             $_examen->utero_uno = $data->utero_uno;
             $_examen->utero_dos = $data->utero_dos;
@@ -306,7 +337,6 @@ class ExamenModel
             return $data->examen_id;
         }
 
-        // default return
         return false;
     }
 

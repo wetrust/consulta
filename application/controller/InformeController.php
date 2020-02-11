@@ -42,7 +42,7 @@ class InformeController extends Controller
                 }else if ($examen->examen_tipo == "2"){
                     $informe = "";
                 }else if ($examen->examen_tipo == "3"){
-                    $informe = "";
+                    $informe = "pdf/ecoprecoz";
                 }else if ($examen->examen_tipo == "4"){
                     $informe = 'pdf/gine';
                 }

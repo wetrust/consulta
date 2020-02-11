@@ -578,9 +578,8 @@ export class segundo {
                 $("#"+data.modal).modal("hide");
                 informe.interface(data);
             }
-        }); 
+        });
     }
-
     //mejorar
     static valCC(){
         this.value = fn.number(this.value);
@@ -832,8 +831,15 @@ export class once {
         the(modal.id).children[0].classList.add("h-100","modal-xl");
         the(modal.id).children[0].classList.remove("modal-lg");
 
-        document.getElementsByName("fecha")[0].value = inputDate();
+        document.getElementsByName("fecha")[0].value = data.fecha;
+        document.getElementsByName("fecha")[0].dataset.examen = data.examen;
+        document.getElementsByName("fecha")[0].dataset.pre = data.return;
+        document.getElementsByName("fum")[0].value = data.paciente.fum;
         document.getElementsByName("comentarios")[0].value = config.onceComentarios;
+
+
+        let EG = fn.EG(data);
+        document.getElementsByName("eg")[0].value = EG.text;
 
         the(modal.button).onclick = once.save;
         segundo.selectFCF();
@@ -877,6 +883,9 @@ export class once {
 }
 
 export class preco {
+    modificar = false;
+    examen_id = 0;
+    
     static interface(data){
         let modal = make.modal("Guardar");
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
@@ -886,7 +895,28 @@ export class preco {
         the(modal.id).children[0].classList.add("h-100","modal-xl");
         the(modal.id).children[0].classList.remove("modal-lg");
 
-        document.getElementsByName("fecha")[0].value = inputDate();
+        document.getElementsByName("fecha")[0].value = data.fecha;
+        document.getElementsByName("fecha")[0].dataset.examen = data.examen;
+        document.getElementsByName("fecha")[0].dataset.pre = data.return;
+        document.getElementsByName("fum")[0].value = data.paciente.fum;
+        document.getElementsByName("respuesta_furop")[0].value = data.paciente.fum;
+
+        let _fecha = new Date();
+        _fecha.setTime(Date.parse(data.paciente.fum));
+        _fecha.setDate(_fecha.getUTCDate() + 240);
+
+        document.getElementsByName("respuesta_fppactualizada")[0].value = inputDate(_fecha);
+
+        let EG = fn.EG(data);
+        document.getElementsByName("eg")[0].value = EG.text;
+        document.getElementsByName("eg")[0].dataset.eg = EG.semanas;
+
+        document.getElementsByName("respuesta_saco")[0].oninput = preco.saco;
+        document.getElementsByName("respuesta_saco_vitelino")[0].onchange = preco.vitelino;
+        document.getElementsByName("respuesta_embrion")[0].onchange = preco.embrion;
+        document.getElementsByName("respuesta_lcn")[0].oninput = preco.lcn;
+        document.getElementsByName("respuesta_lcn")[0].dataset.fecha = data.fecha;
+        document.getElementsByName("respuesta_lcn")[0].dataset.fum = data.paciente.fum;
         document.getElementsByName("comentarios")[0].value = config.precoComentarios;
 
         the(modal.button).onclick = preco.save;
@@ -896,7 +926,42 @@ export class preco {
     }
 
     static save(){
-        
+        var save = {
+            pre_id: document.getElementsByName("fecha")[0].dataset.pre,
+            examen: document.getElementsByName("fecha")[0].dataset.examen,
+            fecha: document.getElementsByName("fecha")[0].value,
+            eg: document.getElementsByName("eg")[0].dataset.eg,
+            utero_primertrimestre: document.getElementsByName("respuesta_utero_primertrimestre")[0].value,
+            saco_gestacional: document.getElementsByName("respuesta_saco_gestacional")[0].value,
+            saco: document.getElementsByName("respuesta_saco")[0].value,
+            saco_eg: document.getElementsByName("respuesta_saco_eg")[0].value,
+            saco_vitelino: document.getElementsByName("respuesta_saco_vitelino")[0].value,
+            saco_vitelino_mm: document.getElementsByName("respuesta_saco_vitelino_mm")[0].value,
+            embrion: document.getElementsByName("respuesta_embrion")[0].value,
+            lcn: document.getElementsByName("respuesta_lcn")[0].value,
+            lcn_eg: document.getElementsByName("respuesta_lcn_eg")[0].value,
+            fcf: document.getElementsByName("respuesta_fcf")[0].value,
+            furop: document.getElementsByName("respuesta_furop")[0].value,
+            fppactualizada: document.getElementsByName("respuesta_fppactualizada")[0].value,
+            anexo_izquierdo_primertrimestre: document.getElementsByName("respuesta_anexo_izquierdo_primertrimestre")[0].value,
+            anexo_derecho_primertrimestre: document.getElementsByName("respuesta_anexo_derecho_primertrimestre")[0].value,
+            douglas_primertrimestre: document.getElementsByName("respuesta_douglas_primertrimestre")[0].value,
+            comentariosexamen: document.getElementsByName("comentarios")[0].value,
+            modal: this.dataset.modal
+        }
+
+        if (preco.modificar == true){
+            save.id = preco.examen_id;
+        }
+
+        cloud.examenUp(save).then(function(data){
+            if (data.return == false){
+                make.alert('Hubo un error al crear el exámen, intente otra vez');
+            }else{
+                $("#"+data.modal).modal("hide");
+                informe.interface(data);
+            }
+        });
     }
 
     static selectFCF(){
@@ -927,6 +992,100 @@ export class preco {
         opt.appendChild( document.createTextNode("> 180") );
         opt.value = 181; 
         semanas.appendChild(opt);
+    }
+
+    static saco(){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let saco = fn.egSaco(this);
+            document.getElementsByName("respuesta_saco_eg")[0].value = saco.value;
+        }else{
+            document.getElementsByName("respuesta_saco_eg")[0].value = ''; 
+        }
+    }
+
+    static vitelino(){
+        if (this.value == "presente"){
+            document.getElementsByName("respuesta_saco_vitelino_mm")[0].parentElement.parentElement.classList.remove("d-none"); 
+        }else{
+            document.getElementsByName("respuesta_saco_vitelino_mm")[0].parentElement.parentElement.classList.add("d-none"); 
+        }
+    }
+
+    static embrion(){
+        if (this.value == "no se observa aun"){
+            document.getElementsByName("respuesta_lcn")[0].parentElement.classList.add("d-none");
+            document.getElementsByName("respuesta_lcn")[0].value = "";
+            document.getElementsByName("respuesta_lcn_eg")[0].value = "";
+            document.getElementsByName("respuesta_lcn_eg")[0].parentElement.classList.add("d-none");
+            document.getElementsByName("respuesta_fcf")[0].parentElement.classList.add("d-none");
+            document.getElementsByName("respuesta_fcf")[0].value = 0;
+            document.getElementsByName("comentarios")[0].value = "Gestación intrauterina única, exploración anexial de aspecto normal";
+        }else if (this.value == "no se observa"){
+            document.getElementsByName("respuesta_lcn")[0].parentElement.classList.add("d-none");
+            document.getElementsByName("respuesta_lcn")[0].value = "";
+            document.getElementsByName("respuesta_lcn_eg")[0].value = "";
+            document.getElementsByName("respuesta_lcn_eg")[0].parentElement.classList.add("d-none");
+            document.getElementsByName("respuesta_fcf")[0].parentElement.classList.add("d-none");
+            document.getElementsByName("respuesta_fcf")[0].value = 0;
+            document.getElementsByName("comentarios")[0].value = "Gestación de " + document.getElementsByName("eg")[0].value+" en referencia a ecografías previas.";
+        }else{
+            document.getElementsByName("respuesta_lcn")[0].parentElement.classList.remove("d-none");
+            document.getElementsByName("respuesta_lcn_eg")[0].parentElement.classList.remove("d-none");
+            document.getElementsByName("respuesta_lcn_eg")[0].value = "Ingrese LCN";
+            if (this.value == "act. no evidenciable" || this.value == "act. card. y corp. (-)"){
+                document.getElementsByName("respuesta_fcf")[0].parentElement.classList.add("d-none");
+                document.getElementsByName("respuesta_fcf")[0].value=0;
+                if (this.value == "act. card. y corp. (-)"){
+                    //esta muerto
+                    document.getElementsByName("respuesta_lcn_eg")[0].value = "";
+                    document.getElementsByName("respuesta_lcn_eg")[0].parentElement.classList.add("d-none");
+                    document.getElementsByName("comentarios")[0].value = "Evaluación ecográfica compatible con aborto retenido.\nSe sugiere reevaluar en .....";
+                }
+            }
+            else if (this.value == "act. card. inicial"){
+                document.getElementsByName("respuesta_fcf")[0].value = "(+) inicial";
+            }
+            else{
+                document.getElementsByName("respuesta_fcf")[0].parentElement.classList.remove("d-none");
+                document.getElementsByName("respuesta_fcf")[0].value = "140";
+                document.getElementsByName("comentarios")[0].value = "gestacion intrauterina compatible con....";
+            }
+        }
+    }
+
+    static lcn(){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 3;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let lcn = fn.lcn(this);
+
+            document.getElementsByName("respuesta_furop")[0].value = lcn.fur;
+            document.getElementsByName("respuesta_fppactualizada")[0].value = lcn.fpp;
+            document.getElementsByName("respuesta_lcn_eg")[0].value = lcn.egLCN;
+        }else{
+            document.getElementsByName("respuesta_furop")[0].value = this.dataset.fur;
+
+            let _fecha = new Date();
+            _fecha.setTime(Date.parse(data.dataset.fur));
+            _fecha.setDate(_fecha.getUTCDate() + 240);
+
+            document.getElementsByName("respuesta_fppactualizada")[0].value = inputDate(_fecha);
+            document.getElementsByName("respuesta_lcn_eg")[0].value = 'Ingrese LCN';
+        }
     }
 }
 
