@@ -551,4 +551,36 @@ class ApiController extends Controller
         $response->modal = $data->modal;
         $this->View->renderJSON($response);
     }
+
+    public function updatePreco(){
+        $data = new stdClass();
+        $data->examen_id = Request::post('id');
+        $data->pre_id = Request::post('pre_id');
+        $data->examen = Request::post('examen');
+        $data->fecha = Request::post('fecha');
+        $data->eg = Request::post('eg');
+        $data->utero_primertrimestre = Request::post('utero_primertrimestre');
+        $data->saco_gestacional = Request::post('saco_gestacional');
+        $data->saco = Request::post('saco');
+        $data->saco_eg = Request::post('saco_eg');
+        $data->saco_vitelino = Request::post('saco_vitelino');
+        $data->saco_vitelino_mm = Request::post('saco_vitelino_mm');
+        $data->embrion = Request::post('embrion');
+        $data->lcn = Request::post('lcn');
+        $data->lcn_eg = Request::post('lcn_eg');
+        $data->fcf = Request::post('fcf');
+        $data->furop = Request::post('furop');
+        $data->fppactualizada = Request::post('fppactualizada');
+        $data->anexo_izquierdo_primertrimestre = Request::post('anexo_izquierdo_primertrimestre');
+        $data->anexo_derecho_primertrimestre = Request::post('anexo_derecho_primertrimestre');
+        $data->douglas_primertrimestre = Request::post('douglas_primertrimestre');
+        $data->comentariosexamen = Request::post('comentariosexamen');
+        $data->modal = Request::post('modal');
+
+        $response = new stdClass();
+        $response->return = ExamenModel::updateExamen($data);
+        //$response->data = ConfiguracionModel::getAllPatologias();
+        $response->modal = $data->modal;
+        $this->View->renderJSON($response);
+    }
 }
