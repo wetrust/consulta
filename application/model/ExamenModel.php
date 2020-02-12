@@ -107,9 +107,7 @@ class ExamenModel
             $_examen->doppler_materno = $data->doppler_materno;
             $_examen->doppler_fetal = $data->doppler_fetal;
             $_examen->comentariosexamen = $data->comentariosexamen;
-
         }else if ($data->examen == 1){
-
             $_examen->presentacion = $data->presentacion;
             $_examen->dorso = $data->dorso;
             $_examen->sexo_fetal = $data->sexo_fetal;
@@ -146,6 +144,31 @@ class ExamenModel
             $_examen->uterina_izquierda = $data->uterina_izquierda;
             $_examen->uterina_izquierda_pct = $data->uterina_izquierda_pct;
             $_examen->uterinas = $data->uterinas;
+            $_examen->comentariosexamen = $data->comentariosexamen;
+        }else if ($data->examen == 2){
+            $_examen->anatomia = $data->anatomia;
+            $_examen->anatomia_extra = $data->anatomia_extra;
+            $_examen->embrion = $data->embrion;
+            $_examen->lcn = $data->lcn;
+            $_examen->fcf = $data->fcf;
+            $_examen->dbp = $data->dbp;
+            $_examen->cc = $data->cc;
+            $_examen->cc_pct = $data->cc_pct;
+            $_examen->ca = $data->ca;
+            $_examen->ca_pct = $data->ca_pct;
+            $_examen->lf = $data->lf;
+            $_examen->lf_pct = $data->lf_pct;
+            $_examen->uterina_derecha = $data->uterina_derecha;
+            $_examen->uterina_derecha_pct = $data->uterina_derecha_pct;
+            $_examen->uterina_izquierda = $data->uterina_izquierda;
+            $_examen->uterina_izquierda_pct = $data->uterina_izquierda_pct;
+            $_examen->uterinas = $data->uterinas;
+            $_examen->translucidez_nucal = $data->translucidez_nucal;
+            $_examen->translucencia_nucal = $data->translucencia_nucal;
+            $_examen->hueso_nasal = $data->hueso_nasal;
+            $_examen->hueso_nasal_valor = $data->hueso_nasal_valor;
+            $_examen->ductus_venoso = $data->ductus_venoso;
+            $_examen->reflujo_tricuspideo = $data->reflujo_tricuspideo;
             $_examen->comentariosexamen = $data->comentariosexamen;
         }else if ($data->examen == 3){
             $_examen->utero_primertrimestre = $data->utero_primertrimestre;
@@ -284,6 +307,31 @@ class ExamenModel
             $_examen->uterina_izquierda = $data->uterina_izquierda;
             $_examen->uterina_izquierda_pct = $data->uterina_izquierda_pct;
             $_examen->uterinas = $data->uterinas;
+            $_examen->comentariosexamen = $data->comentariosexamen;
+        }else if ($data->examen == 2){
+            $_examen->anatomia = $data->anatomia;
+            $_examen->anatomia_extra = $data->anatomia_extra;
+            $_examen->embrion = $data->embrion;
+            $_examen->lcn = $data->lcn;
+            $_examen->fcf = $data->fcf;
+            $_examen->dbp = $data->dbp;
+            $_examen->cc = $data->cc;
+            $_examen->cc_pct = $data->cc_pct;
+            $_examen->ca = $data->ca;
+            $_examen->ca_pct = $data->ca_pct;
+            $_examen->lf = $data->lf;
+            $_examen->lf_pct = $data->lf_pct;
+            $_examen->uterina_derecha = $data->uterina_derecha;
+            $_examen->uterina_derecha_pct = $data->uterina_derecha_pct;
+            $_examen->uterina_izquierda = $data->uterina_izquierda;
+            $_examen->uterina_izquierda_pct = $data->uterina_izquierda_pct;
+            $_examen->uterinas = $data->uterinas;
+            $_examen->translucidez_nucal = $data->translucidez_nucal;
+            $_examen->translucencia_nucal = $data->translucencia_nucal;
+            $_examen->hueso_nasal = $data->hueso_nasal;
+            $_examen->hueso_nasal_valor = $data->hueso_nasal_valor;
+            $_examen->ductus_venoso = $data->ductus_venoso;
+            $_examen->reflujo_tricuspideo = $data->reflujo_tricuspideo;
             $_examen->comentariosexamen = $data->comentariosexamen;
         }else if ($data->examen == 3){
             $_examen->utero_primertrimestre = $data->utero_primertrimestre;

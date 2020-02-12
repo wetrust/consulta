@@ -172,6 +172,35 @@ export class cloud {
                 to.append('uterina_izquierda', save.uterina_izquierda);
                 to.append('uterina_izquierda_pct', save.uterina_izquierda_pct);
                 to.append('uterinas', save.uterinas);
+            }else if (save.examen == 2){
+                if ('id' in save == true){
+                    server = config.updateOnce;
+                }else{
+                    server = config.newOnce;
+                }
+                to.append('anatomia', save.anatomia);
+                to.append('anatomia_extra', save.anatomia_extra);
+                to.append('embrion', save.embrion);
+                to.append('lcn', save.lcn);
+                to.append('fcf', save.fcf);
+                to.append('dbp', save.dbp);
+                to.append('cc', save.cc);
+                to.append('cc_pct', save.cc_pct);
+                to.append('ca', save.ca);
+                to.append('ca_pct', save.ca_pct);
+                to.append('lf', save.lf);
+                to.append('lf_pct', save.lf_pct);
+                to.append('uterina_derecha', save.uterina_derecha);
+                to.append('uterina_derecha_pct', save.uterina_derecha_pct);
+                to.append('uterina_izquierda', save.uterina_izquierda);
+                to.append('uterina_izquierda_pct', save.uterina_izquierda_pct);
+                to.append('uterinas', save.uterinas);
+                to.append('translucidez_nucal', save.translucidez_nucal);
+                to.append('translucencia_nucal', save.translucencia_nucal);
+                to.append('hueso_nasal', save.hueso_nasal);
+                to.append('hueso_nasal_valor', save.hueso_nasal_valor);
+                to.append('ductus_venoso', save.ductus_venoso);
+                to.append('reflujo_tricuspideo', save.reflujo_tricuspideo);
             }else if (save.examen == 3){
                 if ('id' in save == true){
                     server = config.updatePreco;

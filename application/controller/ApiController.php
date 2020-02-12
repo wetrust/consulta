@@ -583,4 +583,83 @@ class ApiController extends Controller
         $response->modal = $data->modal;
         $this->View->renderJSON($response);
     }
+
+    public function newOnce(){
+        $data = new stdClass();
+        $data->pre_id = Request::post('pre_id');
+        $data->examen = Request::post('examen');
+        $data->fecha = Request::post('fecha');
+        $data->eg = Request::post('eg');
+        $data->anatomia = Request::post('anatomia');
+        $data->anatomia_extra = Request::post('anatomia_extra');
+        $data->embrion = Request::post('embrion');
+        $data->lcn = Request::post('lcn');
+        $data->fcf = Request::post('fcf');
+        $data->dbp = Request::post('dbp');
+        $data->cc = Request::post('cc');
+        $data->cc_pct = Request::post('cc_pct');
+        $data->ca = Request::post('ca');
+        $data->ca_pct = Request::post('ca_pct');
+        $data->lf = Request::post('lf');
+        $data->lf_pct = Request::post('lf_pct');
+        $data->uterina_derecha = Request::post('uterina_derecha');
+        $data->uterina_derecha_pct = Request::post('uterina_derecha_pct');
+        $data->uterina_izquierda = Request::post('uterina_izquierda');
+        $data->uterina_izquierda_pct = Request::post('uterina_izquierda_pct');
+        $data->uterinas = Request::post('uterinas');
+        $data->translucidez_nucal = Request::post('translucidez_nucal');
+        $data->translucencia_nucal = Request::post('translucencia_nucal');
+        $data->hueso_nasal = Request::post('hueso_nasal');
+        $data->hueso_nasal_valor = Request::post('hueso_nasal_valor');
+        $data->ductus_venoso = Request::post('ductus_venoso');
+        $data->reflujo_tricuspideo = Request::post('reflujo_tricuspideo');
+        $data->comentariosexamen = Request::post('comentariosexamen');
+        $data->modal = Request::post('modal');
+
+        $response = new stdClass();
+        $response->return = ExamenModel::createExamen($data);
+        //$response->data = ConfiguracionModel::getAllPatologias();
+        $response->modal = $data->modal;
+        $this->View->renderJSON($response);
+    }
+
+    public function updateOnce(){
+        $data = new stdClass();
+        $data->examen_id = Request::post('id');
+        $data->pre_id = Request::post('pre_id');
+        $data->examen = Request::post('examen');
+        $data->fecha = Request::post('fecha');
+        $data->eg = Request::post('eg');
+        $data->anatomia = Request::post('anatomia');
+        $data->anatomia_extra = Request::post('anatomia_extra');
+        $data->embrion = Request::post('embrion');
+        $data->lcn = Request::post('lcn');
+        $data->fcf = Request::post('fcf');
+        $data->dbp = Request::post('dbp');
+        $data->cc = Request::post('cc');
+        $data->cc_pct = Request::post('cc_pct');
+        $data->ca = Request::post('ca');
+        $data->ca_pct = Request::post('ca_pct');
+        $data->lf = Request::post('lf');
+        $data->lf_pct = Request::post('lf_pct');
+        $data->uterina_derecha = Request::post('uterina_derecha');
+        $data->uterina_derecha_pct = Request::post('uterina_derecha_pct');
+        $data->uterina_izquierda = Request::post('uterina_izquierda');
+        $data->uterina_izquierda_pct = Request::post('uterina_izquierda_pct');
+        $data->uterinas = Request::post('uterinas');
+        $data->translucidez_nucal = Request::post('translucidez_nucal');
+        $data->translucencia_nucal = Request::post('translucencia_nucal');
+        $data->hueso_nasal = Request::post('hueso_nasal');
+        $data->hueso_nasal_valor = Request::post('hueso_nasal_valor');
+        $data->ductus_venoso = Request::post('ductus_venoso');
+        $data->reflujo_tricuspideo = Request::post('reflujo_tricuspideo');
+        $data->comentariosexamen = Request::post('comentariosexamen');
+        $data->modal = Request::post('modal');
+
+        $response = new stdClass();
+        $response->return = ExamenModel::updateExamen($data);
+        //$response->data = ConfiguracionModel::getAllPatologias();
+        $response->modal = $data->modal;
+        $this->View->renderJSON($response);
+    }
 }
