@@ -3,6 +3,8 @@ import {config} from './config.js';
 import {make, the, humanDate, inputDate} from '../wetrust.js';
 
 export class view {
+    ciudades = [];
+
     static configuracionesInterface(container, data){
         the(container).innerHTML = config.configuracionInterface;
 
@@ -10,11 +12,13 @@ export class view {
         the(config.configuracionCiudadInterfaceNewButton).onclick = this.newCiudad;
         the(config.configuracionLugarInterfaceNewButton).onclick = this.newLugar;
         the(config.configuracionPatologiaInterfaceNewButton).onclick = this.newPatologia;
+        the(config.configuracionAgendaInterfaceNewButton).onclick = this.newAgenda;
         
         view.tableNacionalidad(data[0]);
         view.tableCiudad(data[1]);
         view.tableLugar(data[2]);
         view.tablePatologia(data[3]);
+        view.tableAgenda(data[4]);
     }
 
     static newNacionalidad(){
@@ -145,6 +149,55 @@ export class view {
         });
     }
 
+    static newAgenda(){
+        let modal = make.modal("Crear");
+        document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
+        the(modal.titulo).innerHTML = config.newAgendaTitulo;
+        the(modal.titulo).classList.add("mx-auto","text-white");
+        the(modal.contenido).innerHTML = config.newAgendaHTML;
+        the(modal.contenido).classList.add("bg-light");
+
+        $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
+
+        $("#"+modal.button).on("click", function(){
+            let agenda = {
+                nombre: the("input.agenda.nombre").value,
+                email: the("input.agenda.email").value,
+                profesion: the("input.agenda.profesion").value,
+                ciudad: the("input.agenda.ciudad").value,
+                modal: this.dataset.modal,
+            }
+            
+            if(agenda.nombre.length < 1){
+                make.alert('Escriba el nombre del destinatario');
+                return 0;
+            }
+
+            if(agenda.email.length < 1){
+                make.alert('Escriba el E-Mail del destinatario');
+                return 0;
+            }
+
+            cloud.newAgenda(agenda).then(function(data){
+                if (data.return == true){
+                    $("#"+data.modal).modal("hide");
+                    view.tableAgenda(data.data);
+                }else{
+                    make.alert('Hubo un error al guardar');
+                }
+            });
+        });
+
+        for (var i = 0; i < view.ciudades.length; i++) {
+            let ciudad = the("input.agenda.ciudad");
+            let opt = document.createElement('option');
+            opt.appendChild( document.createTextNode(view.ciudades[i].ciudad_name) );
+            opt.value = view.ciudades[i].ciudad_id;
+            ciudad.appendChild(opt);
+        }
+        
+    }
+
     static tableNacionalidad(data){
         let table = config.configuracionNacionalidadInterfaceTableHead;
 
@@ -164,8 +217,14 @@ export class view {
         let table = config.configuracionCiudadInterfaceTableHead;
 
         table += '<tbody>';
+        view.ciudades = [];
         data.forEach(function(element) {
             table += '<tr><th scope="row">'+element.ciudad_id+'</td><td>'+element.ciudad_name+'</td><td><div class="btn-group"><button class="btn btn-outline-danger eliminar-ciudad" data-id="'+element.ciudad_id+'"><i class="fa fa-trash" aria-hidden="true"></i></button></div></td></tr>';
+            let ciudad = {
+                ciudad_id: element.ciudad_id,
+                ciudad_name: element.ciudad_name
+            }
+            view.ciudades.push(ciudad);
         });
 
         table += '</tbody>';
@@ -203,6 +262,21 @@ export class view {
 
         let eliminarBtns = document.getElementsByClassName("eliminar-patologia");
         for (var i=0; i < eliminarBtns.length; i++) { eliminarBtns[i].onclick = this.eliminarPatologia; }
+    }
+
+    static tableAgenda(data){
+        let table = config.configuracionAgendaInterfaceTableHead;
+
+        table += '<tbody>';
+        data.forEach(function(element) {
+            table += '<tr><th scope="row">'+element.agenda_id+'</td><td>'+element.agenda_name+'</td><td>'+element.agenda_email+'</td><td>'+element.agenda_profesion+'</td><td>'+element.ciudad_name+'</td><td><div class="btn-group"><button class="btn btn-outline-danger eliminar-agenda" data-id="'+element.agenda_id+'"><i class="fa fa-trash" aria-hidden="true"></i></button></div></td></tr>';
+        });
+
+        table += '</tbody>';
+        the(config.configuracionAgendaInterfaceTable).innerHTML = table;
+
+        let eliminarBtns = document.getElementsByClassName("eliminar-agenda");
+        for (var i=0; i < eliminarBtns.length; i++) { eliminarBtns[i].onclick = this.eliminarAgenda; }
     }
 
     static eliminarNacionalidad(){
@@ -314,6 +388,35 @@ export class view {
                 if (data.return == true){
                     $("#"+data.modal).modal("hide");
                     view.tablePatologia(data.data);
+                }else{
+                    make.alert('Hubo un error al eliminar');
+                }
+            });
+        });
+    }
+
+    static eliminarAgenda(){
+        let modal = make.modal("Eliminar");
+        document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
+        the(modal.titulo).innerHTML = config.deleteAgendaTitulo;
+        the(modal.titulo).classList.add("mx-auto","text-white");
+        the(modal.titulo).parentElement.classList.add("bg-danger");
+        the(modal.contenido).innerHTML = config.deleteAgendaHTML;
+        the(modal.contenido).classList.add("bg-light");
+
+        the(modal.button).dataset.id = this.dataset.id;
+
+        $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
+
+        $("#"+modal.button).on("click", function(){
+            let agenda = {
+                id: this.dataset.id,
+                modal: this.dataset.modal
+            }
+            cloud.deleteAgenda(agenda).then(function(data){
+                if (data.return == true){
+                    $("#"+data.modal).modal("hide");
+                    view.tableAgenda(data.data);
                 }else{
                     make.alert('Hubo un error al eliminar');
                 }

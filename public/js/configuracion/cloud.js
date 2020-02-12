@@ -48,6 +48,19 @@ export class cloud {
             return from;
         } catch(e){}
     }
+    static async newAgenda(agenda){
+        try {
+            const to = new FormData();
+            to.append('nombre', agenda.nombre);
+            to.append('email', agenda.email);
+            to.append('profesion', agenda.profesion);
+            to.append('ciudad', agenda.ciudad);
+            to.append('modal', agenda.modal);
+
+            const from = await data.post(config.newAgenda, to);
+            return from;
+        } catch(e){}
+    }
 
     static async deleteNacionalidad(nacionalidad){
         try {
@@ -89,6 +102,17 @@ export class cloud {
             to.append('modal', patologia.modal);
 
             const from = await data.post(config.deletePatologia, to);
+            return from;
+
+        } catch(e){}
+    }
+    static async deleteAgenda(agenda){
+        try {
+            const to = new FormData();
+            to.append('id', agenda.id);
+            to.append('modal', agenda.modal);
+
+            const from = await data.post(config.deleteAgenda, to);
             return from;
 
         } catch(e){}

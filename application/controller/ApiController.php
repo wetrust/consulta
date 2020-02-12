@@ -107,6 +107,7 @@ class ApiController extends Controller
         $data[1] = ConfiguracionModel::getAllCiudades();
         $data[2] = ConfiguracionModel::getAllLugares();
         $data[3] = ConfiguracionModel::getAllPatologias();
+        $data[4] = ConfiguracionModel::getAllAgenda();
 
         $this->View->renderJSON($data);
     }
@@ -159,6 +160,21 @@ class ApiController extends Controller
         $this->View->renderJSON($response);
     }
 
+    public function newAgenda(){
+        $data = new stdClass();
+        $data->nombre = Request::post('nombre');
+        $data->email = Request::post('email');
+        $data->profesion = Request::post('profesion');
+        $data->ciudad = Request::post('ciudad');
+        $data->modal = Request::post('modal');
+
+        $response = new stdClass();
+        $response->return = ConfiguracionModel::createAgenda($data);
+        $response->data = ConfiguracionModel::getAllAgenda();
+        $response->modal = $data->modal;
+        $this->View->renderJSON($response);
+    }
+
     public function deleteNacionalidad(){
         $data = new stdClass();
         $data->id = Request::post('id');
@@ -206,6 +222,19 @@ class ApiController extends Controller
         $response = new stdClass();
         $response->return = ConfiguracionModel::deletePatologia($data);
         $response->data = ConfiguracionModel::getAllPatologias();
+        $response->modal = $data->modal;
+
+        $this->View->renderJSON($response);
+    }
+
+    public function deleteAgenda(){
+        $data = new stdClass();
+        $data->id = Request::post('id');
+        $data->modal = Request::post('modal');
+
+        $response = new stdClass();
+        $response->return = ConfiguracionModel::deleteAgenda($data);
+        $response->data = ConfiguracionModel::getAllAgenda();
         $response->modal = $data->modal;
 
         $this->View->renderJSON($response);

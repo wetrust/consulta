@@ -46,6 +46,17 @@ class ConfiguracionModel
         return $query->fetchAll();
     }
 
+    public static function getAllAgenda()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT c_agenda.user_id, c_agenda.agenda_id, c_agenda.agenda_name, c_agenda.agenda_email, c_agenda.agenda_profesion, c_agenda.agenda_ciudad, c_ciudad.ciudad_name FROM c_agenda INNER JOIN c_ciudad ON c_agenda.agenda_ciudad = c_ciudad.ciudad_id WHERE c_agenda.user_id = :user_id";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_id' => Session::get('user_id')));
+
+        return $query->fetchAll();
+    }
+
     public static function createNacionalidad($data)
     {
         if (!$data->nacionalidad || strlen($data->nacionalidad) == 0) {
@@ -122,6 +133,25 @@ class ConfiguracionModel
         return false;
     }
 
+    public static function createAgenda($data)
+    {
+        if (!$data->nombre || strlen($data->nombre) == 0) {
+            return false;
+        }
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "INSERT INTO c_agenda (agenda_name, agenda_email, agenda_profesion, agenda_ciudad, user_id) VALUES (:agenda_name, :agenda_email, :agenda_profesion, :agenda_ciudad, :user_id)";
+        $query = $database->prepare($sql);
+        $query->execute(array(':agenda_name' => $data->nombre, ':agenda_email' => $data->email, ':agenda_profesion' => $data->profesion, ':agenda_ciudad' => $data->ciudad,':user_id' => Session::get('user_id')));
+
+        if ($query->rowCount() == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
     public static function deleteNacionalidad($data)
     {
         if (!$data->id) { return false; }
@@ -182,6 +212,23 @@ class ConfiguracionModel
         $sql = "DELETE FROM c_patologia WHERE patologia_id = :patologia_id AND user_id = :user_id LIMIT 1";
         $query = $database->prepare($sql);
         $query->execute(array(':patologia_id' => $data->id, ':user_id' => Session::get('user_id')));
+
+        if ($query->rowCount() == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function deleteAgenda($data)
+    {
+        if (!$data->id) { return false; }
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "DELETE FROM c_agenda WHERE agenda_id = :agenda_id AND user_id = :user_id LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':agenda_id' => $data->id, ':user_id' => Session::get('user_id')));
 
         if ($query->rowCount() == 1) {
             return true;
