@@ -920,7 +920,29 @@ export class preco {
         document.getElementsByName("comentarios")[0].value = config.precoComentarios;
 
         the(modal.button).onclick = preco.save;
-        segundo.selectFCF();
+        preco.selectFCF();
+
+        if (data.modificar == true){
+            preco.modificar = true;
+            preco.examen_id = data.data.examen_id;
+            data.data.examen_data = JSON.parse(data.data.examen_data);
+            document.getElementsByName("respuesta_utero_primertrimestre")[0].value = data.data.examen_data.utero_primertrimestre;
+            document.getElementsByName("respuesta_saco_gestacional")[0].value = data.data.examen_data.saco_gestacional;
+            document.getElementsByName("respuesta_saco")[0].value = data.data.examen_data.saco;
+            document.getElementsByName("respuesta_saco")[0].oninput();
+            document.getElementsByName("respuesta_saco_vitelino")[0].value = data.data.examen_data.saco_vitelino;
+            document.getElementsByName("respuesta_saco_vitelino_mm")[0].value = data.data.examen_data.saco_vitelino_mm;
+            document.getElementsByName("respuesta_saco_vitelino")[0].onchange();
+            document.getElementsByName("respuesta_embrion")[0].value = data.data.examen_data.embrion;
+            document.getElementsByName("respuesta_embrion")[0].onchange();
+            document.getElementsByName("respuesta_lcn")[0].value = data.data.examen_data.lcn;
+            document.getElementsByName("respuesta_lcn")[0].oninput();
+            document.getElementsByName("respuesta_fcf")[0].value = data.data.examen_data.fcf;
+            document.getElementsByName("respuesta_anexo_izquierdo_primertrimestre")[0].value = data.data.examen_data.anexo_izquierdo_primertrimestre;
+            document.getElementsByName("respuesta_anexo_derecho_primertrimestre")[0].value = data.data.examen_data.anexo_derecho_primertrimestre;
+            document.getElementsByName("respuesta_douglas_primertrimestre")[0].value = data.data.examen_data.douglas_primertrimestre;
+            document.getElementsByName("comentarios")[0].value = data.data.examen_data.comentariosexamen;
+        }
 
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
     }
