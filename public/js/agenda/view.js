@@ -255,7 +255,7 @@ export class view {
             let _reserva_dia = new Date();
             _reserva_dia.setTime(Date.parse(element.reserva_dia));
 
-            table += '<tr><td>'+humanDate(_reserva_dia)+'</td><td>'+element.reserva_hora+'</td><td>'+element.reserva_minutos+'</td><td>'+element.reserva_rut+'</td><td>'+element.reserva_nombre+'</td><td>'+element.reserva_apellido+'</td><td>'+_visible+'</td>';
+            table += '<tr><td>'+humanDate(_reserva_dia)+'</td><td>'+element.reserva_hora+'</td><td>'+element.reserva_minutos+'</td><td>'+element.reserva_rut+'</td><td>'+element.reserva_nombre+'</td><td>'+element.reserva_apellido+'</td><td></td><td>'+_visible+'</td>';
             if (element.reserva_visible == "0"){
                 table += '<td class="tabla-reservas"><div class="btn-group"><button class="btn btn-outline-agenda informe-reserva" data-id="'+element.reserva_id+'">Informe</button><button class="btn btn-outline-danger eliminar-reserva" data-id="'+element.reserva_id+'"><i class="fa fa-trash" aria-hidden="true"></i></button></div></td></tr>';
             }else{
