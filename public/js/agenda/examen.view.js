@@ -23,6 +23,10 @@ export class dopcre {
         document.getElementsByName("fum")[0].value = data.paciente.fum;
         document.getElementsByName("comentarios")[0].value = config.dopcreComentarios;
 
+        the("rut").value = data.paciente.rut;
+        the("nombre").value = data.paciente.nombre;
+        the("apellido").value = data.paciente.apellido;
+
         the(modal.button).onclick = dopcre.save;
         dopcre.selectFCF();
 
@@ -456,6 +460,10 @@ export class segundo {
         document.getElementsByName("fum")[0].value = data.paciente.fum;
         document.getElementsByName("comentarios")[0].value = config.segundoComentarios;
 
+        the("rut").value = data.paciente.rut;
+        the("nombre").value = data.paciente.nombre;
+        the("apellido").value = data.paciente.apellido;
+
         the(modal.button).onclick = segundo.save;
         segundo.selectBVM();
         segundo.selectFCF();
@@ -840,6 +848,10 @@ export class once {
         document.getElementsByName("fum")[0].value = data.paciente.fum;
         document.getElementsByName("comentariosexamen")[0].value = config.onceComentarios;
 
+        the("rut").value = data.paciente.rut;
+        the("nombre").value = data.paciente.nombre;
+        the("apellido").value = data.paciente.apellido;
+
         let EG = fn.EG(data);
         document.getElementsByName("eg")[0].value = EG.text;
 
@@ -1195,6 +1207,10 @@ export class preco {
         document.getElementsByName("fum")[0].value = data.paciente.fum;
         document.getElementsByName("respuesta_furop")[0].value = data.paciente.fum;
 
+        the("rut").value = data.paciente.rut;
+        the("nombre").value = data.paciente.nombre;
+        the("apellido").value = data.paciente.apellido;
+        
         let _fecha = new Date();
         _fecha.setTime(Date.parse(data.paciente.fum));
         _fecha.setDate(_fecha.getUTCDate() + 240);
@@ -1417,11 +1433,14 @@ export class ginec {
         the(modal.contenido).innerHTML = config.ginecHTML;
         the(modal.id).children[0].classList.add("h-100","modal-xl");
 
-
         document.getElementsByName("fecha")[0].value = data.fecha;
         document.getElementsByName("fecha")[0].dataset.examen = data.examen;
         document.getElementsByName("fecha")[0].dataset.pre = data.return;
         document.getElementsByName("fum")[0].value = data.paciente.fum;
+
+        the("rut").value = data.paciente.rut;
+        the("nombre").value = data.paciente.nombre;
+        the("apellido").value = data.paciente.apellido;
 
         document.getElementsByName("utero_uno")[0].oninput = ginec.number;
         document.getElementsByName("utero_dos")[0].oninput = ginec.number;
