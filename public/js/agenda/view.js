@@ -252,7 +252,7 @@ export class view {
 
         table += '<tbody>';
         data.forEach(function(element) {
-            let _visibleStr = ["Cerrado", "Pendiente", "En exámen"];
+            let _visibleStr = ["Realizado", "Solicitado", "En espera"];
             let _visible = _visibleStr[parseInt(element.reserva_visible)];
             let _reserva_dia = new Date();
             _reserva_dia.setTime(Date.parse(element.reserva_dia));

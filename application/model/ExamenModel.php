@@ -208,6 +208,33 @@ class ExamenModel
             $_examen->douglas = $data->douglas;
             $_examen->douglas_com = $data->douglas_com;
             $_examen->comentariosexamen = $data->comentariosexamen;
+        }else if ($data->examen == 5){
+            $_examen->fechaParto = $data->fechaParto;
+            $_examen->eg = $data->eg;
+            $_examen->lugar = $data->lugar;
+            $_examen->talla = $data->talla;
+            $_examen->peso = $data->peso;
+            $_examen->imc = $data->imc;
+            $_examen->estado = $data->estado;
+            $_examen->paridad = $data->paridad;
+            $_examen->sexo = $data->sexo;
+            $_examen->edad = $data->edad;
+            $_examen->etnia = $data->etnia;
+            $_examen->pesofetal = $data->pesofetal;
+            $_examen->pctpeso = $data->pctpeso;
+            $_examen->pctpesocorregido = $data->pctpesocorregido;
+            $_examen->tallafetal = $data->tallafetal;
+            $_examen->ipn = $data->ipn;
+            $_examen->apgaruno = $data->apgaruno;
+            $_examen->apgardos = $data->apgardos;
+            $_examen->craneo = $data->craneo;
+            $_examen->ipneg = $data->ipneg;
+            $_examen->meconio = $data->meconio;
+            $_examen->craneo = $data->craneo;
+            $_examen->protocolo = $data->protocolo;
+            $_examen->hipoglicemia = $data->hipoglicemia;
+            $_examen->reciennacido = $data->reciennacido;
+            $_examen->comentariosexamen = $data->comentariosexamen;
         }
 
         $_examen = json_encode($_examen);
@@ -226,7 +253,7 @@ class ExamenModel
             $pre->id = $pre->reserva_id;
             ReservasModel::closeReserva($pre);
             //
-            
+
             return $id;
         }
 

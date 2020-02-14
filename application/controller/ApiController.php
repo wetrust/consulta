@@ -710,4 +710,44 @@ class ApiController extends Controller
         $response->modal = $data->modal;
         $this->View->renderJSON($response);
     }
+
+    public function newParto(){
+        $data = new stdClass();
+        $data->pre_id = Request::post('pre_id');
+        $data->examen = Request::post('examen');
+        $data->fecha = Request::post('fecha');
+        $data->fechaParto = Request::post('fechaParto');
+        $data->eg = Request::post('eg');
+        $data->lugar = Request::post('lugar');
+        $data->talla = Request::post('talla');
+        $data->peso = Request::post('peso');
+        $data->imc = Request::post('imc');
+        $data->estado = Request::post('estado');
+        $data->paridad = Request::post('paridad');
+        $data->sexo = Request::post('sexo');
+        $data->edad = Request::post('edad');
+        $data->etnia = Request::post('etnia');
+        $data->pesofetal = Request::post('pesofetal');
+        $data->pctpeso = Request::post('pctpeso');
+        $data->pctpesocorregido = Request::post('pctpesocorregido');
+        $data->tallafetal = Request::post('tallafetal');
+        $data->ipn = Request::post('ipn');
+        $data->apgaruno = Request::post('apgaruno');
+        $data->apgardos = Request::post('apgardos');
+        $data->craneo = Request::post('craneo');
+        $data->ipneg = Request::post('ipneg');
+        $data->meconio = Request::post('meconio');
+        $data->craneo = Request::post('craneo');
+        $data->protocolo = Request::post('protocolo');
+        $data->hipoglicemia = Request::post('hipoglicemia');
+        $data->reciennacido = Request::post('reciennacido');
+        $data->comentariosexamen = Request::post('comentariosexamen');
+        $data->modal = Request::post('modal');
+
+        $response = new stdClass();
+        $response->return = ExamenModel::createExamen($data);
+        //$response->data = ConfiguracionModel::getAllPatologias();
+        $response->modal = $data->modal;
+        $this->View->renderJSON($response);
+    }
 }

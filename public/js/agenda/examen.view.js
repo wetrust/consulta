@@ -1616,6 +1616,9 @@ export class ginec {
 }
 
 export class parto {
+    modificar = false
+    examen_id = 0;
+
     static interface(data){
         let modal = make.modal("Guardar");
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
@@ -1625,19 +1628,119 @@ export class parto {
         the(modal.id).children[0].classList.add("h-100","modal-xl");
         the(modal.id).children[0].classList.remove("modal-lg");
 
-        document.getElementsByName("fecha")[0].value = inputDate();
-        document.getElementsByName("comentarios")[0].value = config.partoComentarios;
+        document.getElementsByName("fecha")[0].value = data.fecha;
+        document.getElementsByName("fecha")[0].dataset.examen = data.examen;
+        document.getElementsByName("fecha")[0].dataset.pre = data.return;
+        document.getElementsByName("fum")[0].value = data.paciente.fum;
 
-        the(modal.button).onclick = parto.save;
+        the("rut").value = data.paciente.rut;
+        the("nombre").value = data.paciente.nombre;
+        the("apellido").value = data.paciente.apellido;
+
         parto.selectEdad();
         parto.selectPeso();
         parto.selectTalla();
+
+        the("fecha").oninput = parto.eg;
+        the("fecha").dataset.fum = data.paciente.fum;
+        the("fecha").value = inputDate();
+        the("fecha").oninput();
+
+        document.getElementsByName("talla")[0].onchange = parto.imc;
+        document.getElementsByName("peso")[0].onchange = parto.imc;
+        document.getElementsByName("peso")[0].onchange();
+
+        the("etnia").onchange = parto.etnia;
+        the("etnia").onchange();
+        document.getElementsByName("edad")[0].onchange = parto.edad;
+        document.getElementsByName("edad")[0].onchange();
+
+        the("paridad").onchange = parto.paridad;
+        the("paridad").onchange();
+        the("sexo").onchange = parto.sexo;
+        the("sexo").onchange();
+
+        the("pesofetal").oninput = parto.pesoFetal;
+        the("tallafetal").oninput = parto.tallafetal;
+
+        the(modal.button).onclick = parto.save;
 
         $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
     }
 
     static save(){
+        var save = {
+            pre_id: document.getElementsByName("fecha")[0].dataset.pre,
+            examen: document.getElementsByName("fecha")[0].dataset.examen,
+            fecha: document.getElementsByName("fecha")[0].value,
+            fechaParto: the("fecha").value,
+            eg: the("eg").value,
+            lugar: the("lugar").value,
+            talla: document.getElementsByName("talla")[0].value,
+            peso: document.getElementsByName("peso")[0].value,
+            imc: the("imc").value,
+            estado: the("estado").value,
+            paridad: the("paridad").value,
+            sexo:  the("sexo").value,
+            edad: document.getElementsByName("edad")[0].value,
+            etnia: the("etnia").value,
+            pesofetal: the("pesofetal").value,
+            pctpeso: the("pctpeso").value,
+            pctpesocorregido:  the("pctpesocorregido").value,
+            tallafetal: the("tallafetal").value,
+            ipn: the("ipn").value,
+            apgaruno: the("apgaruno").value,
+            apgardos: the("apgardos").value,
+            craneo: the("craneo").value,
+            ipneg: the("ipneg").value,
+            meconio: the("meconio").value,
+            craneo: the("craneo").value,
+            protocolo: the("protocolo").value,
+            hipoglicemia: the("hipoglicemia").value,
+            reciennacido: the("reciennacido").value,
+            comentariosexamen: document.getElementsByName("comentariosexamen")[0].value,
+            modal: this.dataset.modal
+        }
+
+        if (parto.modificar == true){
+            save.id = parto.examen_id;
+        }
+        cloud.examenUp(save).then(function(data){
+            if (data.return == false){
+                make.alert('Hubo un error al crear el exámen, intente otra vez');
+            }else{
+                $("#"+data.modal).modal("hide");
+                //informe.interface(data);
+            }
+        });
+    }
+
+    static eg(){
+        let _FUM = new Date();
+        _FUM.setTime(Date.parse(this.dataset.fum));
+        _FUM = _FUM.getTime();
+        let _fExamen = new Date();
+        _fExamen.setTime(Date.parse(this.value));
+        _fExamen = _fExamen.getTime();
         
+        let diff = _fExamen - _FUM;
+        let edadGestacional = 0;
+
+        if (diff > 0){
+            let dias = diff/(1000*60*60*24);
+            let semanas = Math.trunc(dias / 7);
+        
+            if (semanas > 42){
+                edadGestacional = 42;
+            }else{
+                dias = Math.trunc(dias - (semanas * 7));
+                edadGestacional = semanas;
+            }
+        }
+
+        the("eg").value = edadGestacional;
+        the("pesofetal").dataset.eg = edadGestacional;
+        the("ipn").dataset.eg = edadGestacional;
     }
 
     static selectEdad(){
@@ -1674,6 +1777,87 @@ export class parto {
             opt.value = i; 
             semanas.appendChild(opt);
         }
+    }
+
+    static imc(){
+        let talla = document.getElementsByName("talla")[0].value;
+        let peso = document.getElementsByName("peso")[0].value;
+
+        if (String(talla).length > 0 && String(peso).length > 0){
+            let imc = fn.imc(talla,peso);
+            the("imc").value = imc.text;
+            the("estado").value = imc.estado;
+            the("pesofetal").dataset.imc = imc.valor;
+        }
+        else{
+            the("imc").value = "";
+            the("estado").value = "";
+            the("pesofetal").dataset.imc = 0;
+        }
+    }
+
+    static etnia(){
+        the("pesofetal").dataset.etnia = this.value;
+    }
+
+    static edad(){
+        the("pesofetal").dataset.edad = this.value;
+    }
+
+    static paridad(){
+        the("pesofetal").dataset.paridad = this.value;
+    }
+
+    static sexo(){
+        the("pesofetal").dataset.sexo = this.value;
+    }
+
+    static pesoFetal(e){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 4;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let peso = fn.pesoEg(this);
+            the("pctpeso").value = peso.text;
+            let pesoCorregido = fn.pesoEgCorregido(this);
+            the("pctpesocorregido").value = pesoCorregido.text;
+            parto.tallafetal();
+        }else{
+            the("pctpeso").value = "";
+        }
+    }
+
+    static tallafetal(){
+        this.value = fn.number(this.value);
+        let value = String(this.value);
+
+        if (value.length > 0){
+            let cut = Object;
+            cut.digit = 4;
+            cut.value = value;
+            this.value = fn.cut(cut);
+
+            let pesofetal = the("pesofetal").value;
+            let tallafetal = this.value;
+
+            if (String(tallafetal).length > 0 && String(pesofetal).length > 0){
+                let ipn = fn.ipn(tallafetal, pesofetal);
+                the("ipn").value = ipn;
+                let ipnEG = fn.ipnEg(the("ipn"));
+                the("ipneg").value = ipnEG.text;
+            }else{
+                the("ipn").value = "";
+                the("ipneg").value = "";
+            }
+        }else{
+            the("ipn").value = "";
+            the("ipneg").value = "";
+        }   
     }
 }
 

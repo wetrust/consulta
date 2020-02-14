@@ -397,4 +397,136 @@ export class fn {
             return {egLCN:eglcn,fur:fur,fpp:fpp};
         }
     }
+
+    static imc(talla,peso){
+        let valor = ((peso / (Math.pow(talla, 2))) * 10000);
+        valor = valor.toFixed(1);
+        let estado = "";
+
+        if (valor < 20) {
+            estado = 'Enflaquecida';
+        } else if (valor < 25) {
+            estado =  'Normal';
+        } else if (valor <= 30) {
+            estado =  'Sobrepeso';
+        } else if (valor > 30) {
+            estado =  'Obesidad';
+        }
+
+        return {valor:valor,text:valor + "kg/m2",estado:estado};
+    }
+
+    static pesoEg(data){
+        let pct10PesoTemuco = [600, 662, 739, 830, 938, 1064, 1208, 1373, 1565, 1756, 1970, 2192, 2415, 2628, 2820, 2978, 3089, 3120, 3123];
+        let pct90PesoTemuco = [800, 960, 1139, 1337, 1551, 1781, 2022, 2272, 2527, 2781, 3031, 3270, 3494, 3699, 3878, 4030, 4150, 4236, 4287];
+       
+        if (data.dataset.eg < 24 || data.dataset.eg > 40 || data.value <= 0)
+        {
+            return {pct:0,text:"",condicion:""};
+        }
+        else {
+            let eg = data.dataset.eg - 24;
+            let uno = pct90PesoTemuco[eg] - pct10PesoTemuco[eg];
+            let dos = data.value - pct10PesoTemuco[eg];
+            let resultado = Math.trunc(((80 / (uno)) * (dos)) + 10);
+            let condicion = "";
+
+            if (data.value < pct10PesoTemuco[eg]) {
+                condicion = "Pequeño";
+            } else if (data.value <= pct90PesoTemuco[eg]) {
+                condicion = "Adecuado";
+            } else if (data.value > pct90PesoTemuco[eg]) {
+                condicion = "Grande";
+            }
+
+            return {pct:resultado,text:resultado + ", " + condicion,condicion:condicion};
+        }
+    }
+
+    static pesoEgCorregido(data){
+        if (data.dataset.eg < 24 || data.dataset.eg > 40 || data.value <= 0)
+        {
+            return {pct:0,text:"",condicion:""};
+        }
+        else {
+            let i = 0
+            let imc = data.dataset.imc; let etnia = data.dataset.etnia;
+            let edadmaterna = data.dataset.edad;
+            let paridadmaterna = data.dataset.paridad;
+            let sexofetal = data.dataset.sexo
+            
+            if (edadmaterna < 19) { edadmaterna = 1 }
+            else if (edadmaterna < 22) { edadmaterna = 2 }
+            else if (edadmaterna <24) { edadmaterna = 3 }
+            else if (edadmaterna <26) { edadmaterna = 4 }
+            else if (edadmaterna <28) { edadmaterna = 5 }
+            else if (edadmaterna >27) { edadmaterna = 6 }
+        
+            
+            if (etnia == 2) {
+            etnia = 1;
+            }
+        
+            if (imc < 20) { imc = 1; }
+            else if (imc < 25) { imc = 2; }
+            else if (imc <= 30) { imc = 3; }
+            else if (imc > 30) { imc = 4; }
+    
+            let p90 = [0.2418159, -0.0038925, 0.0000168, -0.0130562, -0.0127872, -0.0034632, 0.0117179, 0.0021092, -0.9260631];
+            let p10 = [-0.2639902, 0.0110356, -0.0001265, -0.0146183, -0.0134044, -0.0020684, 0.0092266, 0.0009001, 4.474501];
+            let p90Pso = [100,110,120]; let p10Pso = [120,140,160];
+
+            for (i = 24; i < 43; i++) { let x = i - 24;
+                p90Pso[x] = Math.pow(10, ((i * p90[0]) + (Math.pow(i, 2) * p90[1]) + (Math.pow(i, 3) * p90[2]) + (p90[3] * paridadmaterna) + (p90[4] * sexofetal) + (p90[5] * etnia) + (p90[6] * imc) + (p90[7] * edadmaterna) + p90[8]));
+                p10Pso[x] = Math.pow(10, ((i * p10[0]) + (Math.pow(i, 2) * p10[1]) + (Math.pow(i, 3) * p10[2]) + (p10[3] * paridadmaterna) + (p10[4] * sexofetal) + (p10[5] * etnia) + (p10[6] * imc) + (p10[7] * edadmaterna) + p10[8]));
+            }
+            
+            let eg = data.dataset.eg - 24
+            let uno = p90Pso[eg] - p10Pso[eg];
+            let dos = data.value - p10Pso[eg];
+            let resultado =  Math.trunc(((80 / (uno)) * (dos)) + 10);
+            let condicion = "";
+        
+            if (data.value < p10Pso[eg]) {condicion = "Pequeño"; }
+            else if (data.value <= p90Pso[eg]) {condicion = "Adecuado"; }
+            else if (data.value > p90Pso[eg]) {condicion = "Grande"; }
+
+            return {pct:resultado,text:resultado + ", " + condicion,condicion:condicion};
+        }
+
+      }
+
+    static ipn(tallafetal, pesofetal){
+        let valor = pesofetal / (Math.pow(tallafetal, 3));
+        valor = valor * 100000;
+        return parseFloat(valor.toFixed(1));
+    }
+
+    static ipnEg(data){
+        let pct10IpnNacional = [1.79, 1.83, 1.87, 1.91, 1.95, 1.99, 2.04, 2.08, 2.12, 2.16, 2.2, 2.25, 2.29, 2.33, 2.37, 2.41, 2.45, 2.5, 2.54];
+        let pct90IpnNacional = [2.54, 2.57, 2.59, 2.62, 2.65, 2.68, 2.71, 2.74, 2.77, 2.8, 2.83, 2.86, 2.89, 2.92, 2.95, 2.98, 3.01, 3.04, 3.07];
+    
+        if (data.dataset.eg < 24 || data.dataset.eg > 40 || data.value <= 0)
+        {
+            return {pct:0,text:"",condicion:""};
+        }
+        else {
+            let eg = data.dataset.eg - 24;
+            var uno = pct90IpnNacional[eg] - pct10IpnNacional[eg];
+            var dos = data.value - pct10IpnNacional[eg];
+            let resultado = 80 / (uno) * (dos) + 10;
+            resultado = Math.trunc(resultado);
+            let condicion = "";
+
+            if (data.value < pct10IpnNacional[eg]) {
+                condicion = "Enflaquecido";
+            } else if (data.value <= pct90IpnNacional[eg]) {
+                condicion = "Eutrófico";
+            } else if (data.value > pct90IpnNacional[eg]) {
+                condicion = "RN Obeso";
+            }
+
+            return {pct:resultado,text:resultado + ", " + condicion,condicion:condicion};
+        }
+    }
 }

@@ -261,6 +261,38 @@ export class cloud {
                 to.append('od_cinco', save.od_cinco);
                 to.append('douglas', save.douglas);
                 to.append('douglas_com', save.douglas_com);
+            }else if (save.examen == 5){
+                if ('id' in save == true){
+                    server = config.updateParto;
+                }else{
+                    server = config.newParto;
+                }
+
+                to.append('fechaParto', save.fechaParto);
+                to.append('eg', save.eg);
+                to.append('lugar', save.lugar);
+                to.append('talla', save.talla);
+                to.append('peso', save.peso);
+                to.append('imc', save.imc);
+                to.append('estado', save.estado);
+                to.append('paridad', save.paridad);
+                to.append('sexo', save.sexo);
+                to.append('edad', save.edad);
+                to.append('etnia', save.etnia);
+                to.append('pesofetal', save.pesofetal);
+                to.append('pctpeso', save.pctpeso);
+                to.append('pctpesocorregido', save.pctpesocorregido);
+                to.append('tallafetal', save.tallafetal);
+                to.append('ipn', save.ipn);
+                to.append('apgaruno', save.apgaruno);
+                to.append('apgardos', save.apgardos);
+                to.append('craneo', save.craneo);
+                to.append('ipneg', save.ipneg);
+                to.append('meconio', save.meconio);
+                to.append('craneo', save.craneo);
+                to.append('protocolo', save.protocolo);
+                to.append('hipoglicemia', save.hipoglicemia);
+                to.append('reciennacido', save.reciennacido);
             }
 
             to.append('comentariosexamen', save.comentariosexamen);
