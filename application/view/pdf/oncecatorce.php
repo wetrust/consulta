@@ -95,15 +95,11 @@
     $html = '<table><tbody><tr><td></td><td>IP uterina promedio: **</td><td colspan="2">'.htmlentities($data->uterinas).'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, 'J', true);
     $translucencia = "";
-    if (strlen($data->translucencia_nucal) > 0){
-        $translucencia =  $data->translucencia_nucal . " mm";
-    }
+    if (strlen($data->translucencia_nucal) > 0){ $translucencia =  $data->translucencia_nucal . " mm"; }
     $this->pdf->Ln(4);
     $html = '<table><tbody><tr><td></td><td>Translucidez nucal: </td><td>'.htmlentities($data->translucidez_nucal).'</td><td>'. $translucencia .'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, 'J', true);
-    if (strlen($data->hueso_nasal_valor) > 0){
-        $data->hueso_nasal_valor =  $data->hueso_nasal_valor . " mm";
-    }
+    if (strlen($data->hueso_nasal_valor) > 0){ $data->hueso_nasal_valor =  $data->hueso_nasal_valor . " mm"; }
 
     $html = '<table><tbody><tr><td></td><td>Hueso nasal: </td><td>'.htmlentities($data->hueso_nasal) .'</td><td>'. $data->hueso_nasal_valor .'</td></tr></tbody></table>';
     $this->pdf->writeHTMLCell('', '', '', '', $html, 0, 1, 0, true, 'J', true);

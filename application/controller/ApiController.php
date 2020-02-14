@@ -85,6 +85,7 @@ class ApiController extends Controller
         $data->fecha = Request::post('fecha');
         $data->examen = Request::post('examen');
         $data->motivo = Request::post('motivo');
+        $data->ver = Request::post("ver");
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
@@ -92,7 +93,7 @@ class ApiController extends Controller
         $pre = PreModel::createPre($data);
         $response->return = $pre->data;
         $response->examen = $data->examen;
-        $response->data = ReservasModel::getAllReservas($data->fecha,$ver = NULL);
+        $response->data = ReservasModel::getAllReservas($data->fecha,$data->ver);
         $response->paciente = PacientesModel::getPaciente($pre->reserva_rut);
         $response->fecha = $data->fecha;
         $response->modificar = false;
@@ -236,6 +237,24 @@ class ApiController extends Controller
         $response->return = ConfiguracionModel::deleteAgenda($data);
         $response->data = ConfiguracionModel::getAllAgenda();
         $response->modal = $data->modal;
+
+        $this->View->renderJSON($response);
+    }
+
+    public function getPre(){
+        $data = new stdClass();
+        $data->reserva_id = Request::post('id');
+        $data->ver = Request::post('ver');
+
+        $response = new stdClass();
+        
+        $pre = PreModel::getPreReserva($data);
+        $response->return = $pre->pre_id;
+        $response->examen = $pre->pre_examen;
+        $response->data = ReservasModel::getAllReservas($pre->pre_fecha,$data->ver);
+        $response->paciente = PacientesModel::getPaciente($pre->paciente_rut);
+        $response->fecha = $pre->pre_fecha;
+        $response->modificar = false;
 
         $this->View->renderJSON($response);
     }

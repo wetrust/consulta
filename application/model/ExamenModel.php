@@ -219,7 +219,15 @@ class ExamenModel
         $query->execute(array(':pre_id' => $pre->pre_id, ':paciente_rut' => $pre->paciente_rut, ':examen_tipo' => $data->examen, ':examen_fecha' => $data->fecha, ':examen_eg' => $data->eg, ':examen_data' => $_examen, ':user_id' => Session::get('user_id')));
 
         if ($query->rowCount() == 1) {
-            return $database->lastInsertId();
+            $id = $database->lastInsertId();
+
+            //cerrar la reserva
+            $pre = PreModel::getPre($pre);
+            $pre->id = $pre->reserva_id;
+            ReservasModel::closeReserva($pre);
+            //
+            
+            return $id;
         }
 
         // default return
@@ -385,32 +393,6 @@ class ExamenModel
             return $data->examen_id;
         }
 
-        return false;
-    }
-
-    /**
-     * Update an existing note
-     * @param int $note_id id of the specific note
-     * @param string $note_text new text of the specific note
-     * @return bool feedback (was the update successful ?)
-     */
-    public static function updateNote($note_id, $note_text)
-    {
-        if (!$note_id || !$note_text) {
-            return false;
-        }
-
-        $database = DatabaseFactory::getFactory()->getConnection();
-
-        $sql = "UPDATE notes SET note_text = :note_text WHERE note_id = :note_id AND user_id = :user_id LIMIT 1";
-        $query = $database->prepare($sql);
-        $query->execute(array(':note_id' => $note_id, ':note_text' => $note_text, ':user_id' => Session::get('user_id')));
-
-        if ($query->rowCount() == 1) {
-            return true;
-        }
-
-        Session::add('feedback_negative', Text::get('FEEDBACK_NOTE_EDITING_FAILED'));
         return false;
     }
 

@@ -68,10 +68,22 @@ export class cloud {
             to.append('fecha', pre.fecha);
             to.append('examen', pre.examen);
             to.append('motivo', pre.motivo);
+            to.append('ver', pre.ver);
             to.append('modal', pre.modal);
 
             const from = await data.post(config.preparar, to);
             return from;
+        } catch(e){}
+    }
+    static async getPre(reserva){
+        try {
+            const to = new FormData();
+            to.append('id', reserva.id);
+            to.append('ver', reserva.ver);
+
+            const from = await data.post(config.getPre, to);
+            return from;
+
         } catch(e){}
     }
 

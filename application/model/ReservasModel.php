@@ -18,12 +18,14 @@ class ReservasModel
         }
         else if ($ver == "2"){
             $ver = 2;
+        }else if ($ver == "3"){
+            $ver = 3;
         }else{
             $ver = 0;  
         }
 
-        if ($ver == 2){
-            $sql = "SELECT user_id, reserva_id, reserva_nombre, reserva_apellido, reserva_rut, reserva_dia, reserva_hora, reserva_minutos, reserva_visible FROM reservas WHERE user_id = :user_id AND reserva_dia = :reserva_dia AND reserva_visible IN (0,1) ORDER BY reserva_hora, reserva_minutos";        
+        if ($ver == 3){
+            $sql = "SELECT user_id, reserva_id, reserva_nombre, reserva_apellido, reserva_rut, reserva_dia, reserva_hora, reserva_minutos, reserva_visible FROM reservas WHERE user_id = :user_id AND reserva_dia = :reserva_dia AND reserva_visible IN (0,1,2) ORDER BY reserva_hora, reserva_minutos";        
             $query = $database->prepare($sql);
             $query->execute(array(':user_id' => Session::get('user_id'), ':reserva_dia' => $fecha));
         }else{
@@ -52,6 +54,21 @@ class ReservasModel
         $sql = "INSERT INTO reservas (user_id, reserva_nombre, reserva_apellido, reserva_rut, reserva_dia, reserva_hora, reserva_minutos) VALUES (:user_id, :reserva_nombre, :reserva_apellido, :reserva_rut, :reserva_dia, :reserva_hora, :reserva_minutos)";
         $query = $database->prepare($sql);
         $query->execute(array(':reserva_nombre' => $data->nombre, ':reserva_apellido' => $data->apellido, ':reserva_rut' => $data->rut, ':reserva_dia' => $data->dia, ':reserva_hora' => $data->hora, ':reserva_minutos' => $data->minutos, ':user_id' => Session::get('user_id')));
+
+        if ($query->rowCount() == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function progressReserva($data)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "UPDATE reservas SET reserva_visible = 2 WHERE reserva_id = :reserva_id AND user_id = :user_id LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':reserva_id' => $data->id, ':user_id' => Session::get('user_id')));
 
         if ($query->rowCount() == 1) {
             return true;

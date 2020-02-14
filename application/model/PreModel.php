@@ -51,7 +51,7 @@ class PreModel
             $respuesta->reserva_rut = $reserva->reserva_rut;
             $respuesta->data = $database->lastInsertId();
 
-            ReservasModel::closeReserva($data);
+            ReservasModel::progressReserva($data);
 
             return $respuesta;
         }
