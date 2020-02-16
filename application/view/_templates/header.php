@@ -25,10 +25,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarHome">
-                <?php if (Session::userIsLoggedIn()) { ?>    
+                <?php if (Session::userIsLoggedIn()) { ?>
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item <?php if (View::checkForActiveController($filename, "index")) { echo 'active'; } ?>">
-                            <a class="nav-link" href="<?php echo Config::get('URL'); ?>">Agenda</a>
+                            <a class="nav-link" href="<?php echo Config::get('URL'); ?>">Agenda horas</a>
                         </li>
                         <li class="nav-item <?php if (View::checkForActiveController($filename, "pacientes")) { echo 'active'; } ?>">
                             <a class="nav-link" href="<?php echo Config::get('URL'); ?>pacientes">Pacientes</a>

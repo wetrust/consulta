@@ -22,12 +22,12 @@ class PacientesModel
         return $query->fetchAll();
     }
 
-    public static function getPaciente($rut){
+    public static function getPaciente($rut, $institucion_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT id, nombre, apellido, rut, fum, ciudad, lugar, telefono FROM pacientes WHERE user_id = :user_id AND rut = :rut LIMIT 1";
+        $sql = "SELECT id, nombre, apellido, rut, fum, ciudad, lugar, telefono FROM pacientes WHERE institucion_id = :institucion_id AND rut = :rut LIMIT 1";
         $query = $database->prepare($sql);
-        $query->execute(array(':user_id' => Session::get('user_id'), ':rut' => $rut));
+        $query->execute(array(':institucion_id' => $institucion_id, ':rut' => $rut));
 
         return $query->fetch();
     }

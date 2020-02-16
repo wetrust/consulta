@@ -100,7 +100,7 @@ class ApiController extends Controller
         $response->return = $pre->data;
         $response->examen = $data->examen;
         $response->data = ReservasModel::getAllReservas($data->fecha,$data->ver,$data->institucion_id);
-        $response->paciente = PacientesModel::getPaciente($pre->reserva_rut);
+        $response->paciente = PacientesModel::getPaciente($pre->reserva_rut, $data->institucion_id);
         $response->fecha = $data->fecha;
         $response->modificar = false;
         $response->modal = $data->modal;
@@ -306,7 +306,7 @@ class ApiController extends Controller
         $response->return = $pre->pre_id;
         $response->examen = $pre->pre_examen;
         $response->data = ReservasModel::getAllReservas($pre->pre_fecha,$data->ver,$data->institucion_id);
-        $response->paciente = PacientesModel::getPaciente($pre->paciente_rut);
+        $response->paciente = PacientesModel::getPaciente($pre->paciente_rut, $data->institucion_id);
         $response->fecha = $pre->pre_fecha;
         $response->modificar = false;
 
@@ -318,11 +318,13 @@ class ApiController extends Controller
         
         $examen = ExamenModel::getExamen($id);
 
+        ///aqui falta la institucion
+
         $response->fecha = $examen->examen_fecha;
         $response->examen = $examen->examen_tipo;
         $response->return = $examen->pre_id;
         $response->data = $examen;
-        $response->paciente = PacientesModel::getPaciente($examen->paciente_rut);
+        $response->paciente = PacientesModel::getPaciente($examen->paciente_rut,$data->institucion_id);
         $response->modificar = true;
 
         $this->View->renderJSON($response);
