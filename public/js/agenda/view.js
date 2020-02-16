@@ -496,8 +496,9 @@ export class view {
 
     static informeExamen(){
         let id = this.dataset.id;
+        let institucion_id = the("institucion.actual").value;
 
-        cloud.getInforme(id).then(function(data){
+        cloud.getInforme(id,institucion_id).then(function(data){
             if (data.return == false){
                 make.alert('Hubo un error al obtener el informe, intente otra vez');
             }else{

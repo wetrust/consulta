@@ -314,9 +314,9 @@ export class cloud {
             return from;
         } catch(e) {}
     }
-    static async getInforme(id){
+    static async getInforme(id, institucion_id){
         try {
-            const from = await data.get(config.getInforme + id);
+            const from = await data.get(config.getInforme + id + "/"+ institucion_id);
             return from;
         } catch(e) {}
     }  

@@ -1863,11 +1863,14 @@ export class parto {
 
 export class informe {
     static interface(data){
+        //arreglar esto
+        let institucion_id = the("institucion.actual").value;
+
         let modal = make.modal();
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
         the(modal.titulo).innerHTML = "Informe";
         the(modal.titulo).classList.add("mx-auto");
-        the(modal.contenido).innerHTML = '<iframe class="embed-responsive-item w-100 h-100" src="informe/get/'+data.return+'"></iframe>';
+        the(modal.contenido).innerHTML = '<iframe class="embed-responsive-item w-100 h-100" src="informe/get/'+data.return+'/'+institucion_id+'"></iframe>';
         the(modal.id).children[0].classList.add("h-100","modal-xl");
         the(modal.id).children[0].classList.remove("modal-lg");
 
