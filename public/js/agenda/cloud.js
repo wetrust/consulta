@@ -2,15 +2,15 @@ import {data} from '../wetrust.js';
 import {config} from './config.js';
 
 export class cloud {
-    static async getReservas(fecha, ver){
+    static async getReservas(fecha, ver, institucion_id){
         try {
-            const from = await data.get(config.reservas + fecha + "/" + ver);
+            const from = await data.get(config.reservas + fecha + "/" + ver + "/" + institucion_id);
             return from;
         } catch(e) {}
     }
-    static async findPaciente(paciente){
+    static async findPaciente(paciente, institucion_id){
         try {
-            const from = await data.get(config.findPacientes + paciente);
+            const from = await data.get(config.findPacientes + paciente +"/" +institucion_id);
             from.paciente = paciente;
             return from;
         } catch(e) {}
@@ -28,6 +28,7 @@ export class cloud {
             to.append('patologia', paciente.patologia);
             to.append('telefono', paciente.telefono);
             to.append('modal', paciente.modal);
+            to.append('institucion_id', paciente.institucion_id);
             to.append('reservas', paciente.reservas);
 
             const from = await data.post(config.new, to);
@@ -43,6 +44,7 @@ export class cloud {
             to.append('dia', reserva.dia);
             to.append('hora', reserva.hora);
             to.append('minutos', reserva.minutos);
+            to.append('institucion_id', reserva.institucion_id);
             to.append('modal', reserva.modal);
 
             const from = await data.post(config.newReserva, to);
@@ -54,6 +56,7 @@ export class cloud {
             const to = new FormData();
             to.append('id', reserva.id);
             to.append('fecha', reserva.fecha);
+            to.append('institucion_id', reserva.institucion_id);
             to.append('modal', reserva.modal);
 
             const from = await data.post(config.deleteReserva, to);
@@ -69,6 +72,7 @@ export class cloud {
             to.append('examen', pre.examen);
             to.append('motivo', pre.motivo);
             to.append('ver', pre.ver);
+            to.append('institucion_id', pre.institucion_id);
             to.append('modal', pre.modal);
 
             const from = await data.post(config.preparar, to);
@@ -79,6 +83,7 @@ export class cloud {
         try {
             const to = new FormData();
             to.append('id', reserva.id);
+            to.append('institucion_id', reserva.institucion_id);
             to.append('ver', reserva.ver);
 
             const from = await data.post(config.getPre, to);
@@ -303,9 +308,9 @@ export class cloud {
         } catch(e){}
     }
     
-    static async getConfiguraciones(){
+    static async getConfiguraciones(institucion_id){
         try {
-            const from = await data.get(config.configuraciones);
+            const from = await data.get(config.configuraciones + institucion_id);
             return from;
         } catch(e) {}
     }

@@ -9,9 +9,15 @@ export class view {
         the(config.reservasInterfaceNewButton).onclick = this.newReserva;
 
         the(config.reservasInterfaceSearch).value = inputDate();
+        the("institucion.actual").onchange = this.changeInstitucion;
+
         view.tableReservas(data);
         view.buscarReservas();
         view.viewReservas();
+    }
+
+    static changeInstitucion(){
+        $("#reservas\\.buscar").trigger("change");
     }
 
     static newReserva(){
@@ -33,6 +39,7 @@ export class view {
                 dia: the("dia").value,
                 hora: the("hora").value,
                 minutos: the("minutos").value,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal
             }
 
@@ -72,6 +79,7 @@ export class view {
                 lugar: the("lugar").value,
                 patologia: the("patologia").value,
                 telefono: the("telefono").value,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal,
             }
             
@@ -186,6 +194,7 @@ export class view {
             let reserva = {
                 id: this.dataset.id,
                 fecha: the(config.reservasInterfaceSearch).value,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal
             }
             cloud.deleteReserva(reserva).then(function(data){
@@ -219,6 +228,7 @@ export class view {
                 examen: the(config.verPrepararExamenButton).value,
                 motivo: the(config.verPrepararMotivo).value,
                 ver: the("reservas.ver").value,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal
             }
 
@@ -286,6 +296,7 @@ export class view {
     static verExamen(){
         let reserva = {
             id: this.dataset.id,
+            institucion_id: the("institucion.actual").value,
             ver: the("reservas.ver").value
         }
 
@@ -326,7 +337,8 @@ export class view {
                 input.closest('.rut-container').find('span').remove();
                 input.closest('.rut-container').append('<span class="valid-feedback">Rut correcto</span>');
                 
-                cloud.findPaciente(input[0].value).then(function(data){
+                let institucion_id = the("institucion.actual").value;
+                cloud.findPaciente(input[0].value,institucion_id).then(function(data){
                     if (data.length > 0){
                         the("nombre").value = data[0].nombre;
                         the("apellido").value = data[0].apellido;
@@ -424,7 +436,8 @@ export class view {
 
     static buscarReservas(){
         $("#reservas\\.buscar").on("change", function(){
-            cloud.getReservas(this.value, the(config.reservasInterfaceVer).value).then(function(data){
+            let institucion_id = the("institucion.actual").value;
+            cloud.getReservas(this.value, the(config.reservasInterfaceVer).value,institucion_id).then(function(data){
                 view.tableReservas(data);
             });
         });
@@ -432,15 +445,17 @@ export class view {
 
     static viewReservas(){
         $("#reservas\\.ver").on("change", function(){
-            cloud.getReservas(the(config.reservasInterfaceSearch).value, this.value).then(function(data){
+            let institucion_id = the("institucion.actual").value;
+            cloud.getReservas(the(config.reservasInterfaceSearch).value, this.value,institucion_id).then(function(data){
                 view.tableReservas(data);
             });
         }); 
     }
 
     static cargarConfiguracion(){
+        let institucion_id = the("institucion.actual").value;
 
-        cloud.getConfiguraciones().then(function(data){
+        cloud.getConfiguraciones(institucion_id).then(function(data){
             if (data.length > 0){
                 data[0].forEach(function(element) {
                     let nacionalidad = the("nacionalidad");

@@ -11,11 +11,13 @@ class ApiController extends Controller
     public function buscarpaciente(){
         $paciente = trim(Request::get('url'), '/');
         $paciente = explode('/', $paciente);
-        $paciente = $paciente[count($paciente)-1];
+        $institucion_id = $paciente[count($paciente)-1];
+        $paciente = $paciente[count($paciente)-2];
         $paciente = html_entity_decode($paciente);
         $paciente = Filter::XSSFilter($paciente);
-        $paciente = str_replace("_", " ",$paciente); 
-        $this->View->renderJSON(PacientesModel::findPacienteID($paciente));
+        $paciente = str_replace("_", " ",$paciente);
+
+        $this->View->renderJSON(PacientesModel::findPacienteID($paciente, $institucion_id));
     }
 
     public function pacientes(){
@@ -35,6 +37,7 @@ class ApiController extends Controller
         $data->nacionalidad = Request::post('nacionalidad');
         $data->patologia = Request::post('patologia');
         $data->telefono = Request::post('telefono');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
@@ -44,8 +47,8 @@ class ApiController extends Controller
         $this->View->renderJSON($response);
     }
 
-    public function reservas($fecha = NULL,$ver = NULL){
-        $this->View->renderJSON(ReservasModel::getAllReservas($fecha,$ver));
+    public function reservas($fecha = NULL,$ver = NULL,$institucion_id){
+        $this->View->renderJSON(ReservasModel::getAllReservas($fecha,$ver,$institucion_id));
     }
 
     public function newReserva(){
@@ -56,12 +59,13 @@ class ApiController extends Controller
         $data->dia = Request::post('dia');
         $data->hora = Request::post('hora');
         $data->minutos = Request::post('minutos');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ReservasModel::createReserva($data);
         $response->modal = $data->modal;
-        $response->data = ReservasModel::getAllReservas($data->dia,$ver = NULL);
+        $response->data = ReservasModel::getAllReservas($data->dia,$ver = NULL,$data->institucion_id);
         $this->View->renderJSON($response);
     }
 
@@ -69,11 +73,12 @@ class ApiController extends Controller
         $data = new stdClass();
         $data->id = Request::post('id');
         $data->fecha = Request::post('fecha');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ReservasModel::deleteReserva($data);
-        $response->data = ReservasModel::getAllReservas($data->fecha,$ver = NULL);
+        $response->data = ReservasModel::getAllReservas($data->fecha,$ver = NULL,$data->institucion_id);
         $response->modal = $data->modal;
 
         $this->View->renderJSON($response);
@@ -86,6 +91,7 @@ class ApiController extends Controller
         $data->examen = Request::post('examen');
         $data->motivo = Request::post('motivo');
         $data->ver = Request::post("ver");
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
@@ -93,7 +99,7 @@ class ApiController extends Controller
         $pre = PreModel::createPre($data);
         $response->return = $pre->data;
         $response->examen = $data->examen;
-        $response->data = ReservasModel::getAllReservas($data->fecha,$data->ver);
+        $response->data = ReservasModel::getAllReservas($data->fecha,$data->ver,$data->institucion_id);
         $response->paciente = PacientesModel::getPaciente($pre->reserva_rut);
         $response->fecha = $data->fecha;
         $response->modificar = false;
@@ -291,6 +297,7 @@ class ApiController extends Controller
     public function getPre(){
         $data = new stdClass();
         $data->reserva_id = Request::post('id');
+        $data->institucion_id = Request::post('institucion_id');
         $data->ver = Request::post('ver');
 
         $response = new stdClass();
@@ -298,7 +305,7 @@ class ApiController extends Controller
         $pre = PreModel::getPreReserva($data);
         $response->return = $pre->pre_id;
         $response->examen = $pre->pre_examen;
-        $response->data = ReservasModel::getAllReservas($pre->pre_fecha,$data->ver);
+        $response->data = ReservasModel::getAllReservas($pre->pre_fecha,$data->ver,$data->institucion_id);
         $response->paciente = PacientesModel::getPaciente($pre->paciente_rut);
         $response->fecha = $pre->pre_fecha;
         $response->modificar = false;

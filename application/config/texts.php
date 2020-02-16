@@ -33,7 +33,7 @@ return array(
     "FEEDBACK_USERNAME_DOES_NOT_FIT_PATTERN" => "El nombre no puede tener simbolos o puntos, solo letras y espacio.",
     "FEEDBACK_EMAIL_DOES_NOT_FIT_PATTERN" => "Sorry, your chosen email does not fit into the email naming pattern.",
     "FEEDBACK_EMAIL_SAME_AS_OLD_ONE" => "Sorry, that email address is the same as your current one. Please choose another one.",
-    "FEEDBACK_EMAIL_CHANGE_SUCCESSFUL" => "Your email address has been changed successfully.",
+    "FEEDBACK_EMAIL_CHANGE_SUCCESSFUL" => "Se cambio su correo electrónico",
     "FEEDBACK_CAPTCHA_WRONG" => "The entered captcha security characters were wrong.",
     "FEEDBACK_PASSWORD_REPEAT_WRONG" => "Password and password repeat are not the same.",
     "FEEDBACK_PASSWORD_TOO_SHORT" => "Password has a minimum length of 6 characters.",

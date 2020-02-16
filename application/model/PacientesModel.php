@@ -2,23 +2,22 @@
 
 class PacientesModel
 {
-    public static function getAllPacientes()
-    {
+    public static function getAllPacientes(){
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT id, nombre, apellido, rut, fum, ciudad, lugar, telefono FROM pacientes WHERE user_id = :user_id ORDER BY apellido";
+        $sql = "SELECT id, nombre, apellido, rut, fum, ciudad, lugar, telefono FROM pacientes WHERE institucion_id = :institucion_id ORDER BY apellido";
         $query = $database->prepare($sql);
-        $query->execute(array(':user_id' => Session::get('user_id')));
+        $query->execute(array(':institucion_id' => Session::get('institucion_id')));
 
         return $query->fetchAll();
     }
 
-    public static function findPacienteID($paciente){
+    public static function findPacienteID($paciente, $institucion_id){
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT id, nombre, apellido, rut, fum, ciudad, lugar, telefono FROM pacientes WHERE user_id = :user_id AND (rut like :rut OR apellido like :apellido)";
+        $sql = "SELECT id, nombre, apellido, rut, fum, ciudad, lugar, telefono FROM pacientes WHERE institucion_id = :institucion_id AND (rut like :rut OR apellido like :apellido)";
         $query = $database->prepare($sql);
-        $query->execute(array(':user_id' => Session::get('user_id'), ':rut' => '%'.$paciente.'%', ':apellido' => '%'.$paciente.'%'));
+        $query->execute(array(':institucion_id' => $institucion_id, ':rut' => '%'.$paciente.'%', ':apellido' => '%'.$paciente.'%'));
 
         return $query->fetchAll();
     }
@@ -43,21 +42,19 @@ class PacientesModel
         return $query->fetch();
     }
 
-    public static function createPaciente($data)
-    {
+    public static function createPaciente($data){
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "INSERT INTO pacientes (rut, nombre, apellido, fum, ciudad, lugar, telefono, nacionalidad, patologia, user_id) VALUES (:rut, :nombre, :apellido, :fum, :ciudad, :lugar, :telefono, :nacionalidad, :patologia, :user_id)";
+        $sql = "INSERT INTO pacientes (rut, nombre, apellido, fum, ciudad, lugar, telefono, nacionalidad, patologia, institucion_id, user_id) VALUES (:rut, :nombre, :apellido, :fum, :ciudad, :lugar, :telefono, :nacionalidad, :patologia, :institucion_id, :user_id)";
         $query = $database->prepare($sql);
-        $query->execute(array(':rut' => $data->rut, ':nombre' => $data->nombre, ':apellido' => $data->apellido, ':fum' => $data->fum, ':ciudad' => $data->ciudad, ':lugar' => $data->lugar, ':telefono' => $data->telefono, ':nacionalidad' =>  $data->nacionalidad, ':patologia' =>  $data->patologia, ':user_id' => Session::get('user_id')));
+        $query->execute(array(':rut' => $data->rut, ':nombre' => $data->nombre, ':apellido' => $data->apellido, ':fum' => $data->fum, ':ciudad' => $data->ciudad, ':lugar' => $data->lugar, ':telefono' => $data->telefono, ':nacionalidad' =>  $data->nacionalidad, ':patologia' =>  $data->patologia, ':institucion_id' => $data->institucion_id, ':user_id' => Session::get('user_id')));
 
         if ($query->rowCount() == 1) { return true; }
 
         return false;
     }
 
-    public static function updatePaciente($data)
-    {
+    public static function updatePaciente($data){
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
@@ -71,8 +68,7 @@ class PacientesModel
         return false;
     }
 
-    public static function deletePaciente($data)
-    {
+    public static function deletePaciente($data){
 
         $database = DatabaseFactory::getFactory()->getConnection();
 

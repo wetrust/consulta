@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `huge`.`pacientes` (
   `lugar` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `nacionalidad` int(11) NOT NULL,
   `patologia` int(11) NOT NULL,
+  `institucion_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

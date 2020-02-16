@@ -2,7 +2,7 @@ export const config = {
     reservas: 'api/reservas/',
     newReserva: 'api/newReserva',
     deleteReserva: 'api/deleteReserva',
-    configuraciones: 'api/configuraciones',
+    configuraciones: 'api/configuraciones/',
     getPre: 'api/getPre', 
     reservasInterface: '<div class="d-flex justify-content-between mb-3"> <button type="button" class="btn btn-agenda" id="reservas.nuevo">Nueva reserva</button> <div class="form-group form-inline mb-0"> <label class="">Agenda para:</label> <input type="date" id="reservas.buscar" class="form-control ml-1"><label class="ml-sm-3">Ver:</label><select id="reservas.ver" class="form-control ml-1"><option value="1">Solicitados</option><option value="2">En espera</option><option value="0">Realizados</option><option value="3">Todos</option></select> </div></div><div class="table-responsive mt-2"> <table class="table table-striped table-bordered table-hover table-sm" id="reservas.table"> <caption>Lista de reservas de atención</caption> </table></div>',
     reservasInterfaceNewButton: 'reservas.nuevo',
