@@ -56,7 +56,9 @@ class UserController extends Controller
      * Show edit-my-user-email page
      */
     public function editUserEmail(){
-        $this->View->render('user/editUserEmail');
+        $this->View->render('user/editUserEmail',array(
+            'email' => Session::get("user_email")
+        ));
     }
 
     /**
@@ -101,6 +103,14 @@ class UserController extends Controller
         $this->View->render('user/changeUserRole');
     }
 
+    public function changeUserInstitucion($institucion_id){
+        Session::set('institucion_id', $institucion_id);
+        
+        $result = new stdClass();
+        $result->response = UserModel::saveInstitucion(Session::get('user_id'), $institucion_id);
+        $this->View->renderJSON($result);
+    }
+
     /**
      * Perform the account-type changing
      * POST-request
@@ -137,7 +147,7 @@ class UserController extends Controller
         );
 
         if($result)
-            Redirect::to('user/index');
+            Redirect::home();
         else
             Redirect::to('user/changePassword');
     }

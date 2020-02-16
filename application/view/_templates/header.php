@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- send empty favicon fallback to prevent user's browser hitting the server for lots of favicon requests resulting in 404s -->
     <link rel="icon" href="data:;base64,=">
+    <base href="<?php echo Config::get('URL'); ?>" target="_self">
     <!-- CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/font-awesome.min.css">
@@ -35,12 +36,25 @@
                         <li class="nav-item <?php if (View::checkForActiveController($filename, "configuracion")) { echo 'active'; } ?>">
                             <a class="nav-link" href="<?php echo Config::get('URL'); ?>configuracion">Configuracion</a>
                         </li>
+                        <?php if (Session::get("user_account_type") == 7) { ?>
+                            <li class="nav-item <?php if (View::checkForActiveController($filename, "admin")) { echo 'active'; } ?>">
+                                <a class="nav-link" href="<?php echo Config::get('URL'); ?>admin">Instituciones</a>
+                            </li>
+                        <?php } ?>
                     </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <label class="text-white">Institucion:</label>
+                        <select class="form-control mx-sm-2" id="institucion.actual">
+                        <?php foreach($this->instituciones_user as $key => $value) { ?>
+                            <option value="<?= $value->institucion_id; ?>" <?= ($value->institucion_id == Session::get('institucion_id')) ? "selected" : ""; ?>><?= $value->institucion_name; ?></option>
+                        <?php } ?>
+                        </select>
+                    </form>
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarUser" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuario: <?php echo Session::get('user_name'); ?> </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarUser">
-                                <a class="dropdown-item" href="<?php echo Config::get('URL'); ?>user/changePassword">Cambiar Nombre</a>
+                                <a class="dropdown-item" href="<?php echo Config::get('URL'); ?>user/editUsername">Cambiar Nombre</a>
                                 <a class="dropdown-item" href="<?php echo Config::get('URL'); ?>user/edituseremail">Cambiar E-Mail</a>
                                 <a class="dropdown-item" href="<?php echo Config::get('URL'); ?>user/changePassword">Cambiar Contraseña</a>
                                 <div class="dropdown-divider"></div>

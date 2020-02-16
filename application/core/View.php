@@ -15,11 +15,23 @@ class View
      */
     public function render($filename, $data = null)
     {
+
+        if (Session::userIsLoggedIn()) {
+            $this->instituciones_user = InstitucionesModel::getAllIUUser();
+
+            if (count($this->instituciones_user) < 1 && $filename != "error/institucion"){
+                Redirect::to("error/institucion");
+                exit();
+            }
+        }
+
+
         if ($data) {
             foreach ($data as $key => $value) {
                 $this->{$key} = $value;
             }
         }
+
 
         require Config::get('PATH_VIEW') . '_templates/header.php';
         require Config::get('PATH_VIEW') . $filename . '.php';

@@ -13,12 +13,16 @@ export class view {
         the(config.configuracionLugarInterfaceNewButton).onclick = this.newLugar;
         the(config.configuracionPatologiaInterfaceNewButton).onclick = this.newPatologia;
         the(config.configuracionAgendaInterfaceNewButton).onclick = this.newAgenda;
+        the(config.configuracionMembreteInterfaceNewButton).onclick = this.changeMembrete;
         
+        the("institucion.actual").onchange = this.changeInstitucion;
+
         view.tableNacionalidad(data[0]);
         view.tableCiudad(data[1]);
         view.tableLugar(data[2]);
         view.tablePatologia(data[3]);
         view.tableAgenda(data[4]);
+        view.textMembrete(data[5]);
     }
 
     static newNacionalidad(){
@@ -34,6 +38,7 @@ export class view {
         $("#"+modal.button).on("click", function(){
             let nacionalidad = {
                 nacionalidad: the("input.nacionalidad").value,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal,
             }
 
@@ -48,6 +53,7 @@ export class view {
                     view.tableNacionalidad(data.data);
                 }else{
                     make.alert('Hubo un error al guardar');
+                    $("#"+data.modal).modal("hide");
                 }
             });
         });
@@ -66,6 +72,7 @@ export class view {
         $("#"+modal.button).on("click", function(){
             let ciudad = {
                 ciudad: the("input.ciudad").value,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal,
             }
             
@@ -80,6 +87,7 @@ export class view {
                     view.tableCiudad(data.data);
                 }else{
                     make.alert('Hubo un error al guardar');
+                    $("#"+data.modal).modal("hide");
                 }
             });
         });
@@ -98,6 +106,7 @@ export class view {
         $("#"+modal.button).on("click", function(){
             let lugar = {
                 lugar: the("input.lugar").value,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal,
             }
             
@@ -112,6 +121,7 @@ export class view {
                     view.tableLugar(data.data);
                 }else{
                     make.alert('Hubo un error al guardar');
+                    $("#"+data.modal).modal("hide");
                 }
             });
         });
@@ -130,6 +140,7 @@ export class view {
         $("#"+modal.button).on("click", function(){
             let patologia = {
                 patologia: the("input.patologia").value,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal,
             }
             
@@ -144,6 +155,7 @@ export class view {
                     view.tablePatologia(data.data);
                 }else{
                     make.alert('Hubo un error al guardar');
+                    $("#"+data.modal).modal("hide");
                 }
             });
         });
@@ -165,6 +177,7 @@ export class view {
                 email: the("input.agenda.email").value,
                 profesion: the("input.agenda.profesion").value,
                 ciudad: the("input.agenda.ciudad").value,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal,
             }
             
@@ -184,6 +197,7 @@ export class view {
                     view.tableAgenda(data.data);
                 }else{
                     make.alert('Hubo un error al guardar');
+                    $("#"+data.modal).modal("hide");
                 }
             });
         });
@@ -196,6 +210,116 @@ export class view {
             ciudad.appendChild(opt);
         }
         
+    }
+
+    static changeMembrete(){
+        let modal = make.modal("Guardar");
+        document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
+        the(modal.titulo).innerHTML = config.changeMembreteTitulo;
+        the(modal.titulo).classList.add("mx-auto","text-white");
+        the(modal.contenido).innerHTML = config.changeMembreteHTML;
+        the(modal.contenido).classList.add("bg-light");
+
+        $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
+
+        the("membrete.change").value = the(config.configuracionMembreteView).value;
+
+        $("#"+modal.button).on("click", function(){
+            let membrete = {
+                text: the("membrete.change").value,
+                institucion_id: the("institucion.actual").value,
+                modal: this.dataset.modal,
+            }
+            
+            if(membrete.text.length < 1){
+                make.alert('Escriba un mensaje para el membrete, si quiere borrar el membrete, use el botón borrar');
+                return 0;
+            }
+
+            cloud.changeMembrete(membrete).then(function(data){
+                if (data.return == true){
+                    $("#"+data.modal).modal("hide");
+                    view.textMembrete(data.data);
+                }else{
+                    make.alert('Hubo un error al guardar');
+                    $("#"+data.modal).modal("hide");
+                }
+            });
+        });
+        
+        the("membrete.eliminar").dataset.modal = modal.id;
+
+        $("#membrete\\.eliminar").on("click", function(){
+            let modal = make.modal("Eliminar");
+            document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
+            the(modal.titulo).innerHTML = config.deleteMembreteTitulo;
+            the(modal.titulo).classList.add("mx-auto","text-white");
+            the(modal.titulo).parentElement.classList.add("bg-danger");
+            the(modal.contenido).innerHTML = config.deleteMembreteHTML;
+            the(modal.contenido).classList.add("bg-light");
+
+            the(modal.button).dataset.id = this.dataset.id;
+            the(modal.button).dataset.modalParent = this.dataset.modal;
+
+            $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { $(this).remove(); });
+
+            $("#"+modal.button).on("click", function(){
+                let membrete = {
+                    institucion_id: the("institucion.actual").value,
+                    modal: this.dataset.modal,
+                    modalParent: this.dataset.modalParent,
+                }
+
+                cloud.deleteMembrete(membrete).then(function(data){
+                    if (data.return == true){
+                        $("#"+data.modal).modal("hide");
+                        $("#"+data.modalParent).modal("hide");
+                        view.textMembrete(data.data);
+                    }else{
+                        make.alert('Hubo un error al eliminar');
+                        $("#"+data.modal).modal("hide");
+                        $("#"+data.modalParent).modal("hide");
+                    }
+                });
+            });
+        });
+    }
+
+    static changeInstitucion(){
+        let institucion_id = this.value;
+
+        cloud.changeInstitucion(institucion_id).then(function(data){
+            if (data.response == true){
+                cloud.getConfiguraciones(institucion_id).then(function(data){
+                    view.tableNacionalidad(data[0]);
+                    view.tableCiudad(data[1]);
+                    view.tableLugar(data[2]);
+                    view.tablePatologia(data[3]);
+                    view.tableAgenda(data[4]);
+                    view.textMembrete(data[5]);
+                });
+            }else{
+                let modal = make.modal("Aceptar");
+                document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
+                the(modal.titulo).innerHTML = config.errorTitle;
+                the(modal.titulo).classList.add("mx-auto","text-white");
+                the(modal.titulo).parentElement.classList.add("bg-danger");
+                the(modal.contenido).innerHTML = config.errorInstitucionHTML;
+                the(modal.contenido).classList.add("bg-light");
+        
+                the(modal.button).dataset.id = this.dataset.id;
+        
+                $('#'+modal.id).modal("show").on('hidden.bs.modal', function (e) { 
+                    $(this).remove();
+                    location.reload();
+                });
+        
+                $("#"+modal.button).on("click", function(){
+                    location.reload(); 
+                });
+            }
+
+        });
     }
 
     static tableNacionalidad(data){
@@ -279,6 +403,14 @@ export class view {
         for (var i=0; i < eliminarBtns.length; i++) { eliminarBtns[i].onclick = this.eliminarAgenda; }
     }
 
+    static textMembrete(data){
+        if (data.length == 1){
+            the(config.configuracionMembreteView).value = data[0].membrete_text;
+        }else{
+            the(config.configuracionMembreteView).value = "";
+        }
+    }
+
     static eliminarNacionalidad(){
         let modal = make.modal("Eliminar");
         document.getElementsByTagName("body")[0].insertAdjacentHTML( 'beforeend', modal.modal);
@@ -295,6 +427,7 @@ export class view {
         $("#"+modal.button).on("click", function(){
             let nacionalidad = {
                 id: this.dataset.id,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal
             }
             cloud.deleteNacionalidad(nacionalidad).then(function(data){
@@ -302,7 +435,8 @@ export class view {
                     $("#"+data.modal).modal("hide");
                     view.tableNacionalidad(data.data);
                 }else{
-                    make.alert('Hubo un error al eliminar');
+                    make.alert('Hubo un error al eliminar, ¿Este item fue creado por ud.?');
+                    $("#"+data.modal).modal("hide");
                 }
             });
         });
@@ -324,6 +458,7 @@ export class view {
         $("#"+modal.button).on("click", function(){
             let ciudad = {
                 id: this.dataset.id,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal
             }
             cloud.deleteCiudad(ciudad).then(function(data){
@@ -331,7 +466,8 @@ export class view {
                     $("#"+data.modal).modal("hide");
                     view.tableCiudad(data.data);
                 }else{
-                    make.alert('Hubo un error al eliminar');
+                    make.alert('Hubo un error al eliminar, ¿Este item fue creado por ud.?');
+                    $("#"+data.modal).modal("hide");
                 }
             });
         });
@@ -353,6 +489,7 @@ export class view {
         $("#"+modal.button).on("click", function(){
             let lugar = {
                 id: this.dataset.id,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal
             }
             cloud.deleteLugar(lugar).then(function(data){
@@ -360,7 +497,8 @@ export class view {
                     $("#"+data.modal).modal("hide");
                     view.tableLugar(data.data);
                 }else{
-                    make.alert('Hubo un error al eliminar');
+                    make.alert('Hubo un error al eliminar, ¿Este item fue creado por ud.?');
+                    $("#"+data.modal).modal("hide");
                 }
             });
         });
@@ -382,6 +520,7 @@ export class view {
         $("#"+modal.button).on("click", function(){
             let patologia = {
                 id: this.dataset.id,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal
             }
             cloud.deletePatologia(patologia).then(function(data){
@@ -389,7 +528,8 @@ export class view {
                     $("#"+data.modal).modal("hide");
                     view.tablePatologia(data.data);
                 }else{
-                    make.alert('Hubo un error al eliminar');
+                    make.alert('Hubo un error al eliminar, ¿Este item fue creado por ud.?');
+                    $("#"+data.modal).modal("hide");
                 }
             });
         });
@@ -411,6 +551,7 @@ export class view {
         $("#"+modal.button).on("click", function(){
             let agenda = {
                 id: this.dataset.id,
+                institucion_id: the("institucion.actual").value,
                 modal: this.dataset.modal
             }
             cloud.deleteAgenda(agenda).then(function(data){
@@ -418,7 +559,8 @@ export class view {
                     $("#"+data.modal).modal("hide");
                     view.tableAgenda(data.data);
                 }else{
-                    make.alert('Hubo un error al eliminar');
+                    make.alert('Hubo un error al eliminar, ¿Este item fue creado por ud.?');
+                    $("#"+data.modal).modal("hide");
                 }
             });
         });

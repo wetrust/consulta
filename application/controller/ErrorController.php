@@ -25,4 +25,9 @@ class ErrorController extends Controller
         header('HTTP/1.0 404 Not Found', true, 404);
         $this->View->render('error/404');
     }
+
+    public function institucion()
+    {
+        $this->View->render('error/institucion');
+    }
 }

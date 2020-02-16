@@ -190,7 +190,7 @@ class UserModel
         }
 
         // username cannot be empty and must be azAZ09 and 2-64 characters
-        if (!preg_match("/^[a-zA-Z0-9]{2,64}$/", $new_user_name)) {
+        if (!preg_match("/^[a-zA-Z0-9 ]{2,64}$/", $new_user_name)) {
             Session::add('feedback_negative', Text::get('FEEDBACK_USERNAME_DOES_NOT_FIT_PATTERN'));
             return false;
         }
@@ -300,7 +300,7 @@ class UserModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT user_id, user_name, user_email, user_password_hash, user_active,user_deleted, user_suspension_timestamp, user_account_type,
-                       user_failed_logins, user_last_failed_login, user_color
+                       user_failed_logins, user_last_failed_login, user_color, institucion_id
                   FROM users
                  WHERE (user_name = :user_name OR user_email = :user_name)
                        AND user_provider_type = :provider_type
@@ -330,7 +330,7 @@ class UserModel
         // get real token from database (and all other data)
         $query = $database->prepare("SELECT user_id, user_name, user_email, user_password_hash, user_active,
                                           user_account_type,  user_has_avatar, user_failed_logins, user_last_failed_login,
-                                          user_color
+                                          user_color, institucion_id
                                      FROM users
                                      WHERE user_id = :user_id
                                        AND user_remember_me_token = :user_remember_me_token
@@ -348,6 +348,19 @@ class UserModel
 
         $query = $database->prepare("UPDATE users SET user_color = :user_color WHERE user_id = :user_id LIMIT 1");
         $query->execute(array(':user_color' => $user_color, ':user_id' => $user_id));
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function saveInstitucion($user_id, $institucion_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("UPDATE users SET institucion_id = :institucion_id WHERE user_id = :user_id LIMIT 1");
+        $query->execute(array(':institucion_id' => $institucion_id, ':user_id' => $user_id));
         $count = $query->rowCount();
         if ($count == 1) {
             return true;

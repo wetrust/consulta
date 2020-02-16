@@ -102,13 +102,14 @@ class ApiController extends Controller
         $this->View->renderJSON($response);
     }
 
-    public function configuraciones(){
+    public function configuraciones($institucion_id){
         $data = array();
-        $data[0] = ConfiguracionModel::getAllNacionalidades();
-        $data[1] = ConfiguracionModel::getAllCiudades();
-        $data[2] = ConfiguracionModel::getAllLugares();
-        $data[3] = ConfiguracionModel::getAllPatologias();
-        $data[4] = ConfiguracionModel::getAllAgenda();
+        $data[0] = ConfiguracionModel::getAllNacionalidades($institucion_id);
+        $data[1] = ConfiguracionModel::getAllCiudades($institucion_id);
+        $data[2] = ConfiguracionModel::getAllLugares($institucion_id);
+        $data[3] = ConfiguracionModel::getAllPatologias($institucion_id);
+        $data[4] = ConfiguracionModel::getAllAgenda($institucion_id);
+        $data[5] = ConfiguracionModel::getMembrete($institucion_id);
 
         $this->View->renderJSON($data);
     }
@@ -116,11 +117,12 @@ class ApiController extends Controller
     public function newNacionalidad(){
         $data = new stdClass();
         $data->nacionalidad = Request::post('nacionalidad');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ConfiguracionModel::createNacionalidad($data);
-        $response->data = ConfiguracionModel::getAllNacionalidades();
+        $response->data = ConfiguracionModel::getAllNacionalidades($data->institucion_id);
         $response->modal = $data->modal;
         $this->View->renderJSON($response);
     }
@@ -128,11 +130,12 @@ class ApiController extends Controller
     public function newCiudad(){
         $data = new stdClass();
         $data->ciudad = Request::post('ciudad');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ConfiguracionModel::createCiudad($data);
-        $response->data = ConfiguracionModel::getAllCiudades();
+        $response->data = ConfiguracionModel::getAllCiudades($data->institucion_id);
         $response->modal = $data->modal;
         $this->View->renderJSON($response);
     }
@@ -140,11 +143,12 @@ class ApiController extends Controller
     public function newLugar(){
         $data = new stdClass();
         $data->lugar = Request::post('lugar');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ConfiguracionModel::createLugar($data);
-        $response->data = ConfiguracionModel::getAllLugares();
+        $response->data = ConfiguracionModel::getAllLugares($data->institucion_id);
         $response->modal = $data->modal;
         $this->View->renderJSON($response);
     }
@@ -152,11 +156,12 @@ class ApiController extends Controller
     public function newPatologia(){
         $data = new stdClass();
         $data->patologia = Request::post('patologia');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ConfiguracionModel::createPatologia($data);
-        $response->data = ConfiguracionModel::getAllPatologias();
+        $response->data = ConfiguracionModel::getAllPatologias($data->institucion_id);
         $response->modal = $data->modal;
         $this->View->renderJSON($response);
     }
@@ -167,11 +172,33 @@ class ApiController extends Controller
         $data->email = Request::post('email');
         $data->profesion = Request::post('profesion');
         $data->ciudad = Request::post('ciudad');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ConfiguracionModel::createAgenda($data);
-        $response->data = ConfiguracionModel::getAllAgenda();
+        $response->data = ConfiguracionModel::getAllAgenda($data->institucion_id);
+        $response->modal = $data->modal;
+        $this->View->renderJSON($response);
+    }
+
+    public function changeMembrete(){
+        $data = new stdClass();
+        $data->text = Request::post('text');
+        $data->institucion_id = Request::post('institucion_id');
+        $data->modal = Request::post('modal');
+
+        $response = new stdClass();
+
+        $membrete = ConfiguracionModel::getMembrete($data->institucion_id);
+
+        if (count($membrete) == 1){
+            $response->return = ConfiguracionModel::updateMembrete($data);
+        }else{
+            $response->return = ConfiguracionModel::createMembrete($data);
+        }
+        
+        $response->data = ConfiguracionModel::getMembrete($data->institucion_id);
         $response->modal = $data->modal;
         $this->View->renderJSON($response);
     }
@@ -179,11 +206,12 @@ class ApiController extends Controller
     public function deleteNacionalidad(){
         $data = new stdClass();
         $data->id = Request::post('id');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ConfiguracionModel::deleteNacionalidad($data);
-        $response->data = ConfiguracionModel::getAllNacionalidades();
+        $response->data = ConfiguracionModel::getAllNacionalidades($data->institucion_id);
         $response->modal = $data->modal;
 
         $this->View->renderJSON($response);
@@ -192,11 +220,12 @@ class ApiController extends Controller
     public function deleteCiudad(){
         $data = new stdClass();
         $data->id = Request::post('id');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ConfiguracionModel::deleteCiudad($data);
-        $response->data = ConfiguracionModel::getAllCiudades();
+        $response->data = ConfiguracionModel::getAllCiudades($data->institucion_id);
         $response->modal = $data->modal;
 
         $this->View->renderJSON($response);
@@ -205,11 +234,12 @@ class ApiController extends Controller
     public function deleteLugar(){
         $data = new stdClass();
         $data->id = Request::post('id');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ConfiguracionModel::deleteLugar($data);
-        $response->data = ConfiguracionModel::getAllLugares();
+        $response->data = ConfiguracionModel::getAllLugares($data->institucion_id);
         $response->modal = $data->modal;
 
         $this->View->renderJSON($response);
@@ -218,11 +248,12 @@ class ApiController extends Controller
     public function deletePatologia(){
         $data = new stdClass();
         $data->id = Request::post('id');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ConfiguracionModel::deletePatologia($data);
-        $response->data = ConfiguracionModel::getAllPatologias();
+        $response->data = ConfiguracionModel::getAllPatologias($data->institucion_id);
         $response->modal = $data->modal;
 
         $this->View->renderJSON($response);
@@ -231,12 +262,28 @@ class ApiController extends Controller
     public function deleteAgenda(){
         $data = new stdClass();
         $data->id = Request::post('id');
+        $data->institucion_id = Request::post('institucion_id');
         $data->modal = Request::post('modal');
 
         $response = new stdClass();
         $response->return = ConfiguracionModel::deleteAgenda($data);
-        $response->data = ConfiguracionModel::getAllAgenda();
+        $response->data = ConfiguracionModel::getAllAgenda($data->institucion_id);
         $response->modal = $data->modal;
+
+        $this->View->renderJSON($response);
+    }
+
+    public function deleteMembrete(){
+        $data = new stdClass();
+        $data->institucion_id = Request::post('institucion_id');
+        $data->modal = Request::post('modal');
+        $data->modalParent = Request::post('modalParent');
+
+        $response = new stdClass();
+        $response->return = ConfiguracionModel::deleteMembrete($data);
+        $response->data = ConfiguracionModel::getMembrete($data->institucion_id);
+        $response->modal = $data->modal;
+        $response->modalParent = $data->modalParent;
 
         $this->View->renderJSON($response);
     }
