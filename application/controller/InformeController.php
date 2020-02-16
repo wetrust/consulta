@@ -17,7 +17,7 @@ class InformeController extends Controller
      * Handles what happens when user moves to URL/index/index - or - as this is the default controller, also
      * when user moves to /index or enter your application at base level
      */
-    public function get($examen_id = NULL)
+    public function get($examen_id = NULL, $institucion_id)
     {
         if ($examen_id == NULL){
             $this->View->render('index/index');
@@ -31,7 +31,7 @@ class InformeController extends Controller
                 header("Access-Control-Allow-Origin: *");
                 //header("Content-Type: application/pdf");
 
-                $paciente = PacientesModel::getPaciente($examen->paciente_rut);
+                $paciente = PacientesModel::getPaciente($examen->paciente_rut, $institucion_id);
                 $pre = PreModel::getPre($examen);
                 $informe = "";
 
