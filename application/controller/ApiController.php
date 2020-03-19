@@ -319,12 +319,13 @@ class ApiController extends Controller
         $examen = ExamenModel::getExamen($id);
 
         ///aqui falta la institucion
+        $institucion_id = Session::get('institucion_id');
 
         $response->fecha = $examen->examen_fecha;
         $response->examen = $examen->examen_tipo;
         $response->return = $examen->pre_id;
         $response->data = $examen;
-        $response->paciente = PacientesModel::getPaciente($examen->paciente_rut,$data->institucion_id);
+        $response->paciente = PacientesModel::getPaciente($examen->paciente_rut,$institucion_id);
         $response->modificar = true;
 
         $this->View->renderJSON($response);
